@@ -1,0 +1,43 @@
+#' Non-probability Sample (sc)
+#'
+#' This dataset represents a nonprobability (convenience) sample derived from
+#' the Prostate, Lung, Colorectal, and Ovarian (PLCO) Cancer Screening Trial.
+#' It is constructed as a complete-case subset and is used to illustrate inverse
+#' propensity weighting methods implemented in the \code{nonprobsampling} package.
+#'
+#' The dataset mimics a realistic nonprobability sample setting where outcome
+#' information is available only in the convenience sample, and auxiliary variables
+#' are used to construct pseudo-weights via external reference surveys.
+#'
+#' @format A data frame with 2399 observations and 8 variables:
+#' \describe{
+#'   \item{psa_level}{Outcome variable: serum prostate-specific antigen level (numeric)}
+#'   \item{BMI}{Body mass index category (factor with 4 levels: "Normal", "Overweight", "Obese", "Morbidly Obese")}
+#'   \item{race}{Race category (factor with 4 levels: 1 = White, 2 = Black, 3 = Hispanic, 4 = Other)}
+#'   \item{agecat}{Age category (factor with 4 levels: 1 = 55--59, 2 = 60--64, 3 = 65--69, 4 = 70+)}
+#'   \item{education}{Education level (factor with 5 levels: 1 = Less Than 8 Years, 2 = 8--11 Years, 3 = 12 Years Or Completed High School, 4 = College Graduate, 5 = Postgraduate)}
+#'   \item{pros_enlarged}{Prostate enlargement indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#'   \item{comorbidity}{General comorbidity indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#'   \item{diabetes}{Diabetes diagnosis indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#' }
+#'
+#' @details
+#' The dataset includes 2399 complete-case observations. The outcome variable
+#' \code{psa_level} is observed only in the nonprobability sample and is the
+#' target of estimation.
+#'
+#' Auxiliary variables shared with the probability reference surveys \code{sp1}
+#' and \code{sp2} are used to construct pseudo-weights via propensity score
+#' or calibration methods.
+#'
+#' This dataset is intended for demonstrating bias correction methods for
+#' nonprobability samples using one or multiple reference surveys.
+#'
+#' @usage data(sc)
+#'
+#' @examples
+#' data(sc)
+#' str(sc)
+#' summary(sc)
+"sc"
+

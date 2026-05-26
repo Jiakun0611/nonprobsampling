@@ -1,0 +1,43 @@
+#' Probability Reference Sample 1 with Bootstrap Replicate Weights (sp1_bootstrap)
+#'
+#' A version of \code{sp1} augmented with 500 bootstrap replicate weights,
+#' intended for design-based variance estimation via the bootstrap method.
+#' The primary sampling unit and stratum identifiers are excluded; only the
+#' main survey weight and the replicate weights are retained.
+#'
+#' @format A data frame with 3549 rows and 512 columns. The first 12 columns
+#'   are the substantive survey variables from \code{sp1} (\code{agecat},
+#'   \code{marital}, \code{race}, \code{education}, \code{employment},
+#'   \code{smoking}, \code{comorbidity}, \code{psa_level}, \code{BMI},
+#'   \code{diabetes}, \code{pros_enlarged}, \code{wts_sp1}). The remaining
+#'   500 columns are bootstrap replicate weights named \code{bw1} through
+#'   \code{bw500} (numeric).
+#'
+#' @details
+#' Bootstrap replicate weights were generated using the Rao-Wu rescaling
+#' bootstrap method, stratified by \code{strata_sp1} with primary sampling
+#' units defined by \code{psu_sp1}. A total of \code{R = 500} replicates were
+#' produced with \code{seed = 2026}.
+#'
+#' The variables \code{psu_sp1} and \code{strata_sp1} are not included in this
+#' dataset because they are not needed when using replicate weights for
+#' variance estimation. The main survey weight \code{wts_sp1} and the replicate
+#' weight columns \code{bw1}--\code{bw500} are sufficient for constructing a
+#' replicate-weight survey design object via \code{survey::svrepdesign()}.
+#'
+#' @usage data(sp1_bootstrap)
+#'
+#' @examples
+#' data(sp1_bootstrap)
+#'
+#' # Example: create replicate-weight survey design object
+#' des_boot <- survey::svrepdesign(
+#'   data    = sp1_bootstrap,
+#'   weights = ~wts_sp1,
+#'   repweights = "bw[0-9]+",
+#'   type    = "bootstrap",
+#'   combined.weights = FALSE
+#' )
+#'
+#' summary(des_boot)
+"sp1_bootstrap"

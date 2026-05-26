@@ -1,0 +1,50 @@
+Package: nonprobsampling
+Type: Package
+Title: Pseudo-Weighting Methods for Nonprobability Sample Inference
+Version: 0.1.0
+Authors@R:
+    c(
+      person(given = "Jiakun",
+             family = "Lin",
+             email = "jiak.lin@mail.utoronto.ca",
+             role = c("aut", "cre")),
+      person(given = "Victoria",
+             family = "Landsman",
+             role = c("aut", "ctb")),
+      person(given = "Aya A.",
+             family = "Mitani",
+             role = c("aut", "ctb"))
+    )
+Description: Provides pseudo-weighting methods for finite-population
+    inference from nonprobability samples using auxiliary information from
+    one or more probability reference surveys. The package is based on the
+    general estimating-equation framework of Landsman et al. (2026)
+    <doi:10.1002/SIM.70403> for correcting participation bias. In the
+    one-reference case, it implements the calibration estimator from this
+    framework, and also supports the adjusted logistic propensity (ALP) method
+    of Wang, Valliant, and Li (2021) <doi:10.1002/sim.9107> and the
+    Chen-Li-Wu (CLW) method of Chen, Li, and Wu (2020)
+    <doi:10.1080/01621459.2019.1677241> as related one-reference special
+    cases. A central feature is the multiple-reference extension of the same
+    framework, including cumulative pre-calibration and multi-reference
+    calibration procedures for combining auxiliary information across
+    reference surveys. Analytic variance estimation is based on Taylor
+    linearization and accommodates complex reference-survey sampling designs
+    through integration with the 'survey' package.
+Depends:
+    R (>= 4.0.0)
+Imports:
+    stats,
+    survey,
+    nleqslv
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Language: en-US
+Config/testthat/edition: 3

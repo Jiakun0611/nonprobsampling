@@ -1,0 +1,46 @@
+# ===============================
+# RStudio / R session files
+# ===============================
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# ===============================
+# R CMD check results
+# ===============================
+*.Rcheck/
+
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Local scripts (not for GitHub)
+# ===============================
+Commands
+Showcase
+
+# ===============================
+# data-raw: local / large / simulation data
+# ===============================
+data-raw/*.RData
+data-raw/*.rds
+data-raw/*.csv
+data-raw/*.xlsx
+data-raw/~$*
+
+# ===============================
+# Temporary / draft documents
+# ===============================
+*.log
+*.tmp
+
+# ===============================
+# HTML outputs
+# ===============================
+*.html
+/doc/
+/Meta/
