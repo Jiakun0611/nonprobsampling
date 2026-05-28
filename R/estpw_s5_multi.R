@@ -89,7 +89,7 @@ ipwm_multi_build <- function(
   log_messages <- c(log_messages, valid$log)
 
   DM <- step_try("3", "construct design matrices", {
-    Xc_Xp_Construction(
+    multi_matrix_contruction(
       vars_XC  = vars_XC,
       sc       = sc_work,
       sp_list  = sp_list,

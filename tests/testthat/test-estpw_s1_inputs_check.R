@@ -1,3 +1,5 @@
+# Setup ----
+
 data(sc)
 data(sp1)
 data(sp2)
@@ -19,6 +21,8 @@ des2 <- survey::svydesign(
   data = sp2,
   nest = TRUE
 )
+
+# check_ipwm_inputs_build ----
 
 test_that("check_ipwm_inputs_build validates correct one-reference input", {
   expect_invisible(
@@ -443,7 +447,7 @@ test_that("check_ipwm_inputs_build rejects invalid precali values", {
 })
 
 
-# ── extract_analysis_data ────────────────────────────────────────────────────
+# extract_analysis_data ----
 
 test_that("extract_analysis_data: returns a data.frame", {
   out <- extract_analysis_data(des1)
@@ -513,7 +517,7 @@ test_that("extract_analysis_data: errors when weight_name already exists in anal
 })
 
 
-# ── parse_ipwm_data ──────────────────────────────────────────────────────────
+# parse_ipwm_data ----
 
 test_that("parse_ipwm_data: returns list with sc, sp_des, sp_vars, n_ref", {
   out <- parse_ipwm_data(list(sc, des1))
@@ -561,7 +565,7 @@ test_that("parse_ipwm_data: unnamed list gets default names sp[[1]], sp[[2]]", {
   expect_equal(names(out$sp_vars), c("sp[[1]]", "sp[[2]]"))
 })
 
-test_that("parse_ipwm_data: named list preserves names", {
+test_that("parse_ipwm_data: named list keeps names", {
   out <- parse_ipwm_data(list(sc, survey_a = des1, survey_b = des2))
 
   expect_equal(names(out$sp_des),  c("survey_a", "survey_b"))

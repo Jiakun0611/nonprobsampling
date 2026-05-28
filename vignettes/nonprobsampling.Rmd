@@ -63,7 +63,7 @@ head(sc)
 
 ## Step 1 — Create Survey Design Objects
 
-Before calling `est_pw()`, each probability reference survey must be converted to a survey design object using either `survey::svydesign()` for standard complex survey designs or `survey::svrepdesign()` for surveys distributed with replicate weights. This preserves the sampling structure (e.g., stratification, clustering, sampling weights, or replicate weights) required for design-consistent variance estimation.
+Before calling `est_pw()`, each probability reference survey must be converted to a survey design object using either `survey::svydesign()` for standard complex survey designs or `survey::svrepdesign()` for surveys distributed with replicate weights. This keeps the sampling structure (e.g., stratification, clustering, sampling weights, or replicate weights) required for design-consistent variance estimation.
 ```{r survey-designs}
 options(survey.lonely.psu = "adjust")
 
@@ -203,7 +203,7 @@ fit_multi_by_size <- est_pw(
   data      = list(sc, ref1_design, ref2_design),
   p_formula = list(
     ~ agecat + race + education + psa_level  + pros_enlarged + comorbidity + BMI + diabetes,
-    ~ agecat + race + diabetes  + BMI + diabetes
+    ~ agecat + race + diabetes  + BMI + cormorbidity
   ),
   sp_order  = "size",
   precali   = T,
@@ -219,7 +219,7 @@ sp_order for precalibration and pseudo-weights calculation as given:
 fit_multi_as_given <- est_pw(
   data      = list(sc, ref1_design, ref2_design),
   p_formula = list(
-    ~ agecat + race + education + psa_level + pros_enlarged + comorbidity,
+    ~ agecat + race + education + psa_level + pros_enlarged + comorbidity + diabetes,
     ~ agecat + race + BMI + diabetes + comorbidity
   ),
   sp_order  = "given",
@@ -271,7 +271,7 @@ print(est_by_age)
 
 First, `est_pw()` handles missing values in the variables used to estimate pseudo-weights. These are the variables in the participation model specified by `p_formula`. By default, `est_pw()` uses `na.action = stats::na.omit`, which removes observations with missing values in the participation model variables before estimating pseudo-weights.
 
-Alternatively, users may specify `na.action = stats::na.exclude`. In this case, excluded observations from the nonprobability sample are retained in the returned objects, but their pseudo-weights are set to `NA`. This is useful when users want to preserve the original row alignment of the nonprobability sample, for example for later merging, comparison, or imputation.
+Alternatively, users may specify `na.action = stats::na.exclude`. In this case, excluded observations from the nonprobability sample are retained in the returned objects, but their pseudo-weights are set to `NA`. This is useful when users want to keep the original row alignment of the nonprobability sample, for example for later merging, comparison, or imputation.
 
 Second, `pwmean()` handles missing values in the outcome variable and, if specified, the domain variable. This second layer of missing-data handling is applied after pseudo-weights have already been estimated.
 
@@ -324,7 +324,7 @@ More detailed information about observations excluded from the nonprobability sa
 na.action(fit_na_exclude)
 ```
 
-With `na.exclude`, the returned pseudo-weight vector and sc_updated preserve the original row positions. Rows excluded at the build stage remain in the output, with pseudo-weights set to NA.
+With `na.exclude`, the returned pseudo-weight vector and sc_updated keep the original row positions. Rows excluded at the build stage remain in the output, with pseudo-weights set to NA.
 ``` {r na-head}
 head(fit_na_exclude$pseudo_weights)
 head(fit_na_exclude$sc_updated)
@@ -372,7 +372,7 @@ head(fit_na_omit$pseudo_weights)
 head(fit_na_omit$sc_updated)
 ```
 
-The two-stage missing-data structure can be summarized as follows. `est_pw()` handles missing values in participation model variables before pseudo-weight estimation. `pwmean()` handles missing values in the outcome and domain variables during mean estimation. Using `na.omit` drops excluded observations from the returned build object, while `na.exclude` preserves the original row structure and records excluded pseudo-weights as NA.
+The two-stage missing-data structure can be summarized as follows. `est_pw()` handles missing values in participation model variables before pseudo-weight estimation. `pwmean()` handles missing values in the outcome and domain variables during mean estimation. Using `na.omit` drops excluded observations from the returned build object, while `na.exclude` keeps the original row structure and records excluded pseudo-weights as NA.
 
 
 

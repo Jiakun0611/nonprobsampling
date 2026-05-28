@@ -1,9 +1,11 @@
+# Setup ----
+
 data(sc)
 data(sp1)
 data(sp2)
 
 
-# ── one-reference ────────────────────────────────────────────────────────────
+# one-reference ----
 
 test_that("p_formula_construction (one-ref): returns a formula", {
   res <- p_formula_construction(sc, sp1, weight = "sp_wts")
@@ -64,7 +66,7 @@ test_that("p_formula_construction (one-ref): errors when sp is not a data.frame 
 })
 
 
-# ── multi-reference ──────────────────────────────────────────────────────────
+# multi-reference ----
 
 test_that("p_formula_construction (multi-ref): returns a list of formulas", {
   res <- p_formula_construction(

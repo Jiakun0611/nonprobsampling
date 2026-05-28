@@ -1,9 +1,11 @@
+# Setup ----
+
 data(sc)
 data(sp1)
 data(sp2)
 
 
-# ── one-reference: return structure ─────────────────────────────────────────
+# one-reference: return structure ----
 
 test_that("process_p_formula (one-ref): returns sc, sp, vars, log_messages", {
   res <- process_p_formula(sc, sp1, weight = "wts_sp1", p_formula = ~agecat)
@@ -48,7 +50,7 @@ test_that("process_p_formula (one-ref): sp row count unchanged", {
 })
 
 
-# ── one-reference: input validation ─────────────────────────────────────────
+# one-reference: input validation ----
 
 test_that("process_p_formula (one-ref): errors when p_formula is not a formula", {
   expect_error(
@@ -79,7 +81,7 @@ test_that("process_p_formula (one-ref): errors when variable missing from sp", {
 
 test_that("process_p_formula (one-ref): errors when weight column not in sp", {
   expect_error(
-    process_p_formula(sc, sp1, weight = "nonexistent", p_formula = ~agecat),
+    process_p_formula(sc, sp1, weight = "not_exist", p_formula = ~agecat),
     "Weight column not found in sp.",
     fixed = TRUE
   )
@@ -119,7 +121,7 @@ test_that("process_p_formula (one-ref): factor level error message names the var
 })
 
 
-# ── multi-reference: return structure ────────────────────────────────────────
+# multi-reference: return structure ----
 
 test_that("process_p_formula (multi-ref): returns sc, sp, vars, log_messages", {
   res <- process_p_formula(
@@ -161,7 +163,7 @@ test_that("process_p_formula (multi-ref): sc_new deduplicates shared columns", {
   expect_equal(length(agecat_cols), length(unique(agecat_cols)))
 })
 
-test_that("process_p_formula (multi-ref): sp names preserved from named list", {
+test_that("process_p_formula (multi-ref): sp names kept from named list", {
   res <- process_p_formula(
     sc, list(survey_a = sp1, survey_b = sp2),
     weight        = c("wts_sp1", "wts_sp2"),
@@ -184,7 +186,7 @@ test_that("process_p_formula (multi-ref): Pre.calibration = FALSE adds log messa
 })
 
 
-# ── multi-reference: input validation ───────────────────────────────────────
+# multi-reference: input validation ----
 
 test_that("process_p_formula (multi-ref): errors when p_formula is not a list of formulas", {
   expect_error(
@@ -229,11 +231,11 @@ test_that("process_p_formula (multi-ref): errors when weight column missing from
   expect_error(
     process_p_formula(
       sc, list(sp1, sp2),
-      weight        = c("wts_sp1", "nonexistent"),
+      weight        = c("wts_sp1", "not_exist"),
       p_formula     = list(~agecat, ~agecat),
       Pre.calibration = FALSE
     ),
-    "Weight column 'nonexistent' not found in sp[2].",
+    "Weight column 'not_exist' not found in sp[2].",
     fixed = TRUE
   )
 })

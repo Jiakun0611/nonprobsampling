@@ -1,3 +1,5 @@
+# Setup ----
+
 set.seed(123)
 
 # sp1: factor a (shared), numeric x (unique to sp1), wt1 — 150 rows (larger)
@@ -9,20 +11,20 @@ set.seed(123)
 sp1_raw <- data.frame(
   a   = factor(sample(c("A","B","C"), 150, replace = TRUE), levels = c("A","B","C")),
   x   = rnorm(150),
-  wt1 = runif(150, 0.5, 2)
+  wt1 = runif(150, 10, 100)
 )
 
 sp2_raw <- data.frame(
   a   = factor(sample(c("A","B","C"), 100, replace = TRUE), levels = c("A","B","C")),
   b   = factor(sample(c("P","Q"),     100, replace = TRUE), levels = c("P","Q")),
-  wt2 = runif(100, 0.5, 2)
+  wt2 = runif(100, 10, 100)
 )
 
 sp1_new <- sp1_raw
 sp2_new <- sp2_raw
 
 
-# ── Return structure ─────────────────────────────────────────────────────────
+# Return structure ----
 
 test_that("precal_cumulative_order: returns correct list names", {
   out <- precal_cumulative_order(
@@ -65,7 +67,7 @@ test_that("precal_cumulative_order: log_messages is a character vector", {
 })
 
 
-# ── order_used ───────────────────────────────────────────────────────────────
+# order_used ----
 
 test_that("precal_cumulative_order: sp_order = 'size' keeps larger sample first when already first", {
   out <- precal_cumulative_order(
@@ -108,7 +110,7 @@ test_that("precal_cumulative_order: order_used length equals number of samples",
 })
 
 
-# ── Reference sample unchanged ───────────────────────────────────────────────
+# Reference sample unchanged ----
 
 test_that("precal_cumulative_order: reference sample weights are not modified", {
   out <- precal_cumulative_order(
@@ -121,7 +123,7 @@ test_that("precal_cumulative_order: reference sample weights are not modified", 
 })
 
 
-# ── Calibration correctness ──────────────────────────────────────────────────
+# Calibration correctness ----
 
 test_that("precal_cumulative_order: calibrated total weight matches reference total (intercept)", {
   out <- precal_cumulative_order(
@@ -154,7 +156,7 @@ test_that("precal_cumulative_order: calibrated weighted totals match target for 
 })
 
 
-# ── total_vector grows with new columns ──────────────────────────────────────
+# total_vector grows with new columns ----
 
 test_that("precal_cumulative_order: total_vector includes unique columns from sp2", {
   out <- precal_cumulative_order(
@@ -177,12 +179,12 @@ test_that("precal_cumulative_order: total_vector contains all columns from both 
 })
 
 
-# ── No shared columns ────────────────────────────────────────────────────────
+# No shared columns ----
 
 test_that("precal_cumulative_order: calibrates intercept only when no columns are shared", {
   set.seed(99)
-  sp_a <- data.frame(x = rnorm(100), wt1 = runif(100, 0.5, 2))
-  sp_b <- data.frame(y = rnorm(80),  wt2 = runif(80,  0.5, 2))
+  sp_a <- data.frame(x = rnorm(100), wt1 = runif(100, 10, 100))
+  sp_b <- data.frame(y = rnorm(80),  wt2 = runif(80,  10, 100))
 
   out <- precal_cumulative_order(
     sp_raw   = list(sp_a, sp_b),
@@ -197,8 +199,8 @@ test_that("precal_cumulative_order: calibrates intercept only when no columns ar
 
 test_that("precal_cumulative_order: total_vector contains columns from both samples when no overlap", {
   set.seed(99)
-  sp_a <- data.frame(x = rnorm(100), wt1 = runif(100, 0.5, 2))
-  sp_b <- data.frame(y = rnorm(80),  wt2 = runif(80,  0.5, 2))
+  sp_a <- data.frame(x = rnorm(100), wt1 = runif(100, 10, 100))
+  sp_b <- data.frame(y = rnorm(80),  wt2 = runif(80,  10, 100))
 
   out <- precal_cumulative_order(
     sp_raw   = list(sp_a, sp_b),
@@ -211,9 +213,9 @@ test_that("precal_cumulative_order: total_vector contains columns from both samp
 })
 
 
-# ── List names preserved through reordering ──────────────────────────────────
+# List names kept through reordering ----
 
-test_that("precal_cumulative_order: sp_new names preserved with sp_order = 'given'", {
+test_that("precal_cumulative_order: sp_new names kept with sp_order = 'given'", {
   out <- precal_cumulative_order(
     sp_raw   = list(survey_a = sp1_raw, survey_b = sp2_raw),
     sp_new   = list(survey_a = sp1_new, survey_b = sp2_new),
@@ -223,7 +225,7 @@ test_that("precal_cumulative_order: sp_new names preserved with sp_order = 'give
   expect_equal(names(out$sp_new), c("survey_a", "survey_b"))
 })
 
-test_that("precal_cumulative_order: sp_new names preserved after size reorder", {
+test_that("precal_cumulative_order: sp_new names kept after size reorder", {
   out <- precal_cumulative_order(
     sp_raw   = list(survey_a = sp2_raw, survey_b = sp1_raw),
     sp_new   = list(survey_a = sp2_new, survey_b = sp1_new),
@@ -234,7 +236,7 @@ test_that("precal_cumulative_order: sp_new names preserved after size reorder", 
 })
 
 
-# ── log_messages content ─────────────────────────────────────────────────────
+# log_messages content ----
 
 test_that("precal_cumulative_order: log_messages has one entry per sample", {
   out <- precal_cumulative_order(

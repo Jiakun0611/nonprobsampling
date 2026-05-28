@@ -17,7 +17,7 @@
 #'   \item{wts_list}{List of numeric weight vectors, one per reference sample.}
 #'
 #' @keywords internal
-Xc_Xp_Construction <- function(vars_XC, sc, sp_list, xcol, wts_cols) {
+multi_matrix_contruction <- function(vars_XC, sc, sp_list, xcol, wts_cols) {
   # -----------------------------
   # basic checks
   # -----------------------------

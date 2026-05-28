@@ -1,3 +1,5 @@
+# Setup ----
+
 data(sc)
 data(sp1)
 data(sp2)
@@ -21,7 +23,7 @@ des2 <- survey::svydesign(
 )
 
 
-# ── resolve_na_action ────────────────────────────────────────────────────────
+# resolve_na_action ----
 
 test_that("resolve_na_action handles function inputs", {
   expect_equal(resolve_na_action(stats::na.omit),    "omit")
@@ -66,7 +68,7 @@ test_that("resolve_na_action rejects invalid type", {
 })
 
 
-# ── handle_na_for_ipwm ───────────────────────────────────────────────────────
+# handle_na_for_ipwm ----
 
 test_that("handle_na_for_ipwm (omit): removes NA rows from sc and sp", {
   sc_na       <- sc;  sc_na$agecat[1:3] <- NA
@@ -152,7 +154,7 @@ test_that("handle_na_for_ipwm (multi-ref): each sp handled independently", {
 })
 
 
-# ── process_na_build ─────────────────────────────────────────────────────────
+# process_na_build ----
 
 test_that("process_na_build: na_summary is NULL when no NAs", {
   res <- process_na_build(
@@ -237,7 +239,7 @@ test_that("process_na_build: na.fail errors when NA present", {
   )
 })
 
-test_that("process_na_build: verbose = TRUE emits messages", {
+test_that("process_na_build: verbose = TRUE sends messages", {
   sc_na <- sc; sc_na$agecat[1] <- NA
 
   expect_message(
