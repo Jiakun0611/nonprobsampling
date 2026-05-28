@@ -20,12 +20,19 @@ summary.pw_fit <- function(object, ...) {
 
     cat("\nMethod: One reference", method, "\n")
 
+    log <- object$internal$log_messages
+    if (!is.null(log) && length(log) > 0) {
+      cat("\n")
+      cat(log, sep = "")
+    }
+
   } else if (method == "multi") {
 
     cat("\nMethod: Multi-reference calibration\n")
 
     log <- object$internal$log_messages
     if (!is.null(log) && length(log) > 0) {
+      cat("\n")
       cat(log, sep = "")
     }
   }
