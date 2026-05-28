@@ -203,15 +203,19 @@ fit_multi_by_size <- est_pw(
   data      = list(sc, ref1_design, ref2_design),
   p_formula = list(
     ~ agecat + race + education + psa_level  + pros_enlarged + comorbidity + BMI + diabetes,
-    ~ agecat + race + diabetes  + BMI + cormorbidity
+    ~ agecat + race + diabetes  + BMI + comorbidity
   ),
   sp_order  = "size",
   precali   = T,
-  control = pw_solver_control(ftol=1e-6)
+  control   = pw_solver_control(ftol=1e-6)
 )
 
 summary(fit_multi_by_size)
 ```
+
+
+
+
 
 
 sp_order for precalibration and pseudo-weights calculation as given:
