@@ -1,5 +1,5 @@
 #' Calibration estimating equations
-#' @keywords internal
+#' @noRd
 raking_fn <- function(beta, Xc, f_p, ...) {
   eta <- as.vector(Xc %*% beta)
 
@@ -35,7 +35,7 @@ raking_fn <- function(beta, Xc, f_p, ...) {
 }
 
 #' Jacobian of the calibration estimating equations
-#' @keywords internal
+#' @noRd
 raking_jac <- function(beta, Xc, f_p,
                        label = "One_Ref_Calibration",
                        tol_singular = 1e-7,
@@ -85,7 +85,7 @@ raking_jac <- function(beta, Xc, f_p,
 }
 
 #' Starting values for the coefficients of the calibration participation model
-#' @keywords internal
+#' @noRd
 raking_start <- function(Xc, f_p) {
   p_dim <- ncol(Xc)
   beta_start <- rep(0, p_dim)

@@ -28,8 +28,11 @@ check_input_multi <- function(sc,
 
   log_messages <- character()
 
-  # always use positional indices for display
-  spn <- paste0("sp[[", seq_along(sp_list), "]]")
+  spn <- if (!is.null(names(sp_list)) && all(nzchar(names(sp_list)))) {
+    names(sp_list)
+  } else {
+    paste0("sp[[", seq_along(sp_list), "]]")
+  }
 
 
   # ---- ensure all three inputs have the same length ----

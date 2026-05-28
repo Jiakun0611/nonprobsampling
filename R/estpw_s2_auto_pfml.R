@@ -110,7 +110,7 @@ p_formula_construction <- function(sc, sp, weight) {
       sp_name <- if (!is.null(names(sp)) && nzchar(names(sp)[i])) {
         names(sp)[i]
       } else {
-        paste0("sp", i)
+        paste0("sp[[", i, "]]")
       }
 
       res_i <- build_one_formula(
@@ -127,10 +127,10 @@ p_formula_construction <- function(sc, sp, weight) {
       }
     }
 
-    names(p_formula_list) <- if (!is.null(names(sp))) {
+    names(p_formula_list) <- if (!is.null(names(sp)) && all(nzchar(names(sp)))) {
       names(sp)
     } else {
-      paste0("sp", seq_along(sp))
+      paste0("sp[[", seq_along(sp), "]]")
     }
 
     return(list(

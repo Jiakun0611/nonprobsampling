@@ -1,5 +1,5 @@
 #' CLW estimating equations
-#' @keywords internal
+#' @noRd
 clw_fn <- function(beta, Xc, Xp, wts_sp, ...) {
   eta_sp <- as.vector(Xp %*% beta)
 
@@ -27,7 +27,7 @@ clw_fn <- function(beta, Xc, Xp, wts_sp, ...) {
 
 
 #' Jacobian of the CLW estimating equations
-#' @keywords internal
+#' @noRd
 clw_jac <- function(beta, Xc, Xp, wts_sp,
                     label = "One_Ref_CLW",
                     tol_singular = 1e-7,
@@ -72,7 +72,7 @@ clw_jac <- function(beta, Xc, Xp, wts_sp,
 
 
 #' Starting values for the coefficients of the CLW participation model
-#' @keywords internal
+#' @noRd
 clw_start <- function(Xc, Xp, wts_sp) {
   p_dim <- ncol(Xc)
   beta_start <- rep(0, p_dim)

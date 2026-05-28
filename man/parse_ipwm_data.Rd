@@ -28,6 +28,6 @@ For each design it calls `extract_analysis_data()` to remove design
 variables and attach a `sp_wts` column, giving back a plain data
 frame ready for modelling. If the list elements have no names, or if
 any element name is an empty string (partially named list), default
-names `"sp1"`, `"sp2"`, ... are assigned to all elements.
+names `"sp[[1]]"`, `"sp[[2]]"`, ... are assigned to all elements.
 }
 \keyword{internal}

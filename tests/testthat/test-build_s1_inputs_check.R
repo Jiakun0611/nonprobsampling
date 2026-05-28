@@ -554,11 +554,11 @@ test_that("parse_ipwm_data: sp_vars are plain data.frames with 'sp_wts' column",
   expect_true("sp_wts" %in% names(out$sp_vars[[1]]))
 })
 
-test_that("parse_ipwm_data: unnamed list gets default names sp1, sp2", {
+test_that("parse_ipwm_data: unnamed list gets default names sp[[1]], sp[[2]]", {
   out <- parse_ipwm_data(list(sc, des1, des2))
 
-  expect_equal(names(out$sp_des),  c("sp1", "sp2"))
-  expect_equal(names(out$sp_vars), c("sp1", "sp2"))
+  expect_equal(names(out$sp_des),  c("sp[[1]]", "sp[[2]]"))
+  expect_equal(names(out$sp_vars), c("sp[[1]]", "sp[[2]]"))
 })
 
 test_that("parse_ipwm_data: named list preserves names", {
@@ -571,6 +571,6 @@ test_that("parse_ipwm_data: named list preserves names", {
 test_that("parse_ipwm_data: partially named list falls back to default names", {
   out <- parse_ipwm_data(list(sc, survey_a = des1, des2))
 
-  expect_equal(names(out$sp_des),  c("sp1", "sp2"))
-  expect_equal(names(out$sp_vars), c("sp1", "sp2"))
+  expect_equal(names(out$sp_des),  c("sp[[1]]", "sp[[2]]"))
+  expect_equal(names(out$sp_vars), c("sp[[1]]", "sp[[2]]"))
 })

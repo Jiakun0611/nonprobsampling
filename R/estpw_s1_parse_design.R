@@ -6,7 +6,7 @@
 #' variables and attach a `sp_wts` column, giving back a plain data
 #' frame ready for modelling. If the list elements have no names, or if
 #' any element name is an empty string (partially named list), default
-#' names `"sp1"`, `"sp2"`, ... are assigned to all elements.
+#' names `"sp[[1]]"`, `"sp[[2]]"`, ... are assigned to all elements.
 #'
 #' @param data A named or unnamed list. The first element is the
 #'   nonprobability sample as a data frame. Every remaining element is a
@@ -29,7 +29,7 @@ parse_ipwm_data <- function(data) {
 
   ref_names <- names(sp_des)
   if (is.null(ref_names) || any(!nzchar(ref_names))) {
-    ref_names <- paste0("sp", seq_along(sp_des))
+    ref_names <- paste0("sp[[", seq_along(sp_des), "]]")
   }
 
   sp_vars <- lapply(seq_along(sp_des), function(i) {

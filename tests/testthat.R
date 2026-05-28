@@ -10,3 +10,4 @@ library(testthat)
 library(nonprobsampling)
 
 test_check("nonprobsampling")
+devtools::test(filter = "build_s1_inputs_check")

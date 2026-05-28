@@ -104,7 +104,7 @@ test_that("p_formula_construction (multi-ref): unnamed sp gets default names", {
     weight  = c("wts_sp1", "wts_sp2")
   )
 
-  expect_equal(names(res$p_formula), c("sp1", "sp2"))
+  expect_equal(names(res$p_formula), c("sp[[1]]", "sp[[2]]"))
 })
 
 test_that("p_formula_construction (multi-ref): log_messages has one entry per sp", {

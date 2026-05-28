@@ -197,8 +197,26 @@ By default, `precali = TRUE` applies cumulative pre-calibration before multi-ref
 
 The argument `sp_order` controls the order in which reference surveys are processed during cumulative pre-calibration and pseudo-weight estimation. With `sp_order = "size"` (default), surveys are ordered from largest to smallest sample size, so larger surveys are used as reference and overlapping variables are preferentially taken from them. With `sp_order = "given"`, surveys are processed in the user-supplied order, which may be preferable when a particular reference survey is considered more reliable or important.
 
-```{r multi-ref}
-fit_multi <- est_pw(
+sp_order for precalibration and pseudo-weights calculation by size:
+```{r multi-ref-by-size}
+fit_multi_by_size <- est_pw(
+  data      = list(sc, ref1_design, ref2_design),
+  p_formula = list(
+    ~ agecat + race + education + psa_level  + pros_enlarged + comorbidity + BMI + diabetes,
+    ~ agecat + race + diabetes  + BMI + diabetes
+  ),
+  sp_order  = "size",
+  precali   = T,
+  control = pw_solver_control(ftol=1e-6)
+)
+
+summary(fit_multi_by_size)
+```
+
+
+sp_order for precalibration and pseudo-weights calculation as given:
+```{r multi-ref-as-given}
+fit_multi_as_given <- est_pw(
   data      = list(sc, ref1_design, ref2_design),
   p_formula = list(
     ~ agecat + race + education + psa_level + pros_enlarged + comorbidity,
@@ -208,8 +226,10 @@ fit_multi <- est_pw(
   precali   = TRUE
 )
 
-summary(fit_multi)
+summary(fit_multi_as_given)
 ```
+
+
 Use verbose=T for messages in intermediate steps:
 
 ```{r multi-ref-verbose, verbose=TRUE}

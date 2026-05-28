@@ -1,5 +1,5 @@
 #' ALP estimating equations
-#' @keywords internal
+#' @noRd
 alp_fn <- function(beta, Xc, Xp, wts_sp, ...) {
   eta_sc <- as.vector(Xc %*% beta)
   eta_sp <- as.vector(Xp %*% beta)
@@ -30,7 +30,7 @@ alp_fn <- function(beta, Xc, Xp, wts_sp, ...) {
 
 
 #' Jacobian of the ALP estimating equations
-#' @keywords internal
+#' @noRd
 alp_jac <- function(beta, Xc, Xp, wts_sp,
                     label = "One_Ref_ALP",
                     tol_singular = 1e-7,
@@ -79,7 +79,7 @@ alp_jac <- function(beta, Xc, Xp, wts_sp,
 
 
 #' Starting values for the coefficients of the ALP participation model
-#' @keywords internal
+#' @noRd
 alp_start <- function(Xc, Xp, wts_sp) {
   p_dim <- ncol(Xc)
   beta_start <- rep(0, p_dim)
