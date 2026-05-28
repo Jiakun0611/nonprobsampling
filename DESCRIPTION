@@ -1,6 +1,6 @@
 Package: nonprobsampling
 Type: Package
-Title: Pseudo-Weighting Methods for Nonprobability Sample Inference
+Title: Inference for Nonprobability Samples using Multiple Reference Surveys
 Version: 0.1.0
 Authors@R:
     c(
@@ -47,4 +47,5 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 Language: en-US
+URL:
 Config/testthat/edition: 3
