@@ -4,9 +4,16 @@
 
 # Logistic (inverse-logit) transformation.
 # Used by ALP, CLW, and raking solver helpers.
-expit <- function(x){
-  y <- exp(x) / (1 + exp(x))
-  return(y)
+#
+# Implemented via stats::plogis() rather than the algebraically equivalent
+# exp(x) / (1 + exp(x)). The naive form overflows to Inf once x exceeds about
+# 710, so exp(x) / (1 + exp(x)) evaluates to NaN in that range; that NaN then
+# trips the "non-finite fitted probabilities" guards in the ALP/CLW solvers and
+# turns a merely large linear predictor into a hard error. stats::plogis() is
+# numerically stable across the whole real line and saturates to 0 or 1 in the
+# tails instead of returning NaN.
+expit <- function(x) {
+  stats::plogis(x)
 }
 
 

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The `nonprobsampling` package provides methods for correcting participation bias in nonprobability samples using one or more external probability reference surveys. The package estimates pseudo-weights that enable finite-population inference from nonprobability samples such as convenience samples, volunteer cohorts, and opt-in surveys.
 
-The package is built around the general estimating equation framework proposed by Landsman et al. (2025). Within this framework, the Adjusted Logistic Propensity (ALP) method of Wang et al. (2021) and the Chen–Li–Wu (CLW) method of Chen et al. (2020) arise as important special cases under different choices of weight and estimating functions. The package also implements the calibration approach described in Landsman et al. (2025), including its extension to settings with multiple reference surveys, allowing auxiliary information to be combined across surveys when no single reference survey contains all relevant participation variables.
+The package is built around the general estimating equation framework proposed by Landsman et al. (2026). Within this framework, the Adjusted Logistic Propensity (ALP) method of Wang et al. (2021) and the Chen–Li–Wu (CLW) method of Chen et al. (2020) arise as important special cases under different choices of weight and estimating functions. The package also implements the calibration approach described in Landsman et al. (2026), including its extension to settings with multiple reference surveys, allowing auxiliary information to be combined across surveys when no single reference survey contains all relevant participation variables.
 
 When overlapping auxiliary variables are present across reference surveys, the package can optionally apply cumulative pre-calibration to align weighted totals of shared variables before multi-reference pseudo-weight estimation.
 
@@ -197,9 +197,9 @@ By default, `precali = TRUE` applies cumulative pre-calibration before multi-ref
 
 The argument `sp_order` controls the order in which reference surveys are processed during cumulative pre-calibration and pseudo-weight estimation. With `sp_order = "size"` (default), surveys are ordered from largest to smallest sample size, so larger surveys are used as reference and overlapping variables are preferentially taken from them. With `sp_order = "given"`, surveys are processed in the user-supplied order, which may be preferable when a particular reference survey is considered more reliable or important.
 
-sp_order for precalibration and pseudo-weights calculation by size:
+
 ```{r multi-ref-by-size}
-fit_multi_by_size <- est_pw(
+fit_multi_order_by_size <- est_pw(
   data      = list(sc, ref1_design, ref2_design),
   p_formula = list(
     ~ agecat + race + education + psa_level  + pros_enlarged + comorbidity + BMI + diabetes,
@@ -210,7 +210,7 @@ fit_multi_by_size <- est_pw(
   control   = pw_solver_control(ftol=1e-6)
 )
 
-summary(fit_multi_by_size)
+summary(fit_multi_order_by_size)
 ```
 
 

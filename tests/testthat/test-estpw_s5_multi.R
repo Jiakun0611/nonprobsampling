@@ -62,6 +62,39 @@ ctrl <- pw_solver_control()
 block_cols <- multi_raking_block_cols(Xc, Xp_list)
 f_p        <- multi_raking_fp(Xp_list, wts_list)
 
+# General estimating equation: multiple reference samples ----
+#
+# SIM paper equation (9):
+#
+#   sum_sc w(x_i, beta) x_i^(pk)
+#     - sum_spk d_i^(pk) x_i^(pk) = 0,
+#   for k = 1, ..., K.
+#
+# The factor N^{-1} is omitted because it does not affect whether
+# the estimating equation equals zero.
+#
+# For multi-reference calibration:
+#   w(x, beta) = exp(-x beta)
+#
+# Each reference sample contributes a block of variables. The columns
+# in Xc corresponding to each reference block are given by block_cols.
+
+general_ee_multi_ref <- function(beta, Xc, Xp_list, wts_list, block_cols) {
+  eta_c <- drop(Xc %*% beta)
+  w_c   <- exp(-eta_c)
+
+  ee_list <- vector("list", length(Xp_list))
+
+  for (k in seq_along(Xp_list)) {
+    Xc_block <- Xc[, block_cols[[k]], drop = FALSE]
+    Xp_block <- Xp_list[[k]]
+    wts_k    <- wts_list[[k]]
+
+    ee_list[[k]] <- colSums(w_c * Xc_block) - colSums(wts_k * Xp_block)
+  }
+
+  unlist(ee_list, use.names = TRUE)
+}
 
 # multi_raking_block_cols ----
 
@@ -402,32 +435,44 @@ test_that("ipwm_multi_build: all coefficients are finite", {
   expect_true(all(is.finite(out_multi$coefficients)))
 })
 
-# calibration property ----
-# After convergence: weighted column totals from sc must match
-# reference weighted totals for each block.
 
-test_that("ipwm_multi_build: block-1 calibration equations satisfied (tol 1e-4)", {
+# estimation equation (9) in SIM satisfied ---
+test_that("ipwm_multi_build satisfies the multi-reference estimating equation", {
   int_obj <- out_multi$internal
-  wts_sc  <- out_multi$pseudo_weights
 
-  bc1      <- int_obj$block_cols[[1]]
-  f_p_blk1 <- int_obj$f_p[seq_len(length(bc1))]
-  f_c_blk1 <- colSums(wts_sc * int_obj$Xc[, bc1, drop = FALSE])
+  ee <- general_ee_multi_ref(
+    beta       = out_multi$coefficients,
+    Xc         = int_obj$Xc,
+    Xp_list    = int_obj$Xp_list,
+    wts_list   = int_obj$wts_list,
+    block_cols = int_obj$block_cols
+  )
 
-  expect_equal(f_c_blk1, f_p_blk1, tolerance = 1e-4)
+  expect_lt(max(abs(ee)), 1e-4)
 })
 
-test_that("ipwm_multi_build: block-2 calibration equations satisfied (tol 1e-4)", {
-  int_obj <- out_multi$internal
-  wts_sc  <- out_multi$pseudo_weights
 
-  bc2      <- int_obj$block_cols[[2]]
-  offset   <- length(int_obj$block_cols[[1]])
-  f_p_blk2 <- int_obj$f_p[offset + seq_len(length(bc2))]
-  f_c_blk2 <- colSums(wts_sc * int_obj$Xc[, bc2, drop = FALSE])
+test_that("multi_raking_fn matches the multi-reference estimating equation helper", {
+  ee_manual <- general_ee_multi_ref(
+    beta       = beta_start,
+    Xc         = Xc,
+    Xp_list    = Xp_list,
+    wts_list   = wts_list,
+    block_cols = block_cols
+  )
 
-  expect_equal(f_c_blk2, f_p_blk2, tolerance = 1e-4)
+  ee_function <- multi_raking_fn(
+    beta       = beta_start,
+    Xc         = Xc,
+    f_p        = f_p,
+    block_cols = block_cols
+  )
+
+  expect_equal(unname(ee_function), unname(ee_manual), tolerance = 1e-10)
 })
+
+
+
 
 # solver_diagnostics ----
 

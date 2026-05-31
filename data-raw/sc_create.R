@@ -29,7 +29,7 @@ sc <- sc_raw %>%
       agecat >= 70 ~ 4L
     )
   ) %>%
-  filter(agecat != 0L) %>%
+  filter(agecat != 0L, BMI != "Underweight") %>%
   mutate(across(!all_of(c("psa_level")), as.factor))
 
 

@@ -5,7 +5,7 @@
 \alias{sp1}
 \title{Probability Reference Sample 1 (sp1)}
 \format{
-A data frame with 14 variables:
+A data frame with 3494 observations and 14 variables:
 \describe{
   \item{agecat}{Age category (factor with 4 levels: 1 = 55--59, 2 = 60--64, 3 = 65--69, 4 = 70+)}
   \item{marital}{Marital status (factor with 4 levels: 1 = Married Or Living As Married, 2 = Widowed, 3 = Divorced or Separated, 4 = Never Married)}
@@ -15,7 +15,7 @@ A data frame with 14 variables:
   \item{smoking}{Smoking status (factor with 3 levels: 1 = Never Smoker, 2 = Former Smoker, 3 = Current Smoker)}
   \item{comorbidity}{General comorbidity indicator (factor with 2 levels: 0 = No, 1 = Yes)}
   \item{psa_level}{Serum prostate-specific antigen level (numeric)}
-  \item{BMI}{Body mass index category (factor with 5 levels: "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese")}
+  \item{BMI}{Body mass index category (factor with 4 levels: "Normal", "Overweight", "Obese", "Morbidly Obese")}
   \item{diabetes}{Diabetes diagnosis indicator (factor with 2 levels: 0 = No, 1 = Yes)}
   \item{pros_enlarged}{Prostate enlargement indicator (factor with 2 levels: 0 = No, 1 = Yes)}
   \item{strata_sp1}{Stratum identifier for complex survey design (numeric)}

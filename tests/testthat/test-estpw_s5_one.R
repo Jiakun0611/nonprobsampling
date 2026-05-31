@@ -35,6 +35,66 @@ sp_des <- survey::svydesign(ids = ~1, weights = ~sp_wts, data = sp_df)
 ctrl   <- pw_solver_control()
 
 
+
+
+# General estimating equation: one reference sample ----
+#
+# SIM paper equation (2):
+#
+#   sum_sc w(x_i, beta) h(x_i, beta)
+#     - sum_sp d_j h(x_j, beta) = 0
+#
+#
+# Method-specific choices:
+#
+# Calibration:
+#   w(x, beta) = exp(-x beta)
+#   h(x, beta) = x
+#
+# ALP:
+#   w(x, beta) = exp(-x beta)
+#   h(x, beta) = [1 + w(x, beta)]^{-1} x
+#              = expit(x beta) x
+#
+#   This gives:
+#   sum_sc (1 - p_i) x_i - sum_sp d_j p_j x_j = 0
+#
+# CLW:
+#   w(x, beta) = 1 + exp(-x beta)
+#   h(x, beta) = [w(x, beta)]^{-1} x
+#
+#   This gives:
+#   sum_sc x_i - sum_sp d_j expit(x_j beta) x_j = 0
+
+general_ee_one_ref <- function(beta, Xc, Xp, wts_sp, method) {
+  eta_c <- drop(Xc %*% beta)
+  eta_p <- drop(Xp %*% beta)
+
+  if (method == "calibration") {
+    w_c <- exp(-eta_c)
+
+    ee <- colSums(w_c * Xc) - colSums(wts_sp * Xp)
+
+  } else if (method == "alp") {
+    p_c <- expit(eta_c)
+    p_p <- expit(eta_p)
+
+    w_c <- exp(-eta_c)
+
+    ee <- colSums(w_c * p_c * Xc) - colSums(wts_sp * p_p * Xp)
+
+  } else if (method == "clw") {
+    pi_p <- expit(eta_p)
+
+    ee <- colSums(Xc) - colSums(wts_sp * pi_p * Xp)
+
+  } else {
+    stop("Unknown method.", call. = FALSE)
+  }
+
+  ee
+}
+
 # raking_fn ----
 
 test_that("raking_fn: returns a finite numeric vector of length p at beta = 0", {
@@ -557,6 +617,69 @@ test_that("clw_build: errors when sp weights contain NA", {
     fixed = TRUE
   )
 })
+
+
+test_that("one-reference builders satisfy the general estimating equation", {
+  out_raking <- raking_build(
+    vars, sc_df, sp_df, sp_des,
+    wts.col = "sp_wts",
+    control = ctrl
+  )
+
+  ee_raking <- general_ee_one_ref(
+    beta = out_raking$coefficients,
+    Xc = Xc,
+    Xp = Xp,
+    wts_sp = wts_sp,
+    method = "calibration"
+  )
+
+  expect_lt(max(abs(ee_raking)), 1e-6)
+
+
+  out_alp <- alp_build(
+    vars, sc_df, sp_df, sp_des,
+    wts.col = "sp_wts",
+    control = ctrl
+  )
+
+  ee_alp <- general_ee_one_ref(
+    beta = out_alp$coefficients,
+    Xc = Xc,
+    Xp = Xp,
+    wts_sp = wts_sp,
+    method = "alp"
+  )
+
+  expect_lt(max(abs(ee_alp)), 1e-6)
+
+
+  out_clw <- clw_build(
+    vars, sc_df, sp_df, sp_des,
+    wts.col = "sp_wts",
+    control = ctrl
+  )
+
+  ee_clw <- general_ee_one_ref(
+    beta = out_clw$coefficients,
+    Xc = Xc,
+    Xp = Xp,
+    wts_sp = wts_sp,
+    method = "clw"
+  )
+
+  expect_lt(max(abs(ee_clw)), 1e-6)
+})
+
+
+
+
+
+
+
+
+
+
 
 
 # ipwm_one_build ----

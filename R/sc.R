@@ -2,14 +2,14 @@
 #'
 #' This dataset represents a nonprobability (convenience) sample derived from
 #' the Prostate, Lung, Colorectal, and Ovarian (PLCO) Cancer Screening Trial.
-#' It is constructed as a complete-case subset and is used to illustrate inverse
-#' propensity weighting methods implemented in the \code{nonprobsampling} package.
+#' It is constructed as a complete-case subset and is used to illustrate the
+#' pseudo-weighting methods implemented in the \code{nonprobsampling} package.
 #'
 #' The dataset mimics a realistic nonprobability sample setting where outcome
 #' information is available only in the convenience sample, and auxiliary variables
 #' are used to construct pseudo-weights via external reference surveys.
 #'
-#' @format A data frame with 2399 observations and 8 variables:
+#' @format A data frame with 2404 observations and 8 variables:
 #' \describe{
 #'   \item{psa_level}{Outcome variable: serum prostate-specific antigen level (numeric)}
 #'   \item{BMI}{Body mass index category (factor with 4 levels: "Normal", "Overweight", "Obese", "Morbidly Obese")}
@@ -22,13 +22,13 @@
 #' }
 #'
 #' @details
-#' The dataset includes 2399 complete-case observations. The outcome variable
+#' The dataset includes 2404 complete-case observations. The outcome variable
 #' \code{psa_level} is observed only in the nonprobability sample and is the
 #' target of estimation.
 #'
 #' Auxiliary variables shared with the probability reference surveys \code{sp1}
-#' and \code{sp2} are used to construct pseudo-weights via propensity score
-#' or calibration methods.
+#' and \code{sp2} are used to construct pseudo-weights that correct for
+#' participation bias.
 #'
 #' This dataset is intended for demonstrating bias correction methods for
 #' nonprobability samples using one or multiple reference surveys.

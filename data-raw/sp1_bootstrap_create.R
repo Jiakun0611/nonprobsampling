@@ -1,5 +1,3 @@
-data("sp1")
-
 # check nh (PSUs per stratum)
 nh <- tapply(sp1$psu_sp1, sp1$strata_sp1, function(x) length(unique(x)))
 summary(nh)

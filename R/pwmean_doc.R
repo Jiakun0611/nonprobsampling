@@ -39,28 +39,25 @@
 #'     Character. The pseudo-weighting method used.
 #'   }
 #'
-#'   \item{\code{unweighted}}{
-#'     A list of unweighted estimates based on the original nonprobability
-#'     sample:
-#'     \describe{
-#'       \item{\code{mean}}{Unweighted mean of \code{y}.}
-#'       \item{\code{se}}{Standard error of the unweighted mean.}
-#'       \item{\code{CI_95}}{95\% confidence interval.}
-#'     }
-#'   }
-#'
-#'   \item{\code{adjusted}}{
-#'     A list of pseudo-weighted estimates:
-#'     \describe{
-#'       \item{\code{mean}}{Pseudo-weighted mean.}
-#'       \item{\code{se}}{Standard error.}
-#'       \item{\code{CI_95}}{95\% confidence interval.}
-#'     }
-#'   }
-#'
 #'   \item{\code{domains}}{
-#'     If \code{zcol} is a multi-level domain variable, a data frame containing
-#'     domain-level unweighted and pseudo-weighted estimates.
+#'     A data frame with one row per domain. This element is always present.
+#'     When \code{zcol = NULL} it has a single row labelled \code{"Overall"};
+#'     for a binary domain variable it has a single row labelled
+#'     \code{"<zcol> = 1"}; for a factor or character domain variable it has
+#'     one row per level. The columns are:
+#'     \describe{
+#'       \item{\code{domain}}{Domain label.}
+#'       \item{\code{unweighted_mean}, \code{unweighted_se}}{Unweighted (naive)
+#'         mean of \code{y} and its standard error.}
+#'       \item{\code{unweighted_lower}, \code{unweighted_upper}}{Bounds of the
+#'         95\% confidence interval for the unweighted mean, based on the
+#'         normal approximation.}
+#'       \item{\code{adjusted_mean}, \code{adjusted_se}}{Pseudo-weighted mean
+#'         of \code{y} and its standard error.}
+#'       \item{\code{adjusted_lower}, \code{adjusted_upper}}{Bounds of the
+#'         95\% confidence interval for the pseudo-weighted mean, based on the
+#'         normal approximation.}
+#'     }
 #'   }
 #'
 #'   \item{\code{na.action}}{

@@ -5,7 +5,7 @@
 #' The primary sampling unit and stratum identifiers are excluded; only the
 #' main survey weight and the replicate weights are retained.
 #'
-#' @format A data frame with 3549 rows and 512 columns. The first 12 columns
+#' @format A data frame with 3494 rows and 512 columns. The first 12 columns
 #'   are the substantive survey variables from \code{sp1} (\code{agecat},
 #'   \code{marital}, \code{race}, \code{education}, \code{employment},
 #'   \code{smoking}, \code{comorbidity}, \code{psa_level}, \code{BMI},

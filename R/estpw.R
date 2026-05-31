@@ -64,7 +64,7 @@ est_pw <- function(
     )
 
   }, error = function(e) {
-    stop("Step 1 (input parsing and validation) failed: ", e$message, call. = TRUE)
+    stop("Step 1 (input parsing and validation) failed: ", e$message, call. = FALSE)
   })
 
   sc     <- step1$sc
@@ -100,7 +100,7 @@ est_pw <- function(
     )
 
   }, error = function(e) {
-    stop("Step 2 (p_formula construction) failed: ", e$message, call. = TRUE)
+    stop("Step 2 (p_formula construction) failed: ", e$message, call. = FALSE)
   })
 
   p_formula    <- step2$p_formula
@@ -122,7 +122,7 @@ est_pw <- function(
     )
 
   }, error = function(e) {
-    stop("Step 3 (NA processing) failed: ", e$message, call. = TRUE)
+    stop("Step 3 (NA processing) failed: ", e$message, call. = FALSE)
   })
 
   na_mode       <- step3$na_mode
@@ -158,7 +158,7 @@ est_pw <- function(
     )
 
   }, error = function(e) {
-    stop("Step 4 (process p_formula) failed: ", e$message, call. = TRUE)
+    stop("Step 4 (process p_formula) failed: ", e$message, call. = FALSE)
   })
 
   sc     <- step4$sc
@@ -210,7 +210,7 @@ est_pw <- function(
     }
 
   }, error = function(e) {
-    stop("Step 5 (pseudo-weight estimation) failed: ", e$message, call. = TRUE)
+    stop("Step 5 (pseudo-weight estimation) failed: ", e$message, call. = FALSE)
   })
 
   #--------------------------------------------------------------------------#
@@ -228,7 +228,7 @@ est_pw <- function(
     )
 
   }, error = function(e) {
-    stop("Step 6 (reconstruct sc_updated) failed: ", e$message, call. = TRUE)
+    stop("Step 6 (reconstruct sc_updated) failed: ", e$message, call. = FALSE)
   })
 
   #--------------------------------------------------------------------------#
@@ -252,7 +252,7 @@ est_pw <- function(
     result
 
   }, error = function(e) {
-    stop("Step 7 (finalize output) failed: ", e$message, call. = TRUE)
+    stop("Step 7 (finalize output) failed: ", e$message, call. = FALSE)
   })
 
   invisible(result)

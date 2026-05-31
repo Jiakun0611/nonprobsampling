@@ -24,6 +24,7 @@ sp1 <- sp1 %>%
     BMI == 3 ~ "Obese",
     BMI == 4 ~ "Morbidly Obese"
   )) %>%
+  filter(BMI != "Underweight") %>%
   mutate(across(!all_of(c("psa_level", "strata_sp1", "psu_sp1", "wts_sp1")),
                 as.factor))
 

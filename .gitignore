@@ -18,10 +18,11 @@
 Thumbs.db
 
 # ===============================
-# Local scripts (not for GitHub)
+# Local scripts
 # ===============================
 Commands
 Showcase
+Presentation
 
 # ===============================
 # data-raw: local / large / simulation data

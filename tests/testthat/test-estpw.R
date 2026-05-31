@@ -1,9 +1,9 @@
 # test-est_pw.R
 # Integration tests for est_pw() — the main exported function.
 #
-# These tests exercise the full pipeline (Steps 1–7) through the public API.
-# They complement the step-level unit tests by verifying that the entire
-# pipeline wires together correctly and that documented behaviour holds.
+# These tests cover the full workflow through the public API.
+# They complement the step-level unit tests by checking that the pipeline
+# is connected correctly and that the documented behaviour is preserved.
 #
 # Covered scenarios:
 #   A. One-reference: all four methods (calibration / alp / clw / cali alias)

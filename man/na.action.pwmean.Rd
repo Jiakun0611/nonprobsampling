@@ -11,7 +11,13 @@
 
 \item{...}{Additional arguments (not used).}
 }
+\value{
+The \code{na.action} object recorded by \code{\link{pwmean}}: an
+  integer vector of rows omitted because of missing outcome or domain values
+  (of class \code{"omit"} or \code{"exclude"}), or \code{NULL} if no rows were
+  omitted.
+}
 \description{
 Returns the \code{na.action} component recorded during estimation,
-mimicking \code{\link{stats}{na.action}} behavior for fitted model objects.
+mimicking \code{\link[stats]{na.action}} behavior for fitted model objects.
 }

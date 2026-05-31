@@ -2,10 +2,6 @@ sp_NHIS <- read.csv("NHIS_Harmonization_07302025.csv") %>% filter(SAMPWEIGHT != 
 
 summary(sp_NHIS)
 
-
-
-# sc has: psa_level_raw, bmi, race, age, education, pros_enl, comorb, diab;
-
 sp2 <- sp_NHIS %>%
   select(d_agecat, d_marital, d_race, d_empstat,
          d_diabetes,
@@ -25,6 +21,7 @@ sp2 <- sp2 %>%
     BMI == 3 ~ "Obese",
     BMI == 4 ~ "Morbidly Obese"
   )) %>%
+  filter(BMI != "Underweight") %>%
   mutate(across(!all_of(c("wts_sp2", "strata_sp2", "psu_sp2")), as.factor))
 
 summary(sp2)
