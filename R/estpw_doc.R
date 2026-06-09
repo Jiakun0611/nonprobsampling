@@ -1,0 +1,335 @@
+#' Estimate Pseudo-Weights for Nonprobability Samples
+#'
+#' @description
+#' \code{est_pw()} estimates pseudo-weights for a nonprobability sample using
+#' one reference survey or multiple reference surveys. The function specifies the
+#' participation model, handles missing values in the participation model
+#' variables, solves the estimating equations, and stores the quantities needed
+#' for downstream point and variance estimation.
+#'
+#' Users should harmonize variable names and coding before calling
+#' \code{est_pw()}. Variables used in the participation model must have
+#' consistent names and compatible definitions across the nonprobability sample
+#' and the reference survey data used for estimation.
+#'
+#' With one reference survey, the available methods include the
+#' raking ratio calibration method described in Landsman et al. (2026),
+#' the adjusted logistic propensity weighting (ALP) method proposed by Wang, Valliant,
+#' and Li (2021), and the CLW method proposed by Chen, Li, and Wu (2020).
+#' With multiple reference surveys, pseudo-weights are estimated using the
+#' multi-reference calibration method proposed by Landsman et al. (2026).
+#'
+#' The returned object is designed to be passed to \code{\link{pwmean}}.
+#'
+#' @details
+#' \code{est_pw()} performs pseudo-weight estimation for the nonprobability
+#' sample and stores the method-specific internal objects needed later by
+#' \code{\link{pwmean}}. It does not require an outcome variable.
+#'
+#' The input \code{data} must be provided as a list, where the first element is
+#' the nonprobability sample and the remaining elements are reference survey
+#' design objects. Reference survey designs can be created with
+#' \code{\link[survey]{svydesign}} for standard complex survey designs or
+#' \code{\link[survey]{svrepdesign}} for surveys with replicate weights. These
+#' objects preserve the sampling structure needed for design-consistent
+#' variance estimation.
+#'
+#' \strong{Variable harmonization.}
+#' Variables are matched by name, not by meaning. Before applying
+#' \code{est_pw()}, shared variables must be harmonized across the
+#' nonprobability sample and reference survey data. For example, if a
+#' categorical variable is named \code{agecat} in the nonprobability sample and
+#' \code{age_group} in the reference survey, the user should rename one of the
+#' variables before estimation.
+#'
+#' Categorical variables should be encoded as factors with compatible category
+#' definitions and identical levels in the same order. Even when categories are
+#' substantively equivalent, mismatched factor levels may cause
+#' \code{est_pw()} to return an error. Continuous variables included in the
+#' participation model should also be measured on comparable scales across
+#' datasets.
+#'
+#' Internally, \code{est_pw()} performs the following steps:
+#' \enumerate{
+#'   \item \strong{Input validation}\cr
+#'     Validates the structure and required components of the input data.
+#'   \item \strong{Reference survey detection}\cr
+#'     Determines whether the input contains a single reference survey or
+#'     multiple reference surveys.
+#'   \item \strong{Method selection}\cr
+#'     Selects the pseudo-weighting method based on the specified argument(s).
+#'   \item \strong{Participation model specification}\cr
+#'     Constructs a default participation model formula when
+#'     \code{p_formula = NULL}.
+#'   \item \strong{Missing data handling}\cr
+#'     Applies missing-data handling procedures to variables used in the
+#'     participation model.
+#'   \item \strong{Model matrix construction}\cr
+#'     Generates model matrices from the participation model variables.
+#'   \item \strong{Pseudo-weight estimation}\cr
+#'     Estimates pseudo-weights using the selected method.
+#'   \item \strong{Output augmentation}\cr
+#'     Appends the estimated pseudo-weights as a new column to the
+#'     non-probability sample.
+#'   \item \strong{Metadata storage}\cr
+#'     Stores information related to missing-data handling and other internal
+#'     objects for later use or diagnostics.
+#' }
+#'
+#' @section One-reference method and multi-reference method:
+#' If \code{data} contains one reference survey design object, \code{est_pw()}
+#' fits a one-reference method. If \code{data} contains more
+#' than one reference survey design objects, \code{est_pw()} fits the
+#' multi-reference calibration method.
+#' In both settings, the auxiliary variables used for pseudo-weight estimation
+#' should be harmonized across all data sources before calling
+#' \code{est_pw()}.
+#'
+#' @section Multi-reference precalibration:
+#' When \code{precali = TRUE}, cumulative precalibration is performed before the
+#' main multi-reference calibration step. For overlapping
+#' auxiliary variables, this procedure calibrates the survey weights of a
+#' reference survey so that its weighted totals of the overlapping variables
+#' and its sum of weights match the corresponding totals from the preceding
+#' reference survey in the cumulative order. If there are no overlapping
+#' auxiliary variables, cumulative precalibration is applied only to the sum of
+#' weights.
+#'
+#' The order of the reference surveys is controlled by \code{sp_order}. If
+#' \code{sp_order = "size"}, reference surveys are ordered by sample size, from
+#' largest to smallest. If \code{sp_order = "given"}, the user-specified order
+#' of the reference surveys is used.
+#'
+#' Cumulative precalibration is based only on overlapping variables that are
+#' specified in \code{p_formula}, rather than on all overlapping variables in
+#' the reference surveys. This choice avoids excluding observations because
+#' of missing values in variables that are not used for pseudo-weight
+#' estimation.
+#'
+#' @section Missing data handling:
+#' Missing values are handled only for variables used in the participation
+#' model. The selected \code{na.action} is recorded in the returned object,
+#' together with the row indices of the nonprobability sample observations
+#' retained for pseudo-weight estimation.
+#'
+#' With \code{stats::na.omit}, rows with missing participation model variables
+#' are removed from \code{sc_updated}. With \code{stats::na.exclude}, the
+#' original rows are retained in \code{sc_updated}, but excluded rows receive
+#' \code{NA} in the pseudo-weight column. This can be useful when users want to
+#' preserve row alignment with the original nonprobability sample for later imputation or merging.
+#'
+#' @section Numerical control:
+#' Numerical settings are supplied through the \code{control} argument, which
+#' should be created by \code{\link{pw_solver_control}}. This object controls
+#' solver choice, convergence tolerance, maximum iterations, tracing, and
+#' optional solver-specific arguments.
+#'
+#' The top-level \code{ftol}, \code{xtol}, and \code{maxit} values in
+#' \code{\link{pw_solver_control}} are the package-level convergence controls
+#' used by pseudo-weight estimation stages. When the selected solver is
+#' \code{"nleqslv"}, additional arguments can be passed through
+#' \code{nleqslv_control}. These are forwarded to \code{nleqslv::nleqslv()}.
+#'
+#' @usage
+#' est_pw(
+#'   data,
+#'   sp_order = c("size", "given"),
+#'   precali = TRUE,
+#'   p_formula = NULL,
+#'   method = NULL,
+#'   na.action = stats::na.omit,
+#'   sc_wname = "pseudo_wts",
+#'   control = pw_solver_control(),
+#'   verbose = FALSE
+#' )
+#'
+#' @param data A list of input data objects of the form
+#'   \code{list(sc, sp1_design, sp2_design, ...)}. The first element must be a
+#'   data frame corresponding to the nonprobability sample. Each remaining
+#'   element must be a valid survey design object corresponding to a reference
+#'   probability survey, such as an object created by
+#'   \code{\link[survey]{svydesign}} or \code{\link[survey]{svrepdesign}}.
+#'
+#' @param sp_order Character string controlling the order of reference surveys
+#'   when multiple reference surveys are used. Supported values are
+#'   \code{"size"} and \code{"given"}. \code{"size"} orders reference surveys
+#'   by sample size, from largest to smallest. \code{"given"} uses the
+#'   user-specified order of the reference surveys in \code{data}. Default is
+#'   \code{"size"}. With one reference survey, this argument is ignored; a
+#'   warning is issued if a non-default value is supplied.
+#'
+#' @param precali Logical. Used only with multiple reference surveys. If
+#'   \code{TRUE}, cumulative precalibration is applied before the main
+#'   multi-reference estimation step; see the
+#'   \strong{Multi-reference precalibration} section for details. Default is
+#'   \code{TRUE}. With one reference survey, this argument is ignored; a
+#'   warning is issued if \code{FALSE} is supplied.
+#'
+#' @param p_formula Optional participation model formula. Must always be
+#'   one-sided (no response variable on the left-hand side). A two-sided formula
+#'   such as \code{y ~ x} will raise an error.
+#'
+#'   With one reference survey, supply a single one-sided formula, for example
+#'   \code{~ age + sex + income}. With multiple reference surveys, supply a
+#'   list of one-sided formulas with one formula per reference survey, for
+#'   example \code{list(~ age + sex, ~ age + income)}. If \code{NULL}, a
+#'   default formula is constructed automatically from variables shared across
+#'   the data sources used for estimation. Since shared variables are identified
+#'   by name, their names should be harmonized across data sources before
+#'   estimation.
+#'
+#' @param method Character string specifying the pseudo-weighting method, or
+#'   \code{NULL} (default). If \code{NULL}, \code{"calibration"} is used when
+#'   \code{data} contains one reference survey, and \code{"multi"} is used when
+#'   \code{data} contains more than one reference survey.
+#'
+#'   To override the default, supply one of the following values. For a
+#'   one-reference method: \code{"alp"}, \code{"clw"}, or
+#'   \code{"calibration"} (or \code{"cali"}). For the
+#'   multi-reference method: \code{"multi"}.
+#'
+#'   The argument is case-insensitive, so inputs such as
+#'   \code{"ALP"}, \code{"Clw"}, or \code{"CALI"} are also accepted.
+#'
+#' @param na.action Function specifying how missing values should be handled for
+#'   variables used in the participation model. Common choices include
+#'   \code{stats::na.omit}, \code{stats::na.exclude}, and
+#'   \code{stats::na.fail}. Default is \code{stats::na.omit}.
+#'
+#' @param sc_wname Character string giving the name of the pseudo-weight column
+#'   added to the returned nonprobability sample. Default is
+#'   \code{"pseudo_wts"}. An error is raised at input validation if this name
+#'   already exists as a column in \code{sc}.
+#'
+#' @param control A solver control object created by
+#'   \code{\link{pw_solver_control}}. This object stores numerical settings
+#'   for solving estimating equations, including the solver, convergence
+#'   tolerance, maximum number of iterations, tracing behavior, and other
+#'   options.
+#'
+#' @param verbose Logical. If \code{TRUE}, progress messages and diagnostics are
+#'   printed during pseudo-weight estimation. Default is \code{FALSE}. Must be a
+#'   single \code{TRUE} or \code{FALSE}; an error is raised otherwise.
+#'
+#' @return
+#' An object of class \code{"pw_fit"}. This is a list containing user-facing
+#' outputs and internal objects required by \code{\link{pwmean}}.
+#'
+#' Important components include:
+#'
+#' \describe{
+#'   \item{\code{sc_updated}}{
+#'     A data frame containing the nonprobability sample with an added
+#'     pseudo-weight column named by \code{sc_wname}.
+#'   }
+#'   \item{\code{pseudo_weights}}{
+#'     The estimated pseudo-weight vector. With \code{stats::na.omit}, the
+#'     vector contains only observations retained for pseudo-weight estimation.
+#'     With \code{stats::na.exclude}, excluded observations receive \code{NA}
+#'     and the vector has length \code{nrow(sc)}.
+#'   }
+#'   \item{\code{coefficients}}{
+#'     Estimated coefficients for the participation model variables.
+#'   }
+#'   \item{\code{solver_diagnostics}}{
+#'     A list of solver diagnostics: \code{solver} (solver name),
+#'     \code{termcd} (termination code), \code{message} (solver message),
+#'     \code{iter} (number of iterations), and \code{fmax} (maximum absolute
+#'     value of the final estimating equations at convergence).
+#'   }
+#'   \item{\code{method}}{
+#'     The pseudo-weighting method used by the function.
+#'   }
+#'   \item{\code{internal}}{
+#'     A list of internal objects needed for downstream estimation.
+#'   }
+#'   \item{\code{na_summary}}{
+#'     An object of class \code{"pw_na_summary"} summarizing the number of rows
+#'     excluded from the nonprobability sample and each reference survey due to
+#'     missing participation model variables. \code{NULL} if no rows were
+#'     excluded.
+#'   }
+#'   \item{\code{call}}{
+#'     The matched function call.
+#'   }
+#' }
+#'
+#' @seealso
+#' \code{\link{pw_solver_control}},
+#' \code{\link{pwmean}}
+#'
+#' @references
+#' Chen, Y., Li, P., and Wu, C. (2020).
+#' Doubly robust inference with nonprobability survey samples.
+#' \emph{Journal of the American Statistical Association},
+#' 115(532), 2011--2021.
+#' doi:10.1080/01621459.2019.1677241
+#'
+#' Wang, L., Valliant, R., and Li, Y. (2021).
+#' Adjusted logistic propensity weighting methods for population inference
+#' using nonprobability volunteer-based epidemiologic cohorts.
+#' \emph{Statistics in Medicine}, 40(24), 5237--5250.
+#' doi:10.1002/sim.9122
+#'
+#' Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A.,
+#' Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026).
+#' Correction for Participation Bias in Nonprobability Samples
+#' Using Multiple Reference Surveys.
+#' \emph{Statistics in Medicine}, 45(3--5).
+#' doi:10.1002/sim.70403
+#'
+#' @examples
+#' \donttest{
+#' data(sc)
+#' data(sp1)
+#' data(sp2)
+#'
+#' ## One-reference example
+#'
+#' ref1_design <- survey::svydesign(
+#'   ids     = ~psu_sp1,
+#'   strata  = ~strata_sp1,
+#'   weights = ~wts_sp1,
+#'   data    = sp1,
+#'   nest    = TRUE
+#' )
+#'
+#' fit1 <- est_pw(
+#'   data      = list(sc, ref1_design),
+#'   p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+#'   method    = "calibration",
+#'   control   = pw_solver_control(ftol = 1e-6)
+#' )
+#'
+#' print(fit1)
+#'
+#' summary(fit1)
+#'
+#' ## Multi-reference example
+#'
+#' ref2_design <- survey::svydesign(
+#'   ids     = ~psu_sp2,
+#'   strata  = ~strata_sp2,
+#'   weights = ~wts_sp2,
+#'   data    = sp2,
+#'   nest    = TRUE
+#' )
+#'
+#' fit2 <- est_pw(
+#'   data = list(sc, ref1_design, ref2_design),
+#'   p_formula = list(
+#'     ~ agecat + race + education + psa_level + pros_enlarged + comorbidity,
+#'     ~ agecat + race + BMI + diabetes + comorbidity
+#'   ),
+#'   sp_order = "size",
+#'   precali = TRUE,
+#'   control = pw_solver_control(ftol = 1e-6)
+#' )
+#'
+#' print(fit2)
+#'
+#' summary(fit2)
+#' }
+#' @export
+#' @name est_pw
+NULL

@@ -1,0 +1,93 @@
+#' @keywords internal
+#'
+#' @description
+#' \pkg{nonprobsampling} implements pseudo-weighting methods for
+#' finite population inference from nonprobability samples, such as
+#' convenience samples, volunteer cohorts, and opt-in panels. Because the
+#' participation mechanism in a nonprobability sample is unknown, unadjusted
+#' estimates of population means and prevalences may be biased. The package
+#' addresses this issue by leveraging auxiliary information from one or more
+#' probability reference surveys to estimate participation probabilities and
+#' using their inverses as pseudo-weights to obtain bias-corrected estimates
+#' of finite population means and prevalences.
+#'
+#' @details
+#' The package implements the generalized estimating equation framework of
+#' Landsman et al. (2026). Pseudo-weights are obtained by solving estimating
+#' equations that equate auxiliary variable totals estimated from the
+#' nonprobability sample with the corresponding totals estimated from one or
+#' more probability reference surveys. Totals from the nonprobability sample are
+#' computed using estimated pseudo-weights, whereas totals from the reference
+#' surveys are computed using the known survey sampling weights.
+#'
+#' Several one reference methods arise as special cases of this framework under
+#' different choices of the weight and estimating functions:
+#' \itemize{
+#'   \item the raking ratio calibration method of
+#'     Landsman et al. (2026);
+#'   \item the adjusted logistic propensity (ALP) method of
+#'     Wang, Valliant, and Li (2021);
+#'   \item the Chen--Li--Wu (CLW) method of Chen, Li, and Wu (2020).
+#' }
+#'
+#' A key feature of the package is the multi-reference extension of the
+#' calibration method. This extension enables the integration of auxiliary
+#' information across multiple surveys when no single reference survey
+#' contains all variables relevant to participation (Landsman et al., 2026),
+#' with an optional cumulative precalibration step to preserve information on
+#' the relationships between overlapping and unique auxiliary variables across
+#' reference surveys.
+#'
+#' Variance estimation is based on Taylor linearization. The resulting analytic
+#' variance estimator accounts for uncertainty from pseudo-weight estimation and
+#' for the sampling designs of the reference surveys through integration with
+#' the \pkg{survey} package. The package also supports bootstrap-based variance
+#' estimation when bootstrap weights are provided with the reference surveys.
+#'
+#' @section Typical workflow:
+#' Estimation is carried out in two steps:
+#' \enumerate{
+#'   \item \code{\link{est_pw}()} estimates pseudo-weights using the
+#'     nonprobability sample and one or more reference survey design objects.
+#'     This step fits the participation model and stores the internal quantities
+#'     needed for subsequent estimation. It does not require an outcome variable.
+#'   \item \code{\link{pwmean}()} uses the object returned by \code{est_pw()}
+#'     to estimate a pseudo-weighted mean or prevalence for an outcome, either
+#'     overall or by category. It also returns the standard error and confidence
+#'     interval.
+#' }
+#'
+#' Numerical settings for solving the estimating equations can be specified with
+#' \code{\link{pw_solver_control}()}.
+#'
+#' @section Datasets:
+#' The package includes example datasets for demonstrating one reference and
+#' multiple reference analyses: \code{\link{sc}} is a nonprobability sample,
+#' \code{\link{sp1}} and \code{\link{sp2}} are probability reference surveys,
+#' and \code{\link{sp1_bootstrap}} contains replicate weights for
+#' \code{sp1}. See the package vignette for worked examples.
+#'
+#' @references
+#' Chen, Y., Li, P., and Wu, C. (2020).
+#' Doubly robust inference with nonprobability survey samples.
+#' \emph{Journal of the American Statistical Association},
+#' 115(532), 2011--2021.
+#' doi:10.1080/01621459.2019.1677241
+#'
+#' Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A.,
+#' Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026).
+#' Correction for participation bias in nonprobability samples using multiple
+#' reference surveys.
+#' \emph{Statistics in Medicine}, 45(3--5).
+#' doi:10.1002/sim.70403
+#'
+#' Wang, L., Valliant, R., and Li, Y. (2021).
+#' Adjusted logistic propensity weighting methods for population inference
+#' using nonprobability volunteer-based epidemiologic cohorts.
+#' \emph{Statistics in Medicine}, 40(24), 5237--5250.
+#' doi:10.1002/sim.9122
+#'
+#' @seealso
+#' \code{\link{est_pw}}, \code{\link{pwmean}}, \code{\link{pw_solver_control}}
+#'
+"_PACKAGE"

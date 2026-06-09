@@ -1,0 +1,52 @@
+#' Probability Reference Sample 1 (sp1)
+#'
+#' This dataset represents a probability sample derived from the
+#' 1999--2010 cycles of the National Health and Nutrition
+#' Examination Survey (NHANES). It is used as a probability
+#' reference survey to support the pseudo-weighting methods
+#' implemented in the \code{nonprobsampling} package.
+#'
+#'
+#' @format A data frame with 3494 observations and 14 variables:
+#' \describe{
+#'   \item{agecat}{Age category (factor with 4 levels: 1 = 55--59, 2 = 60--64, 3 = 65--69, 4 = 70+)}
+#'   \item{marital}{Marital status (factor with 4 levels: 1 = Married Or Living As Married, 2 = Widowed, 3 = Divorced or Separated, 4 = Never Married)}
+#'   \item{race}{Race category (factor with 4 levels: 1 = White, 2 = Black, 3 = Hispanic, 4 = Other)}
+#'   \item{education}{Education level (factor with 5 levels: 1 = Less Than 8 Years, 2 = 8--11 Years, 3 = 12 Years Or Completed High School, 4 = College Graduate, 5 = Postgraduate)}
+#'   \item{employment}{Employment status (factor with 2 levels: 0 = Not Working, 1 = Working)}
+#'   \item{smoking}{Smoking status (factor with 3 levels: 1 = Never Smoker, 2 = Former Smoker, 3 = Current Smoker)}
+#'   \item{comorbidity}{General comorbidity indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#'   \item{psa_level}{Serum prostate-specific antigen level (numeric)}
+#'   \item{BMI}{Body mass index category (factor with 4 levels: "Normal", "Overweight", "Obese", "Morbidly Obese")}
+#'   \item{diabetes}{Diabetes diagnosis indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#'   \item{pros_enlarged}{Prostate enlargement indicator (factor with 2 levels: 0 = No, 1 = Yes)}
+#'   \item{strata_sp1}{Stratum identifier for complex survey design (numeric)}
+#'   \item{psu_sp1}{Primary sampling unit identifier for complex survey design (numeric)}
+#'   \item{wts_sp1}{10-year interview sampling weights (numeric)}
+#' }
+#'
+#' @details
+#' The dataset includes auxiliary variables shared with the nonprobability
+#' sample \code{sc}, enabling the construction of pseudo-weights to adjust
+#' for participation bias. Survey design variables and sampling weights are
+#' provided to support design-consistent estimation.
+#'
+#' The \code{sp1} dataset
+#' contains the outcome variable \code{psa_level}, which is also observed in
+#' \code{sc}, allowing for the evaluation of pseudo-weighted estimators against
+#' estimates based on true sampling weights. It may also be incorporated into
+#' the participation model, potentially enhancing bias reduction when
+#' participation depends on the outcome.
+#'
+#' @source
+#' Derived from the National Health and Nutrition Examination Survey (NHANES),
+#' 1999--2010 cycles, conducted by the U.S. National Center for Health
+#' Statistics (NCHS).
+#'
+#' @usage data(sp1)
+#'
+#' @examples
+#' data(sp1)
+#' str(sp1)
+#' summary(sp1)
+"sp1"

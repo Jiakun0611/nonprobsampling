@@ -1,0 +1,33 @@
+url: https://jiakun0611.github.io/nonprobsampling/
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Main functions
+    desc: >
+      Estimate pseudo-weights for a nonprobability sample and compute
+      pseudo-weighted means.
+    contents:
+      - est_pw
+      - pwmean
+      - pw_solver_control
+
+  - title: Methods
+    desc: Print, summary, and extractor methods for the fitted objects.
+    contents:
+      - print.pw_fit
+      - summary.pw_fit
+      - print.pwmean
+      - summary.pwmean
+      - na.action.pw_fit
+      - na.action.pwmean
+      - print.pw_na_summary
+
+  - title: Datasets
+    desc: Example datasets used in the documentation and the vignette.
+    contents:
+      - sc
+      - sp1
+      - sp2
+      - sp1_bootstrap

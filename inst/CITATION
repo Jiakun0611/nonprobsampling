@@ -1,0 +1,66 @@
+## Citation information for the 'nonprobsampling' package.
+## When loaded, `meta` holds the package DESCRIPTION fields.
+
+if (!is.null(meta$Date) && nzchar(meta$Date)) {
+  year <- sub("-.*", "", meta$Date)
+} else {
+  year <- format(Sys.Date(), "%Y")
+}
+note <- sprintf("R package version %s", meta$Version)
+
+citHeader(
+  "To cite the 'nonprobsampling' package in publications, please cite both",
+  "the methodology paper and the software:"
+)
+
+bibentry(
+  bibtype = "Article",
+  title   = paste(
+    "Correction for Participation Bias in Nonprobability Samples",
+    "Using Multiple Reference Surveys"
+  ),
+  author = c(
+    person("Victoria", "Landsman"),
+    person("L.", "Wang"),
+    person("I.", "Carrillo-Garcia"),
+    person("Aya A.", "Mitani"),
+    person("P. M.", "Smith"),
+    person("B. I.", "Graubard"),
+    person("T.", "Bui"),
+    person("N.", "Carnide")
+  ),
+  journal = "Statistics in Medicine",
+  year    = "2026",
+  volume  = "45",
+  number  = "3-5",
+  doi     = "10.1002/sim.70403",
+  textVersion = paste(
+    "Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A.,",
+    "Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026).",
+    "Correction for participation bias in nonprobability samples using",
+    "multiple reference surveys. Statistics in Medicine, 45(3-5).",
+    "doi:10.1002/sim.70403"
+  )
+)
+
+bibentry(
+  bibtype = "Manual",
+  title   = paste(
+    "nonprobsampling: Inference for Nonprobability Samples",
+    "Using Multiple Reference Surveys"
+  ),
+  author = c(
+    person("Jiakun", "Lin"),
+    person("Victoria", "Landsman"),
+    person("Aya A.", "Mitani")
+  ),
+  year = year,
+  note = note,
+  url  = "https://github.com/Jiakun0611/nonprobsampling",
+  textVersion = paste0(
+    "Lin, J., Landsman, V., and Mitani, A. A. (", year, "). ",
+    "nonprobsampling: Inference for Nonprobability Samples Using ",
+    "Multiple Reference Surveys. ", note, ". ",
+    "https://github.com/Jiakun0611/nonprobsampling"
+  )
+)

@@ -1,0 +1,419 @@
+---
+title: "Introduction to the nonprobsampling Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to the nonprobsampling Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+The `nonprobsampling` package provides methods for correcting participation bias in nonprobability samples using one or multiple external probability reference surveys. The package is based on the generalized estimating equation framework proposed by Landsman et al. (2026), in which pseudo-weights are constructed by aligning auxiliary information from the nonprobability sample with corresponding information from probability reference surveys.
+
+The package implements three one-reference methods within the framework: the raking ratio calibration method of Landsman et al. (2026), the adjusted logistic propensity (ALP) method of Wang et al. (2021), and the Chen–Li–Wu (CLW) method of Chen et al. (2020). It also implements the multi-reference calibration method of Landsman et al. (2026), which integrates auxiliary information from multiple reference surveys when no single reference survey contains all variables relevant to participation.
+
+
+## Datasets
+
+The package includes three datasets derived from real studies and used throughout this vignette to illustrate estimation of the mean serum PSA (prostate-specific antigen) level among U.S. men aged 55 years and older.
+
+| Dataset | Type | Source | n |
+|:-------:|------|--------|---|
+| `sc` | Nonprobability sample | A synthetic sample drawn from a finite population, which was constructed based on NHANES survey data from the 1999–2010 cycles | 2,404 |
+| `sp1` | First probability reference survey | National Health and Nutrition Examination Survey (NHANES) 1999–2010 | 3,494 |
+| `sp2` | Second probability reference survey | National Health Interview Survey (NHIS) 1997–2008 | 35,525 |
+
+The dataset `sc` represents the nonprobability sample and contains the outcome variable `psa_level`, defined as serum PSA level (ng/mL). The datasets `sp1` and `sp2` are probability reference surveys used to estimate pseudo-weights.
+
+For illustration purposes, all shared variables have already been harmonized across the example datasets. Variable names, factor levels, and category definitions are consistent. The variables shared between `sc` and `sp1` are `agecat`, `race`, `education`, `BMI`, `comorbidity`, `diabetes` and `pros_enlarged`. The variables shared between `sc` and `sp2` are `agecat`, `race`, `BMI`, `comorbidity`, and `diabetes`. 
+
+For user-supplied data, shared variables must be harmonized before estimation. Variable names must match exactly, and continuous variables included in the participation model should be measured on comparable scales across datasets.
+
+
+
+```{r load-data}
+library(nonprobsampling)
+
+data("sc")
+data("sp1")
+data("sp1_bootstrap")
+data("sp2")
+
+str(sc)
+str(sp1)
+str(sp2)
+```
+
+```{r peek-data sc}
+head(sc)
+```
+
+---
+
+## Step 1 — Create Survey Design Objects
+
+Before calling `est_pw()`, each probability reference survey must be converted to a survey design object using either `survey::svydesign()` or `survey::svrepdesign()`. These objects retain the sampling information needed for design-based variance estimation.
+```{r PSU-survey-designs}
+ref1_design <- survey::svydesign(
+  ids     = ~psu_sp1,
+  strata  = ~strata_sp1,
+  weights = ~wts_sp1,
+  data    = sp1,
+  nest    = TRUE
+)
+
+ref2_design <- survey::svydesign(
+  ids     = ~psu_sp2,
+  strata  = ~strata_sp2,
+  weights = ~wts_sp2,
+  data    = sp2,
+  nest    = TRUE
+)
+```
+
+The replicate weights in the example reference survey `sp1_bootstrap`
+were generated using the Rao-Wu rescaling bootstrap method (Rust and Rao, 1996). They are provided to illustrate variance estimation with a replicate-weight survey design
+object.
+In real applications, users should use the replicate weights supplied by the
+survey data provider when available.
+```{r replicate-wts-survey-design}
+ref1_design_rep_wts <- survey::svrepdesign(
+   data    = sp1_bootstrap,
+   weights = ~wts_sp1,
+   repweights = "bw[0-9]+",
+   type    = "bootstrap"
+)
+
+```
+
+---
+
+## Step 2.1 — Estimate Pseudo-Weights (One Reference Survey)
+
+`est_pw()` is the main function of the package. It takes a list in which the first element is the nonprobability sample data frame and the remaining elements are probability reference surveys represented as survey design objects.
+
+The `method` argument specifies the pseudo-weighting method to use, and
+`p_formula` defines the participation model by selecting the shared auxiliary variables used to estimate the pseudo-weights.
+
+### Calibration Estimator
+The raking ratio calibration estimator is a one-reference pseudo-weighting method within the generalized estimating equation framework.
+```{r one-ref-calibration-classic}
+
+fit_cali <- est_pw(
+  data      = list(sc, ref1_design),
+  p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+  method    = "calibration",
+  control   = pw_solver_control(ftol = 1e-6)
+)
+
+print(fit_cali)
+
+summary(fit_cali)
+```
+
+When no `p_formula` is provided, it is constructed automatically from all variables shared between the nonprobability sample and the reference survey(s). 
+
+```{r one-ref-calibration-autopfml-error, error = TRUE}
+fit_cali_auto <- est_pw(
+  data   = list(sc, ref1_design),
+  method = "calibration",
+  control   = pw_solver_control(ftol = 1e-6)
+)
+summary(fit_cali_auto)
+```
+
+Interaction and higher-order terms can be specified through `p_formula`.
+```{r one-ref-calibration-int}
+
+fit_cali_interaction <- est_pw(
+  data   = list(sc, ref1_design),
+  p_formula = ~  BMI * psa_level + diabetes+ pros_enlarged + I(psa_level^2),
+  method = "calibration",
+  control   = pw_solver_control(ftol = 1e-6)
+)
+
+summary(fit_cali_interaction)
+```
+
+
+
+
+Setting `verbose = TRUE` prints a brief processing log, including the number of observations used after missing-data filtering, the estimation method, participation model dimension, and solver convergence diagnostics such as iteration count and the final maximum absolute estimating equation value.
+
+```{r one-ref-calibration-verbose}
+fit_cali <- est_pw(
+  data      = list(sc, ref1_design),
+  p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+  method    = "calibration",
+  verbose = TRUE,
+  control   = pw_solver_control(ftol = 1e-6)
+)
+```
+
+The updated `sc` data frame is returned with a `pseudo_wts` column added.
+```{r one-ref-calibration-sc_updated}
+head(fit_cali$sc_updated)
+```
+
+The estimated pseudo-weights are also returned as a numeric vector.
+```{r one-ref-calibration-pseudo_weights}
+head(fit_cali$pseudo_weights)
+```
+
+
+### ALP Estimator
+
+The adjusted logistic propensity (ALP) estimator is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+
+```{r one-ref-alp}
+fit_alp <- est_pw(
+  data      = list(sc, ref1_design_rep_wts),
+  p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+  method    = "alp"
+)
+
+print(fit_alp)
+```
+
+### CLW Estimator
+
+The Chen--Li--Wu (CLW) estimator is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+```{r one-ref-clw}
+fit_clw <- est_pw(
+  data      = list(sc, ref1_design),
+  p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+  method    = "clw"
+)
+
+print(fit_clw)
+```
+
+## Step 2.2 — Estimate Pseudo-Weights (Multiple Reference Surveys)
+
+When two or more probability reference surveys are available, use `method = "multi"` (or leave `method = NULL` for automatic selection). The argument `p_formula` should be supplied as a list containing one participation model formula per reference survey.
+
+By default, `precali = TRUE` applies cumulative precalibration before pseudo-weight estimation. Under this procedure, the reference surveys are sequentially calibrated to previously processed surveys using their overlapping variables in the `p_formula`. This helps preserve information on the relationships between overlapping and survey-specific auxiliary variables within each reference survey.
+
+The argument `sp_order` controls the order in which reference surveys are processed during cumulative precalibration and pseudo-weight estimation. With `sp_order = "size"` (default), surveys are ordered from largest to smallest sample size, so larger surveys are used as reference and overlapping variables are preferentially taken from them. With `sp_order = "given"`, surveys are processed in the user-supplied order, which may be preferable when a particular reference survey is considered more reliable or important.
+
+### Order Surveys by Sample Size (Default)
+```{r multi-ref-by-size}
+fit_multi_order_by_size <- est_pw(
+  data      = list(sc, ref1_design, ref2_design),
+  p_formula = list(
+    ~ agecat + race + education + psa_level  + pros_enlarged + comorbidity + BMI + diabetes,
+    ~ agecat + race + diabetes  + BMI + comorbidity
+  ),
+  sp_order  = "size",
+  precali   = TRUE,
+  control   = pw_solver_control(ftol=1e-6)
+)
+
+summary(fit_multi_order_by_size)
+```
+
+
+### Use the User-Specified Survey Order
+```{r multi-ref-as-given}
+fit_multi_as_given <- est_pw(
+  data      = list(sc, ref1_design, ref2_design),
+  p_formula = list(
+    ~ agecat + race + education + psa_level + pros_enlarged + comorbidity + diabetes,
+    ~ agecat + race + BMI + diabetes + comorbidity
+  ),
+  sp_order  = "given",
+  precali   = TRUE
+)
+
+summary(fit_multi_as_given)
+```
+
+
+---
+
+## Step 3 — Estimate Population Means
+
+Once pseudo-weights have been estimated, `pwmean()` uses them to produce a pseudo-weighted estimate of a population mean, together with a standard error and confidence interval.
+
+```{r pwmean}
+est_cali <- pwmean(fit_cali, y = "psa_level")
+print(est_cali)
+summary(est_cali)
+```
+
+### Domain (Subgroup) Estimates
+
+Pass the name of a grouping variable to `zcol` to obtain separate estimates for each domain.
+
+```{r pwmean-domain}
+est_by_age <- pwmean(fit_cali, y = "psa_level", zcol = "BMI")
+print(est_by_age)
+summary(est_by_age)
+```
+
+
+## Handling Missing Data
+
+`nonprobsampling` handles missing data in two separate stages.
+
+First, `est_pw()` handles missing values in the participation model variables specified by `p_formula`. By default, `est_pw()` uses `na.action = stats::na.omit`, which removes observations with missing values before estimating pseudo-weights.
+
+Alternatively, users may specify `na.action = stats::na.exclude`. In this case, excluded observations from the nonprobability sample are retained in the returned objects, but their pseudo-weights are set to `NA`. This is useful when users want to keep the original row alignment of the nonprobability sample for later merging or imputation.
+
+Second, `pwmean()` handles missing values in the outcome variable and, if specified, the categorical domain variable. This second layer of missing-data handling is applied after pseudo-weights have already been estimated.
+
+For illustration, we create temporary versions of the example datasets. In the nonprobability sample, we insert three missing values into the participation variable `agecat` and four missing values into the outcome variable `psa_level`. In the reference survey `sp1`, we insert two missing values into the participation variable `education`.
+
+```{r na-setup}
+sc_with_na <- sc
+sc_with_na$agecat[c(1, 2, 4)] <- NA
+sc_with_na$psa_level[c(6, 7, 8, 9)] <- NA
+
+sp1_with_na <- sp1
+sp1_with_na$education[c(3, 4)] <- NA
+
+ref1_design_with_na <- survey::svydesign(
+  ids     = ~psu_sp1,
+  strata  = ~strata_sp1,
+  weights = ~wts_sp1,
+  data    = sp1_with_na,
+  nest    = TRUE
+)
+```
+
+
+
+## Missing-Data Handling in est_pw() with na.exclude
+The following example uses the calibration method with `na.action = stats::na.exclude`. A brief summary of missing-data handling is displayed at the bottom of the model summary.
+
+``` {r fit-with-na}
+fit_na_exclude <- est_pw(
+  data      = list(sc_with_na, ref1_design_with_na),
+  method    = "calibration",
+  p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
+  na.action = stats::na.exclude,
+  control   = pw_solver_control(ftol = 1e-6)
+)
+summary(fit_na_exclude)
+
+```
+
+A summary is available in the `na_summary` component.
+``` {r na_summary}
+fit_na_exclude$na_summary
+```
+
+Information about observations excluded because of missing values in the participation model variables can be obtained using the S3 `na.action()` method.
+``` {r na.action}
+na.action(fit_na_exclude)
+```
+
+With `na.exclude`, the returned pseudo-weight vector and `sc_updated` dataframe preserve the original row structure. Observations excluded from pseudo-weight estimation remain in the output, with their pseudo-weights recorded as `NA`.
+``` {r na-head}
+head(fit_na_exclude$pseudo_weights)
+head(fit_na_exclude$sc_updated)
+```
+
+
+## Missing-Data Handling in pwmean()
+
+Missing values in the outcome variable are handled when `pwmean()` is called. This is separate from the missing-value handling performed by `est_pw()`.
+``` {r na-2nd layer}
+result <- pwmean(fit_na_exclude, "psa_level")
+summary(result)
+```
+
+
+A summary of outcome-level missing-value handling is stored in the returned object. The corresponding `na.action` information can also be obtained using the S3 `na.action()` method.
+``` {r na-info-2nd}
+result$na
+na.action(result)
+```
+
+## Missing-Data Handling in est_pw() with na.omit (Default)
+
+Using `na.action = stats::na.omit` removes observations with missing participation model variables from the returned objects. This is the default behavior.
+
+``` {r fit-na-omit}
+fit_na_omit <- est_pw(
+  data      = list(sc_with_na, ref1_design_with_na),
+  method    = "calibration",
+  na.action = stats::na.omit,
+  control   = pw_solver_control(ftol = 1e-6)
+)
+```
+
+Information about the excluded observations can be obtained using the S3 `na.action()` method.
+``` {r na-omit-na.action}
+na.action(fit_na_omit)
+```
+
+With `na.omit`, the returned pseudo-weight vector and `sc_updated` contain only the observations used for pseudo-weight estimation.
+``` {r na-omit-head}
+head(fit_na_omit$pseudo_weights)
+head(fit_na_omit$sc_updated)
+```
+
+In summary, `est_pw()` handles missing values in participation model variables, while `pwmean()` handles missing values in the outcome and domain variables. With `na.omit`, excluded observations are removed from the returned objects; with `na.exclude`, the original row structure is preserved and excluded observations receive `NA` pseudo-weights.
+
+
+
+
+
+## Controlling the Numerical Solver
+
+The `control` argument accepts an object created by `pw_solver_control()`, which is passed to the underlying `nleqslv` nonlinear equation solver. It controls the numerical algorithm used to solve the estimating equations, including convergence tolerances, iteration limits, and diagnostic output. The default settings are suitable for most applications, but advanced users may adjust them when troubleshooting convergence issues.
+
+```{r solver-control}
+ctrl <- pw_solver_control(
+  method   = "Broyden",
+  xtol     = 1e-10,
+  ftol     = 1e-4,
+  maxit    = 30,
+  trace    = TRUE
+)
+
+fit_ctrl <- est_pw(
+  data      = list(sc, ref1_design),
+  p_formula = ~ agecat + race + education + comorbidity + BMI,
+  method    = "calibration",
+  control   = ctrl
+)
+```
+
+---
+
+## Quick Reference
+
+| Function | Purpose |
+|----------|---------|
+| `est_pw()` | Estimate pseudo-weights from a nonprobability sample and one or multiple reference surveys |
+| `pwmean()` | Estimate pseudo-weighted population means and prevalences (overall or by domain) |
+| `pw_solver_control()` | Configure numerical solver settings |
+
+| Argument | Values | Notes |
+|----------|--------|-------|
+| `method` | `"alp"`, `"clw"`, `"calibration"`, `"multi"`, `NULL` | `NULL` auto-selects based on number of reference surveys |
+| `sp_order` | `"size"`, `"given"` | Only relevant for multi-reference calibration method; `"size"` sorts largest first |
+| `precali` | `TRUE`, `FALSE` | Precalibration before multi-reference calibration step |
+| `na.action` | `na.omit`, `na.exclude`, `na.fail`| Controls missing-data handling |
+
+
+# References
+
+Chen, Y., Li, P., and Wu, C. (2020). Doubly robust inference with nonprobability survey samples. Journal of the American Statistical Association, 115(532), 2011–2021. doi:10.1080/01621459.2019.1677241
+
+Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A., Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026). Correction for Participation Bias in Nonprobability Samples Using Multiple Reference Surveys. Statistics in Medicine, 45(3–5). doi:10.1002/sim.70403
+
+Rust, K. F., and Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical Methods in Medical Research, 5(3), 283–310. doi:10.1177/096228029600500305
+
+Wang, L., Valliant, R., and Li, Y. (2021). Adjusted logistic propensity weighting methods for population inference using nonprobability volunteer-based epidemiologic cohorts. Statistics in Medicine, 40(24), 5237–5250. doi:10.1002/sim.9122
+
