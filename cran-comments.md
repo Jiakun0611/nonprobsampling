@@ -24,6 +24,11 @@ CLW is a method abbreviation; Valliant is an author surname; et al. is a
 standard citation abbreviation; nonprobability and precalibration are technical
 terms used in the survey sampling literature.
 
+The URL https://www.gnu.org/licenses/gpl-3.0 in README.md was
+flagged as a timeout error on the Win-builder server. The URL is valid
+and accessible; this appears to be a transient connectivity issue on
+the check server.
+
 ## Downstream dependencies
 
 This is a new package, so there are no downstream dependencies.
