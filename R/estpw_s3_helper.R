@@ -230,7 +230,7 @@ handle_na_for_ipwm <- function(sc, sp, p_formula, na_mode = c("omit", "exclude",
     keep_sp_out      <- keep_sp_list
 
   } else {
-    stop("'sp' must be a data.frame (one reference) or a list of data.frames (multi reference).",
+    stop("'sp' must be a data.frame (one-reference) or a list of data.frames (multi-reference).",
          call. = FALSE)
   }
 
@@ -386,4 +386,3 @@ print.pw_na_summary <- function(x, ...) {
   print(df)
   invisible(x)
 }
-

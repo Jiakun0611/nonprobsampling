@@ -70,7 +70,7 @@
 #'     Estimates pseudo-weights using the selected method.
 #'   \item \strong{Output augmentation}\cr
 #'     Appends the estimated pseudo-weights as a new column to the
-#'     non-probability sample.
+#'     nonprobability sample.
 #'   \item \strong{Metadata storage}\cr
 #'     Stores information related to missing-data handling and other internal
 #'     objects for later use or diagnostics.

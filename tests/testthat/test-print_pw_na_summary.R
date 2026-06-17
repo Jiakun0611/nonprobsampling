@@ -17,7 +17,7 @@ des2 <- survey::svydesign(ids = ~psu_sp2, strata = ~strata_sp2,
 
 ctrl <- pw_solver_control(ftol = 1e-6)
 
-# Exclusions by introducing NA in a participation-model variable in sc.
+# Exclusions by introducing NA in a participation model variable in sc.
 sc_na <- sc
 sc_na$agecat[1:6] <- NA
 

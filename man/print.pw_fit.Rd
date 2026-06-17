@@ -16,7 +16,7 @@ Invisibly returns \code{x}.
 }
 \description{
 Compact one-screen overview of a fitted pseudo-weight object: the call, the
-pseudo-weighting method, the participation-model size, solver convergence,
+pseudo-weighting method, the participation model size, solver convergence,
 and a summary of the estimated pseudo-weights. For the full coefficient
 table and detailed solver diagnostics, use \code{\link{summary.pw_fit}}.
 }

@@ -7,7 +7,7 @@
 #'
 #' @return The \code{na.action} object recorded by \code{\link{est_pw}} during
 #'   the build step: an integer vector of the nonprobability-sample rows omitted
-#'   because of missing participation-model variables (of class \code{"omit"} or
+#'   because of missing participation model variables (of class \code{"omit"} or
 #'   \code{"exclude"}), or \code{NULL} if no rows were omitted.
 #'
 #' @method na.action pw_fit

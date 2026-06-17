@@ -1,4 +1,4 @@
-#' Dispatch single-reference pseudo-weight estimation
+#' Dispatch one-reference pseudo-weight estimation
 #'
 #' @param sc Data frame. The nonprobability sample.
 #' @param sp Data frame. The single probability reference sample (already

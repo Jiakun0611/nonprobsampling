@@ -2,7 +2,7 @@
 % Please edit documentation in R/estpw_s5_one.R
 \name{ipwm_one_build}
 \alias{ipwm_one_build}
-\title{Dispatch single-reference pseudo-weight estimation}
+\title{Dispatch one-reference pseudo-weight estimation}
 \usage{
 ipwm_one_build(
   sc,
@@ -49,6 +49,6 @@ A list with components:
     probabilities, sandwich components) needed by the estimation stage.}
 }
 \description{
-Dispatch single-reference pseudo-weight estimation
+Dispatch one-reference pseudo-weight estimation
 }
 \keyword{internal}

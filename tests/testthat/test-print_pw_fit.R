@@ -67,9 +67,9 @@ test_that("print.pw_fit labels multi-reference calibration", {
 })
 
 
-# Participation-model parameter count ----
+# Participation model parameter count ----
 
-test_that("print.pw_fit reports the number of participation-model parameters", {
+test_that("print.pw_fit reports the number of participation model parameters", {
   p <- length(fit_cali$coefficients)
   expect_output(print(fit_cali), sprintf("%d parameters", p), fixed = TRUE)
 })
