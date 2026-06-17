@@ -12,11 +12,15 @@ library(sampling)
 library(survey)
 library(knitr)
 
-options(scipen = 999)      # no scientific notation
-options(digits = 4)
+old_options <- options(
+  scipen = 999,               # no scientific notation
+  digits = 4
+)
+on.exit(options(old_options), add = TRUE)
 
 # -------- Simulation rounds and seeds ------------
 # Reduce n_sim for a quick trial run; set to 4000 to reproduce the paper.
+set.seed(123456)
 n_sim <- 4000
 seeds_sc <- sample.int(1e6, n_sim)
 seeds_sp <- sample.int(1e6, n_sim)
@@ -59,8 +63,6 @@ evaluation <- function(mu, se, mu_true) {
 }
 
 # -------- Finite population ------------
-set.seed(123456)
-
 N <- 500000
 
 v1 <- rbinom(N, size = 1, prob = 0.5)
