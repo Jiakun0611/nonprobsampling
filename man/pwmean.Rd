@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_doc.R
 \name{pwmean}
 \alias{pwmean}
-\title{Estimate Pseudo-Weighted Means and Standard Errors}
+\title{Estimate Pseudo-Weighted Means, Prevalences, and Standard Errors}
 \usage{
 pwmean(object, y, zcol = NULL, na.action = stats::na.omit)
 }
@@ -10,8 +10,10 @@ pwmean(object, y, zcol = NULL, na.action = stats::na.omit)
 \item{object}{An object of class \code{"pw_fit"} returned by
 \code{\link{est_pw}}.}
 
-\item{y}{A character string giving the name of the outcome variable in the
-nonprobability sample stored in the \code{object}.}
+\item{y}{A character string specifying the name of the outcome variable in the
+nonprobability sample stored in \code{object}. The outcome must be numeric
+for mean estimation, including binary 0/1 outcomes for prevalence
+estimation, or a factor for category prevalence estimation.}
 
 \item{zcol}{Optional character string giving the name of a categorical domain
 variable in the nonprobability sample stored in the \code{object}. If
@@ -28,7 +30,8 @@ are dropped).}
 }
 \value{
 An object of class \code{"pwmean"} containing unweighted and pseudo-weighted
-estimates, standard errors, and confidence intervals.
+estimates, standard errors, and confidence intervals. For factor outcomes,
+the estimate columns contain category prevalences.
 
 \describe{
   \item{\code{method}}{
@@ -36,12 +39,16 @@ estimates, standard errors, and confidence intervals.
   }
 
   \item{\code{domains}}{
-    A data frame with one row per domain.
+    A data frame with one row per domain or factor-outcome category.
     When \code{zcol = NULL}, it has a single row labeled \code{"Overall"}.
+    For factor outcomes with \code{zcol = NULL}, it has one row per
+    non-missing outcome level labeled \code{"<y> = <level>"}.
     For a \code{logical} variable or a \code{numeric}/\code{integer}
     variable containing only \code{0} and \code{1}, it has a single row
     labeled \code{"<zcol> = 1"}. For a \code{factor} or \code{character}
-    variable, it has one row per level. The columns are:
+    variable, it has one row per level. For factor outcomes with
+    \code{zcol} supplied, labels combine the outcome level and domain as
+    \code{"<y> = <level> | <domain>"}. The columns are:
     \describe{
       \item{\code{domain}}{Domain label.}
       \item{\code{unweighted_mean}, \code{unweighted_se}}{Unweighted
@@ -76,8 +83,8 @@ Computes pseudo-weighted means and standard errors using a fitted
 pseudo-weight object of class \code{"pw_fit"} returned by
 \code{\link{est_pw}}. The function applies second-layer missing-data
 handling for the outcome and optional domain variable, and then estimates
-overall or domain-specific means using the pseudo-weighting method stored
-in \code{object}.
+overall or domain-specific means or prevalences using the pseudo-weighting
+method stored in \code{object}.
 }
 \details{
 \strong{Missing data handling (layer 2).}
@@ -91,6 +98,11 @@ The \code{object} argument should be an object of class \code{"pw_fit"}
 returned by \code{\link{est_pw}}. It stores the estimated pseudo-weights,
 participation model information, and design-based quantities required for point
 and variance estimation.
+
+\strong{Factor outcomes.}
+When \code{y} is a factor, \code{pwmean()} estimates the prevalence of each
+non-missing factor level. Internally, each level is converted to a 0/1
+numeric indicator and the same pseudo-weighted mean estimator is applied.
 }
 \examples{
 \donttest{

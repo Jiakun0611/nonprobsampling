@@ -52,7 +52,7 @@ str(sp1)
 str(sp2)
 ```
 
-```{r peek-data sc}
+```{r peek-data-sc}
 head(sc)
 ```
 
@@ -119,9 +119,9 @@ print(fit_cali)
 summary(fit_cali)
 ```
 
-When no `p_formula` is provided, it is constructed automatically from all variables shared between the nonprobability sample and the reference survey(s). 
+When no `p_formula` is provided, it is constructed automatically from all variables shared between the nonprobability sample and the reference survey(s). The generated formula is shown in the model summary.
 
-```{r one-ref-calibration-autopfml-error, error = TRUE}
+```{r one-ref-calibration-autopfml}
 fit_cali_auto <- est_pw(
   data   = list(sc, ref1_design),
   method = "calibration",
@@ -134,9 +134,9 @@ Interaction and higher-order terms can be specified through `p_formula`.
 ```{r one-ref-calibration-int}
 
 fit_cali_interaction <- est_pw(
-  data   = list(sc, ref1_design),
-  p_formula = ~  BMI * psa_level + diabetes+ pros_enlarged + I(psa_level^2),
-  method = "calibration",
+  data      = list(sc, ref1_design),
+  p_formula = ~ BMI * psa_level + diabetes + pros_enlarged + I(psa_level^2),
+  method    = "calibration",
   control   = pw_solver_control(ftol = 1e-6)
 )
 
@@ -153,7 +153,7 @@ fit_cali <- est_pw(
   data      = list(sc, ref1_design),
   p_formula = ~ agecat + race + education + comorbidity + BMI + diabetes,
   method    = "calibration",
-  verbose = TRUE,
+  verbose   = TRUE,
   control   = pw_solver_control(ftol = 1e-6)
 )
 ```
@@ -239,26 +239,41 @@ summary(fit_multi_as_given)
 
 ---
 
-## Step 3 — Estimate Population Means
+## Step 3 — Estimate Population Means and Prevalences
 
-Once pseudo-weights have been estimated, `pwmean()` uses them to produce a pseudo-weighted estimate of a population mean, together with a standard error and confidence interval.
+Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalences of each observed category for factor outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
 
-```{r pwmean}
-est_cali <- pwmean(fit_cali, y = "psa_level")
-print(est_cali)
-summary(est_cali)
+For a numeric outcome, `pwmean()` estimates the overall population mean. Here, `psa_level` is a numeric outcome, so the output is printed as a mean. (Binary 0/1 outcomes are treated as numeric and are printed as means.)
+```{r pwmean-numeric}
+est_cali_numeric <- pwmean(fit_cali, y = "psa_level")
+print(est_cali_numeric)
+summary(est_cali_numeric)
+```
+
+For a factor outcome, `pwmean()` estimates the population prevalence of each observed category. Here, `BMI` is a factor outcome, so the output is printed with category and prevalence labels.
+```{r pwmean-factor}
+est_cali_factor <- pwmean(fit_cali, y = "BMI")
+print(est_cali_factor)
+summary(est_cali_factor)
 ```
 
 ### Domain (Subgroup) Estimates
 
-Pass the name of a grouping variable to `zcol` to obtain separate estimates for each domain.
+When a categorical domain variable is passed to `zcol`, the function returns separate estimates for each domain.
 
-```{r pwmean-domain}
-est_by_age <- pwmean(fit_cali, y = "psa_level", zcol = "BMI")
-print(est_by_age)
-summary(est_by_age)
+With a numeric outcome and a domain variable, `pwmean()` estimates a separate population mean within each domain. In this example, the mean of `psa_level` is estimated within each `BMI` domain.
+```{r pwmean-domain-numeric}
+est_by_bmi_numeric <- pwmean(fit_cali, y = "psa_level", zcol = "BMI")
+print(est_by_bmi_numeric)
+summary(est_by_bmi_numeric)
 ```
 
+With a factor outcome and a domain variable, `pwmean()` estimates a prevalence of each outcome category within each domain. In this example, the prevalence of each `agecat` category is estimated within each `BMI` domain.
+```{r pwmean-domain-factor}
+est_by_bmi_factor <- pwmean(fit_cali, y = "agecat", zcol = "BMI")
+print(est_by_bmi_factor)
+summary(est_by_bmi_factor)
+```
 
 ## Handling Missing Data
 
@@ -291,10 +306,10 @@ ref1_design_with_na <- survey::svydesign(
 
 
 
-## Missing-Data Handling in est_pw() with na.exclude
+### Missing-Data Handling in est_pw() with na.exclude
 The following example uses the calibration method with `na.action = stats::na.exclude`. A brief summary of missing-data handling is displayed at the bottom of the model summary.
 
-``` {r fit-with-na}
+```{r fit-with-na}
 fit_na_exclude <- est_pw(
   data      = list(sc_with_na, ref1_design_with_na),
   method    = "calibration",
@@ -307,42 +322,42 @@ summary(fit_na_exclude)
 ```
 
 A summary is available in the `na_summary` component.
-``` {r na_summary}
+```{r na_summary}
 fit_na_exclude$na_summary
 ```
 
 Information about observations excluded because of missing values in the participation model variables can be obtained using the S3 `na.action()` method.
-``` {r na.action}
+```{r na.action}
 na.action(fit_na_exclude)
 ```
 
-With `na.exclude`, the returned pseudo-weight vector and `sc_updated` dataframe preserve the original row structure. Observations excluded from pseudo-weight estimation remain in the output, with their pseudo-weights recorded as `NA`.
-``` {r na-head}
+With `na.exclude`, the returned pseudo-weight vector and `sc_updated` data frame preserve the original row structure. Observations excluded from pseudo-weight estimation remain in the output, with their pseudo-weights recorded as `NA`.
+```{r na-head}
 head(fit_na_exclude$pseudo_weights)
 head(fit_na_exclude$sc_updated)
 ```
 
 
-## Missing-Data Handling in pwmean()
+### Missing-Data Handling in pwmean()
 
 Missing values in the outcome variable are handled when `pwmean()` is called. This is separate from the missing-value handling performed by `est_pw()`.
-``` {r na-2nd layer}
+```{r na-2nd-layer}
 result <- pwmean(fit_na_exclude, "psa_level")
 summary(result)
 ```
 
 
 A summary of outcome-level missing-value handling is stored in the returned object. The corresponding `na.action` information can also be obtained using the S3 `na.action()` method.
-``` {r na-info-2nd}
-result$na
+```{r na-info-2nd}
+result$na.action
 na.action(result)
 ```
 
-## Missing-Data Handling in est_pw() with na.omit (Default)
+### Missing-Data Handling in est_pw() with na.omit (Default)
 
 Using `na.action = stats::na.omit` removes observations with missing participation model variables from the returned objects. This is the default behavior.
 
-``` {r fit-na-omit}
+```{r fit-na-omit}
 fit_na_omit <- est_pw(
   data      = list(sc_with_na, ref1_design_with_na),
   method    = "calibration",
@@ -352,12 +367,12 @@ fit_na_omit <- est_pw(
 ```
 
 Information about the excluded observations can be obtained using the S3 `na.action()` method.
-``` {r na-omit-na.action}
+```{r na-omit-na.action}
 na.action(fit_na_omit)
 ```
 
 With `na.omit`, the returned pseudo-weight vector and `sc_updated` contain only the observations used for pseudo-weight estimation.
-``` {r na-omit-head}
+```{r na-omit-head}
 head(fit_na_omit$pseudo_weights)
 head(fit_na_omit$sc_updated)
 ```
@@ -396,7 +411,7 @@ fit_ctrl <- est_pw(
 | Function | Purpose |
 |----------|---------|
 | `est_pw()` | Estimate pseudo-weights from a nonprobability sample and one or multiple reference surveys |
-| `pwmean()` | Estimate pseudo-weighted population means and prevalences (overall or by domain) |
+| `pwmean()` | Estimate pseudo-weighted population means for numeric outcomes and population prevalences for factor outcomes, overall or by domain |
 | `pw_solver_control()` | Configure numerical solver settings |
 
 | Argument | Values | Notes |

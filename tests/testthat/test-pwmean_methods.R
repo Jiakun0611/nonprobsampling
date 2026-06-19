@@ -20,6 +20,7 @@ fit_alp  <- suppressMessages(est_pw(list(sc, des1), method = "alp",
 
 out_overall <- pwmean(fit_cali, y = "psa_level")
 out_race    <- pwmean(fit_cali, y = "psa_level", zcol = "race")
+out_factor  <- pwmean(fit_cali, y = "BMI")
 
 
 # print.pwmean ----
@@ -49,6 +50,17 @@ test_that("print.pwmean returns its argument invisibly", {
   expect_identical(rv$value, out_overall)
 })
 
+test_that("print.pwmean_factor uses category and prevalence labels", {
+  expect_s3_class(out_factor, "pwmean_factor")
+
+  out <- capture.output(print(out_factor))
+
+  expect_true(any(grepl("Category:", out, fixed = TRUE)))
+  expect_true(any(grepl("Prevalence:", out, fixed = TRUE)))
+  expect_false(any(grepl("Domain:", out, fixed = TRUE)))
+  expect_false(any(grepl("Mean:", out, fixed = TRUE)))
+})
+
 
 # summary.pwmean ----
 
@@ -69,6 +81,16 @@ test_that("summary.pwmean returns its argument invisibly", {
   txt <- capture.output(rv <- withVisible(summary(out_overall)))
   expect_false(rv$visible)
   expect_identical(rv$value, out_overall)
+})
+
+test_that("summary.pwmean_factor uses category and prevalence labels", {
+  out <- capture.output(summary(out_factor))
+
+  expect_true(any(grepl("category", out, fixed = TRUE)))
+  expect_true(any(grepl("prevalence", out, fixed = TRUE)))
+  expect_false(any(grepl("domain", out, fixed = TRUE)))
+  expect_false(any(grepl("Mean:", out, fixed = TRUE)))
+  expect_false(any(grepl(" mean ", out, fixed = TRUE)))
 })
 
 

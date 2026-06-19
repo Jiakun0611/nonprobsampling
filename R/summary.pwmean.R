@@ -13,6 +13,46 @@
 #' @method summary pwmean
 #' @export
 summary.pwmean <- function(object, ...) {
+  summary_pwmean_impl(
+    object,
+    group_label = "Domain",
+    group_col = "domain",
+    estimate_label = "Mean",
+    estimate_col = "mean"
+  )
+}
+
+#' Summary method for pwmean objects with factor outcomes
+#'
+#' Provides console output for objects of class \code{"pwmean_factor"},
+#' including unweighted and pseudo-weighted prevalence estimates, standard
+#' errors, and confidence intervals.
+#'
+#' @param object An object of class \code{"pwmean_factor"}, returned by
+#'   \code{\link{pwmean}} when \code{y} is a factor.
+#' @param ... Additional arguments, currently unused.
+#'
+#' @return Invisibly returns \code{object}.
+#'
+#' @method summary pwmean_factor
+#' @export
+summary.pwmean_factor <- function(object, ...) {
+  summary_pwmean_impl(
+    object,
+    group_label = "Category",
+    group_col = "category",
+    estimate_label = "Prevalence",
+    estimate_col = "prevalence"
+  )
+}
+
+summary_pwmean_impl <- function(
+    object,
+    group_label,
+    group_col,
+    estimate_label,
+    estimate_col
+) {
 
   if (!is.null(object$call)) {
     cat("Call:\n")
@@ -47,42 +87,44 @@ summary.pwmean <- function(object, ...) {
 
   if (nrow(d) == 1L) {
 
-    cat(sprintf("\nDomain: %s\n", d$domain))
+    cat(sprintf("\n%s: %s\n", group_label, d$domain))
 
     cat("\nUnweighted estimators:\n")
-    cat(sprintf("  %-15s %10.6f\n", "Mean:",       d$unweighted_mean))
-    cat(sprintf("  %-15s %10.6f\n", "Std. Error:", d$unweighted_se))
+    cat(sprintf("  %-15s %10.6f\n", paste0(estimate_label, ":"), d$unweighted_mean))
+    cat(sprintf("  %-15s %10.6f\n", "Std. Error:",                d$unweighted_se))
     cat(sprintf("  %-15s [%0.6f, %0.6f]\n",
                 "95% CI:", d$unweighted_lower, d$unweighted_upper))
 
     cat("\nPseudo-weighted (", method_short, ") estimators:\n", sep = "")
-    cat(sprintf("  %-15s %10.6f\n", "Mean:",       d$adjusted_mean))
-    cat(sprintf("  %-15s %10.6f\n", "Std. Error:", d$adjusted_se))
+    cat(sprintf("  %-15s %10.6f\n", paste0(estimate_label, ":"), d$adjusted_mean))
+    cat(sprintf("  %-15s %10.6f\n", "Std. Error:",                d$adjusted_se))
     cat(sprintf("  %-15s [%0.6f, %0.6f]\n",
                 "95% CI:", d$adjusted_lower, d$adjusted_upper))
 
   } else {
 
     uw_tab <- data.frame(
-      domain   = d$domain,
-      mean     = d$unweighted_mean,
-      se       = d$unweighted_se,
-      CI_lower = d$unweighted_lower,
-      CI_upper = d$unweighted_upper,
+      d$domain,
+      d$unweighted_mean,
+      d$unweighted_se,
+      d$unweighted_lower,
+      d$unweighted_upper,
       stringsAsFactors = FALSE
     )
+    names(uw_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
 
     cat("\nUnweighted estimators:\n")
     print(uw_tab, row.names = FALSE)
 
     ad_tab <- data.frame(
-      domain   = d$domain,
-      mean     = d$adjusted_mean,
-      se       = d$adjusted_se,
-      CI_lower = d$adjusted_lower,
-      CI_upper = d$adjusted_upper,
+      d$domain,
+      d$adjusted_mean,
+      d$adjusted_se,
+      d$adjusted_lower,
+      d$adjusted_upper,
       stringsAsFactors = FALSE
     )
+    names(ad_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
 
     cat("\nPseudo-weighted (", method_short, ") estimators:\n", sep = "")
     print(ad_tab, row.names = FALSE)

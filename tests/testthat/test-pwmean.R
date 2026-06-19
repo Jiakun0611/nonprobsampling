@@ -89,6 +89,54 @@ test_that("pwmean factor zcol (race, 4 levels): returns 4 domain rows in factor-
   expect_equal(out$domains$domain, levels(sc$race))
 })
 
+test_that("pwmean factor y: returns one prevalence row per outcome level", {
+  out <- pwmean(fit_cali, y = "diabetes")
+
+  expect_s3_class(out, "pwmean")
+  expect_equal(nrow(out$domains), length(levels(sc$diabetes)))
+  expect_equal(out$domains$domain, paste0("diabetes = ", levels(sc$diabetes)))
+  expect_equal(sum(out$domains$unweighted_mean), 1, tolerance = 1e-12)
+  expect_equal(sum(out$domains$adjusted_mean), 1, tolerance = 1e-12)
+})
+
+test_that("pwmean factor y matches manual 0/1 outcome estimates", {
+  out <- pwmean(fit_cali, y = "diabetes")
+
+  for (level in levels(sc$diabetes)) {
+    fit_level <- fit_cali
+    tmp_y <- paste0("diabetes_", level)
+    fit_level$internal$raw_sc[[tmp_y]] <-
+      as.numeric(fit_level$internal$raw_sc$diabetes == level)
+
+    manual <- pwmean(fit_level, y = tmp_y)
+    idx <- which(out$domains$domain == paste0("diabetes = ", level))
+
+    expect_equal(out$domains$unweighted_mean[idx], manual$domains$unweighted_mean)
+    expect_equal(out$domains$adjusted_mean[idx], manual$domains$adjusted_mean)
+    expect_equal(out$domains$adjusted_se[idx], manual$domains$adjusted_se)
+  }
+})
+
+test_that("pwmean factor y with factor zcol returns category-by-domain prevalences", {
+  out <- pwmean(fit_cali, y = "diabetes", zcol = "race")
+
+  n_y <- length(levels(sc$diabetes))
+  n_z <- length(levels(sc$race))
+
+  expect_equal(nrow(out$domains), n_y * n_z)
+  expect_equal(
+    out$domains$domain,
+    as.vector(vapply(
+      levels(sc$diabetes),
+      function(level) paste0("diabetes = ", level, " | ", levels(sc$race)),
+      character(n_z)
+    ))
+  )
+
+  adjusted <- matrix(out$domains$adjusted_mean, nrow = n_z, ncol = n_y)
+  expect_equal(rowSums(adjusted), rep(1, n_z), tolerance = 1e-12)
+})
+
 
 # B. Methods ----
 

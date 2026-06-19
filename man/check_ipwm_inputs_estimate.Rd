@@ -9,8 +9,8 @@ check_ipwm_inputs_estimate(build, y, zcol = NULL)
 \arguments{
 \item{build}{A `pw_fit` object returned by the build step.}
 
-\item{y}{Single character string naming the numeric outcome variable in
-`build$internal$raw_sc`.}
+\item{y}{Single character string naming the numeric or factor outcome
+variable in `build$internal$raw_sc`.}
 
 \item{zcol}{Single character string naming the domain variable in
 `build$internal$raw_sc`, or NULL for the overall mean.}
@@ -21,7 +21,8 @@ check_ipwm_inputs_estimate(build, y, zcol = NULL)
 }
 \description{
 Checks that `build` is a valid `pw_fit` object with all required internal
-fields, that `y` names a numeric column in the raw convenience sample, and
+fields, that `y` names a numeric or factor column in the raw convenience
+sample, and
 that `zcol` (if supplied) is a supported domain variable with at least two
 non-missing levels in both the full sample and the build-stage complete cases.
 }

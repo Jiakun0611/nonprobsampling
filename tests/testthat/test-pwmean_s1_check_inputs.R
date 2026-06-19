@@ -73,6 +73,10 @@ test_that("check_ipwm_inputs_estimate: valid input with binary numeric zcol retu
   expect_invisible(check_ipwm_inputs_estimate(fit_bin, y = "psa_level", zcol = "has_diabetes"))
 })
 
+test_that("check_ipwm_inputs_estimate: valid input with factor y returns invisible TRUE", {
+  expect_invisible(check_ipwm_inputs_estimate(fit, y = "diabetes"))
+})
+
 
 # build object checks ----
 
@@ -199,10 +203,24 @@ test_that("check_ipwm_inputs_estimate: rejects y not found in sc", {
   )
 })
 
-test_that("check_ipwm_inputs_estimate: rejects non-numeric y", {
+test_that("check_ipwm_inputs_estimate: rejects unsupported y type", {
+  sc_chr          <- sc
+  sc_chr$race_chr <- as.character(sc_chr$race)
+  fit_chr         <- make_pw_fit(sc_chr)
   expect_error(
-    check_ipwm_inputs_estimate(fit, y = "race"),
-    "Outcome variable 'race' must be numeric.",
+    check_ipwm_inputs_estimate(fit_chr, y = "race_chr"),
+    "Outcome variable 'race_chr' must be numeric or factor.",
+    fixed = TRUE
+  )
+})
+
+test_that("check_ipwm_inputs_estimate: rejects factor y with no non-missing level", {
+  sc_empty        <- sc
+  sc_empty$empty  <- factor(rep(NA_character_, nrow(sc)))
+  fit_empty       <- make_pw_fit(sc_empty)
+  expect_error(
+    check_ipwm_inputs_estimate(fit_empty, y = "empty"),
+    "must contain at least one non-missing level.",
     fixed = TRUE
   )
 })
