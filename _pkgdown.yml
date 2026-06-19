@@ -19,7 +19,9 @@ reference:
       - print.pw_fit
       - summary.pw_fit
       - print.pwmean
+      - print.pwmean_factor
       - summary.pwmean
+      - summary.pwmean_factor
       - na.action.pw_fit
       - na.action.pwmean
       - print.pw_na_summary

@@ -317,7 +317,8 @@ framework.</p>
 <span><span class="co">#&gt;         0.0345     0.0546</span></span></code></pre></div>
 <p>When no <code>p_formula</code> is provided, it is constructed
 automatically from all variables shared between the nonprobability
-sample and the reference survey(s).</p>
+sample and the reference survey(s). The generated formula is shown in
+the model summary.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_cali_auto</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
@@ -357,9 +358,9 @@ sample and the reference survey(s).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">fit_cali_interaction</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
-<span>  data   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
-<span>  p_formula <span class="op">=</span> <span class="op">~</span>  <span class="va">BMI</span> <span class="op">*</span> <span class="va">psa_level</span> <span class="op">+</span> <span class="va">diabetes</span><span class="op">+</span> <span class="va">pros_enlarged</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">psa_level</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"calibration"</span>,</span>
+<span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
+<span>  p_formula <span class="op">=</span> <span class="op">~</span> <span class="va">BMI</span> <span class="op">*</span> <span class="va">psa_level</span> <span class="op">+</span> <span class="va">diabetes</span> <span class="op">+</span> <span class="va">pros_enlarged</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">psa_level</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  method    <span class="op">=</span> <span class="st">"calibration"</span>,</span>
 <span>  control   <span class="op">=</span> <span class="fu"><a href="../reference/pw_solver_control.html">pw_solver_control</a></span><span class="op">(</span>ftol <span class="op">=</span> <span class="fl">1e-6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -401,7 +402,7 @@ absolute estimating equation value.</p>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
 <span>  p_formula <span class="op">=</span> <span class="op">~</span> <span class="va">agecat</span> <span class="op">+</span> <span class="va">race</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">comorbidity</span> <span class="op">+</span> <span class="va">BMI</span> <span class="op">+</span> <span class="va">diabetes</span>,</span>
 <span>  method    <span class="op">=</span> <span class="st">"calibration"</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose   <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  control   <span class="op">=</span> <span class="fu"><a href="../reference/pw_solver_control.html">pw_solver_control</a></span><span class="op">(</span>ftol <span class="op">=</span> <span class="fl">1e-6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; sc: 2404 rows, no exclusions.</span></span>
@@ -647,21 +648,27 @@ reliable or important.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-3-estimate-population-means">Step 3 — Estimate Population Means<a class="anchor" aria-label="anchor" href="#step-3-estimate-population-means"></a>
+<h3 id="step-3-estimate-population-means-and-prevalences">Step 3 — Estimate Population Means and Prevalences<a class="anchor" aria-label="anchor" href="#step-3-estimate-population-means-and-prevalences"></a>
 </h3>
 <p>Once pseudo-weights have been estimated, <code><a href="../reference/pwmean.html">pwmean()</a></code> uses
-them to produce a pseudo-weighted estimate of a population mean,
-together with a standard error and confidence interval.</p>
+them to estimate population means for numeric outcomes and population
+prevalences of each observed category for factor outcomes. In both
+cases, the returned object includes unweighted and pseudo-weighted
+estimates, standard errors, and confidence intervals.</p>
+<p>For a numeric outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the overall
+population mean. Here, <code>psa_level</code> is a numeric outcome, so
+the output is printed as a mean. (Binary 0/1 outcomes are treated as
+numeric and are printed as means.)</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">est_cali</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">est_cali_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
 <span><span class="co">#&gt;   Domain: Overall</span></span>
 <span><span class="co">#&gt;   Mean:             1.541785</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035178</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.472837, 1.610733]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_cali</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_cali_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "psa_level")</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -678,14 +685,65 @@ together with a standard error and confidence interval.</p>
 <span><span class="co">#&gt;   Mean:             1.541785</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035178</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.472837, 1.610733]</span></span></code></pre></div>
+<p>For a factor outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the population
+prevalence of each observed category. Here, <code>BMI</code> is a factor
+outcome, so the output is printed with category and prevalence
+labels.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">est_cali_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_factor</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt;   Category: BMI = Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.087922</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.006216</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.075739, 0.100104]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: BMI = Normal</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.248901</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.009127</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.231012, 0.266790]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: BMI = Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.231551</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.010053</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.211848, 0.251255]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: BMI = Overweight</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.431626</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.010305</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.411429, 0.451823]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_cali_factor</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; pwmean(object = fit_cali, y = "BMI")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt;              category prevalence          se  CI_lower   CI_upper</span></span>
+<span><span class="co">#&gt;  BMI = Morbidly Obese 0.08111481 0.005569341 0.0701991 0.09203052</span></span>
+<span><span class="co">#&gt;          BMI = Normal 0.25707155 0.008915047 0.2395984 0.27454472</span></span>
+<span><span class="co">#&gt;           BMI = Obese 0.23835275 0.008691808 0.2213171 0.25538838</span></span>
+<span><span class="co">#&gt;      BMI = Overweight 0.42346090 0.010079620 0.4037052 0.44321659</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt;              category prevalence          se   CI_lower  CI_upper</span></span>
+<span><span class="co">#&gt;  BMI = Morbidly Obese  0.0879218 0.006215612 0.07573942 0.1001042</span></span>
+<span><span class="co">#&gt;          BMI = Normal  0.2489010 0.009127032 0.23101234 0.2667896</span></span>
+<span><span class="co">#&gt;           BMI = Obese  0.2315515 0.010053047 0.21184786 0.2512551</span></span>
+<span><span class="co">#&gt;      BMI = Overweight  0.4316257 0.010304846 0.41142861 0.4518229</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="domain-subgroup-estimates">Domain (Subgroup) Estimates<a class="anchor" aria-label="anchor" href="#domain-subgroup-estimates"></a>
 </h4>
-<p>Pass the name of a grouping variable to <code>zcol</code> to obtain
-separate estimates for each domain.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">est_by_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_age</span><span class="op">)</span></span>
+<p>When a categorical domain variable is passed to <code>zcol</code>,
+the function returns separate estimates for each domain.</p>
+<p>With a numeric outcome and a domain variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
+estimates a separate population mean within each domain. In this
+example, the mean of <code>psa_level</code> is estimated within each
+<code>BMI</code> domain.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">est_by_bmi_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
 <span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
@@ -707,7 +765,7 @@ separate estimates for each domain.</p>
 <span><span class="co">#&gt;   Mean:             1.491525</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.049834</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.393851, 1.589199]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_by_age</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_by_bmi_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "psa_level", zcol = "BMI")</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -726,6 +784,137 @@ separate estimates for each domain.</p>
 <span><span class="co">#&gt;          Normal 1.728680 0.08303227 1.565940 1.891420</span></span>
 <span><span class="co">#&gt;           Obese 1.362181 0.05742881 1.249623 1.474740</span></span>
 <span><span class="co">#&gt;      Overweight 1.491525 0.04983443 1.393851 1.589199</span></span></code></pre></div>
+<p>With a factor outcome and a domain variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
+estimates a prevalence of each outcome category within each domain. In
+this example, the prevalence of each <code>agecat</code> category is
+estimated within each <code>BMI</code> domain.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">est_by_bmi_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"agecat"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_factor</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt;   Category: agecat = 1 | Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.282210</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.032150</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.219196, 0.345223]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 1 | Normal</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.317870</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.019683</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.279293, 0.356447]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 1 | Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.350691</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.020744</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.310033, 0.391349]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 1 | Overweight</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.314797</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.015112</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.285177, 0.344417]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 2 | Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.325504</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.034144</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.258582, 0.392425]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 2 | Normal</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.256639</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.018350</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.220675, 0.292604]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 2 | Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.295654</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.019828</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.256792, 0.334515]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 2 | Overweight</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.262580</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.014320</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.234513, 0.290646]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 3 | Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.212538</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.030268</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.153214, 0.271862]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 3 | Normal</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.244468</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.018005</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.209178, 0.279757]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 3 | Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.211416</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.017904</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.176325, 0.246508]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 3 | Overweight</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.229366</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.013103</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.203685, 0.255047]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 4 | Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.179749</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.030531</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.119909, 0.239589]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 4 | Normal</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.181023</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.016755</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.148183, 0.213863]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 4 | Obese</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.142239</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.015901</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.111073, 0.173405]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Category: agecat = 4 | Overweight</span></span>
+<span><span class="co">#&gt;   Prevalence:       0.193257</span></span>
+<span><span class="co">#&gt;   Std. Error:       0.012796</span></span>
+<span><span class="co">#&gt;   95% CI:         [0.168177, 0.218337]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">est_by_bmi_factor</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; pwmean(object = fit_cali, y = "agecat", zcol = "BMI")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt;                     category prevalence         se   CI_lower  CI_upper</span></span>
+<span><span class="co">#&gt;  agecat = 1 | Morbidly Obese  0.3282051 0.03371244 0.26212996 0.3942803</span></span>
+<span><span class="co">#&gt;          agecat = 1 | Normal  0.3446602 0.01913314 0.30715993 0.3821605</span></span>
+<span><span class="co">#&gt;           agecat = 1 | Obese  0.3891798 0.02038608 0.34922376 0.4291357</span></span>
+<span><span class="co">#&gt;      agecat = 1 | Overweight  0.3467583 0.01492416 0.31750753 0.3760092</span></span>
+<span><span class="co">#&gt;  agecat = 2 | Morbidly Obese  0.3384615 0.03397280 0.27187607 0.4050470</span></span>
+<span><span class="co">#&gt;          agecat = 2 | Normal  0.2734628 0.01794467 0.23829188 0.3086337</span></span>
+<span><span class="co">#&gt;           agecat = 2 | Obese  0.2966841 0.01909960 0.25924958 0.3341187</span></span>
+<span><span class="co">#&gt;      agecat = 2 | Overweight  0.2681729 0.01389157 0.24094592 0.2953999</span></span>
+<span><span class="co">#&gt;  agecat = 3 | Morbidly Obese  0.2000000 0.02871833 0.14371311 0.2562869</span></span>
+<span><span class="co">#&gt;          agecat = 3 | Normal  0.2346278 0.01706018 0.20119050 0.2680652</span></span>
+<span><span class="co">#&gt;           agecat = 3 | Obese  0.1954625 0.01658085 0.16296461 0.2279604</span></span>
+<span><span class="co">#&gt;      agecat = 3 | Overweight  0.2229862 0.01305248 0.19740386 0.2485686</span></span>
+<span><span class="co">#&gt;  agecat = 4 | Morbidly Obese  0.1333333 0.02440588 0.08549868 0.1811680</span></span>
+<span><span class="co">#&gt;          agecat = 4 | Normal  0.1472492 0.01426576 0.11928881 0.1752096</span></span>
+<span><span class="co">#&gt;           agecat = 4 | Obese  0.1186736 0.01352220 0.09217061 0.1451767</span></span>
+<span><span class="co">#&gt;      agecat = 4 | Overweight  0.1620825 0.01155602 0.13943313 0.1847319</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt;                     category prevalence         se  CI_lower  CI_upper</span></span>
+<span><span class="co">#&gt;  agecat = 1 | Morbidly Obese  0.2822096 0.03215020 0.2191964 0.3452229</span></span>
+<span><span class="co">#&gt;          agecat = 1 | Normal  0.3178697 0.01968255 0.2792926 0.3564468</span></span>
+<span><span class="co">#&gt;           agecat = 1 | Obese  0.3506910 0.02074425 0.3100330 0.3913490</span></span>
+<span><span class="co">#&gt;      agecat = 1 | Overweight  0.3147969 0.01511246 0.2851770 0.3444168</span></span>
+<span><span class="co">#&gt;  agecat = 2 | Morbidly Obese  0.3255038 0.03414428 0.2585822 0.3924253</span></span>
+<span><span class="co">#&gt;          agecat = 2 | Normal  0.2566394 0.01834973 0.2206746 0.2926042</span></span>
+<span><span class="co">#&gt;           agecat = 2 | Obese  0.2956536 0.01982781 0.2567918 0.3345154</span></span>
+<span><span class="co">#&gt;      agecat = 2 | Overweight  0.2625798 0.01431989 0.2345133 0.2906462</span></span>
+<span><span class="co">#&gt;  agecat = 3 | Morbidly Obese  0.2125376 0.03026785 0.1532137 0.2718615</span></span>
+<span><span class="co">#&gt;          agecat = 3 | Normal  0.2444675 0.01800519 0.2091780 0.2797571</span></span>
+<span><span class="co">#&gt;           agecat = 3 | Obese  0.2114163 0.01790418 0.1763248 0.2465079</span></span>
+<span><span class="co">#&gt;      agecat = 3 | Overweight  0.2293664 0.01310283 0.2036853 0.2550475</span></span>
+<span><span class="co">#&gt;  agecat = 4 | Morbidly Obese  0.1797490 0.03053137 0.1199086 0.2395894</span></span>
+<span><span class="co">#&gt;          agecat = 4 | Normal  0.1810233 0.01675539 0.1481834 0.2138633</span></span>
+<span><span class="co">#&gt;           agecat = 4 | Obese  0.1422391 0.01590142 0.1110728 0.1734053</span></span>
+<span><span class="co">#&gt;      agecat = 4 | Overweight  0.1932569 0.01279605 0.1681771 0.2183367</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -754,7 +943,7 @@ into the participation variable <code>agecat</code> and four missing
 values into the outcome variable <code>psa_level</code>. In the
 reference survey <code>sp1</code>, we insert two missing values into the
 participation variable <code>education</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc_with_na</span> <span class="op">&lt;-</span> <span class="va">sc</span></span>
 <span><span class="va">sc_with_na</span><span class="op">$</span><span class="va">agecat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">sc_with_na</span><span class="op">$</span><span class="va">psa_level</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
@@ -769,15 +958,14 @@ participation variable <code>education</code>.</p>
 <span>  data    <span class="op">=</span> <span class="va">sp1_with_na</span>,</span>
 <span>  nest    <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="missing-data-handling-in-est_pw-with-na-exclude">Missing-Data Handling in est_pw() with na.exclude<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-est_pw-with-na-exclude"></a>
-</h3>
+<div class="section level4">
+<h4 id="missing-data-handling-in-est_pw-with-na-exclude">Missing-Data Handling in est_pw() with na.exclude<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-est_pw-with-na-exclude"></a>
+</h4>
 <p>The following example uses the calibration method with
 <code>na.action = stats::na.exclude</code>. A brief summary of
 missing-data handling is displayed at the bottom of the model
 summary.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_na_exclude</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc_with_na</span>, <span class="va">ref1_design_with_na</span><span class="op">)</span>,</span>
 <span>  method    <span class="op">=</span> <span class="st">"calibration"</span>,</span>
@@ -815,7 +1003,7 @@ summary.</p>
 <span><span class="co">#&gt; (3 observations deleted due to missingness in sc)</span></span>
 <span><span class="co">#&gt; (2 observations deleted due to missingness in sp)</span></span></code></pre></div>
 <p>A summary is available in the <code>na_summary</code> component.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_na_exclude</span><span class="op">$</span><span class="va">na_summary</span></span>
 <span><span class="co">#&gt; NA processing summary:</span></span>
 <span><span class="co">#&gt;    n_orig n_used n_excluded</span></span>
@@ -824,16 +1012,16 @@ summary.</p>
 <p>Information about observations excluded because of missing values in
 the participation model variables can be obtained using the S3
 <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">na.action()</a></code> method.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">na.action</a></span><span class="op">(</span><span class="va">fit_na_exclude</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1 2 4</span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "exclude"</span></span></code></pre></div>
 <p>With <code>na.exclude</code>, the returned pseudo-weight vector and
-<code>sc_updated</code> dataframe preserve the original row structure.
+<code>sc_updated</code> data frame preserve the original row structure.
 Observations excluded from pseudo-weight estimation remain in the
 output, with their pseudo-weights recorded as <code>NA</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_na_exclude</span><span class="op">$</span><span class="va">pseudo_weights</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]        NA        NA  9796.551        NA  9149.513 11215.230</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_na_exclude</span><span class="op">$</span><span class="va">sc_updated</span><span class="op">)</span></span>
@@ -852,13 +1040,13 @@ output, with their pseudo-weights recorded as <code>NA</code>.</p>
 <span><span class="co">#&gt; 5        0   9149.513</span></span>
 <span><span class="co">#&gt; 6        1  11215.230</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="missing-data-handling-in-pwmean">Missing-Data Handling in pwmean()<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-pwmean"></a>
-</h3>
+<div class="section level4">
+<h4 id="missing-data-handling-in-pwmean">Missing-Data Handling in pwmean()<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-pwmean"></a>
+</h4>
 <p>Missing values in the outcome variable are handled when
 <code><a href="../reference/pwmean.html">pwmean()</a></code> is called. This is separate from the missing-value
 handling performed by <code><a href="../reference/est_pw.html">est_pw()</a></code>.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_na_exclude</span>, <span class="st">"psa_level"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -882,8 +1070,8 @@ handling performed by <code><a href="../reference/est_pw.html">est_pw()</a></cod
 <p>A summary of outcome-level missing-value handling is stored in the
 returned object. The corresponding <code>na.action</code> information
 can also be obtained using the S3 <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">na.action()</a></code> method.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result</span><span class="op">$</span><span class="va">na</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span><span class="op">$</span><span class="va">na.action</span></span>
 <span><span class="co">#&gt; [1] 6 7 8 9</span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "omit"</span></span>
@@ -892,13 +1080,13 @@ can also be obtained using the S3 <code><a href="https://rdrr.io/r/stats/na.acti
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "omit"</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="missing-data-handling-in-est_pw-with-na-omit-default">Missing-Data Handling in est_pw() with na.omit (Default)<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-est_pw-with-na-omit-default"></a>
-</h3>
+<div class="section level4">
+<h4 id="missing-data-handling-in-est_pw-with-na-omit-default">Missing-Data Handling in est_pw() with na.omit (Default)<a class="anchor" aria-label="anchor" href="#missing-data-handling-in-est_pw-with-na-omit-default"></a>
+</h4>
 <p>Using <code>na.action = stats::na.omit</code> removes observations
 with missing participation model variables from the returned objects.
 This is the default behavior.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_na_omit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc_with_na</span>, <span class="va">ref1_design_with_na</span><span class="op">)</span>,</span>
 <span>  method    <span class="op">=</span> <span class="st">"calibration"</span>,</span>
@@ -907,7 +1095,7 @@ This is the default behavior.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Information about the excluded observations can be obtained using the
 S3 <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">na.action()</a></code> method.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">na.action</a></span><span class="op">(</span><span class="va">fit_na_omit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1 2 4 6 7 8 9</span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
@@ -915,7 +1103,7 @@ S3 <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">
 <p>With <code>na.omit</code>, the returned pseudo-weight vector and
 <code>sc_updated</code> contain only the observations used for
 pseudo-weight estimation.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_na_omit</span><span class="op">$</span><span class="va">pseudo_weights</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 6555.138 5119.046 6552.331 7517.718 5119.046 7878.904</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_na_omit</span><span class="op">$</span><span class="va">sc_updated</span><span class="op">)</span></span>
@@ -941,6 +1129,7 @@ returned objects; with <code>na.exclude</code>, the original row
 structure is preserved and excluded observations receive <code>NA</code>
 pseudo-weights.</p>
 </div>
+</div>
 <div class="section level3">
 <h3 id="controlling-the-numerical-solver">Controlling the Numerical Solver<a class="anchor" aria-label="anchor" href="#controlling-the-numerical-solver"></a>
 </h3>
@@ -951,7 +1140,7 @@ numerical algorithm used to solve the estimating equations, including
 convergence tolerances, iteration limits, and diagnostic output. The
 default settings are suitable for most applications, but advanced users
 may adjust them when troubleshooting convergence issues.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pw_solver_control.html">pw_solver_control</a></span><span class="op">(</span></span>
 <span>  method   <span class="op">=</span> <span class="st">"Broyden"</span>,</span>
 <span>  xtol     <span class="op">=</span> <span class="fl">1e-10</span>,</span>
@@ -1010,8 +1199,8 @@ multiple reference surveys</td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/pwmean.html">pwmean()</a></code></td>
-<td>Estimate pseudo-weighted population means and prevalences (overall
-or by domain)</td>
+<td>Estimate pseudo-weighted population means for numeric outcomes and
+population prevalences for factor outcomes, overall or by domain</td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/pw_solver_control.html">pw_solver_control()</a></code></td>
