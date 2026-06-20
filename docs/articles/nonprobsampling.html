@@ -656,9 +656,9 @@ prevalences of each observed category for factor outcomes. In both
 cases, the returned object includes unweighted and pseudo-weighted
 estimates, standard errors, and confidence intervals.</p>
 <p>For a numeric outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the overall
-population mean. Here, <code>psa_level</code> is a numeric outcome, so
-the output is printed as a mean. (Binary 0/1 outcomes are treated as
-numeric and are printed as means.)</p>
+population mean. Since <code>psa_level</code> is numeric, the estimate
+is reported as a mean. Binary 0/1 outcomes are also treated as numeric
+and reported as means.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est_cali_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_numeric</span><span class="op">)</span></span>
@@ -1261,18 +1261,18 @@ surveys</td>
 </h2>
 <p>Chen, Y., Li, P., and Wu, C. (2020). Doubly robust inference with
 nonprobability survey samples. Journal of the American Statistical
-Association, 115(532), 2011–2021. <a href="doi:10.1080/01621459.2019.1677241" class="uri">doi:10.1080/01621459.2019.1677241</a></p>
+Association, 115(532), 2011–2021. <a href="https://doi.org/10.1080/01621459.2019.1677241" class="external-link">doi:10.1080/01621459.2019.1677241</a></p>
 <p>Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A., Smith, P.
 M., Graubard, B. I., Bui, T., and Carnide, N. (2026). Correction for
 Participation Bias in Nonprobability Samples Using Multiple Reference
-Surveys. Statistics in Medicine, 45(3–5). <a href="doi:10.1002/sim.70403" class="uri">doi:10.1002/sim.70403</a></p>
+Surveys. Statistics in Medicine, 45(3–5). <a href="https://doi.org/10.1002/sim.70403" class="external-link">doi:10.1002/sim.70403</a></p>
 <p>Rust, K. F., and Rao, J. N. K. (1996). Variance estimation for
 complex surveys using replication techniques. Statistical Methods in
-Medical Research, 5(3), 283–310. <a href="doi:10.1177/096228029600500305" class="uri">doi:10.1177/096228029600500305</a></p>
+Medical Research, 5(3), 283–310. <a href="https://doi.org/10.1177/096228029600500305" class="external-link">doi:10.1177/096228029600500305</a></p>
 <p>Wang, L., Valliant, R., and Li, Y. (2021). Adjusted logistic
 propensity weighting methods for population inference using
 nonprobability volunteer-based epidemiologic cohorts. Statistics in
-Medicine, 40(24), 5237–5250. <a href="doi:10.1002/sim.9122" class="uri">doi:10.1002/sim.9122</a></p>
+Medicine, 40(24), 5237–5250. <a href="https://doi.org/10.1002/sim.9122" class="external-link">doi:10.1002/sim.9122</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

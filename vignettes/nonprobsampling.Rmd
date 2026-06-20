@@ -243,7 +243,7 @@ summary(fit_multi_as_given)
 
 Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalences of each observed category for factor outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
 
-For a numeric outcome, `pwmean()` estimates the overall population mean. Here, `psa_level` is a numeric outcome, so the output is printed as a mean. (Binary 0/1 outcomes are treated as numeric and are printed as means.)
+For a numeric outcome, `pwmean()` estimates the overall population mean. Since `psa_level` is numeric, the estimate is reported as a mean. Binary 0/1 outcomes are also treated as numeric and reported as means.
 ```{r pwmean-numeric}
 est_cali_numeric <- pwmean(fit_cali, y = "psa_level")
 print(est_cali_numeric)
@@ -424,11 +424,11 @@ fit_ctrl <- est_pw(
 
 # References
 
-Chen, Y., Li, P., and Wu, C. (2020). Doubly robust inference with nonprobability survey samples. Journal of the American Statistical Association, 115(532), 2011–2021. doi:10.1080/01621459.2019.1677241
+Chen, Y., Li, P., and Wu, C. (2020). Doubly robust inference with nonprobability survey samples. Journal of the American Statistical Association, 115(532), 2011–2021. [doi:10.1080/01621459.2019.1677241](https://doi.org/10.1080/01621459.2019.1677241)
 
-Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A., Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026). Correction for Participation Bias in Nonprobability Samples Using Multiple Reference Surveys. Statistics in Medicine, 45(3–5). doi:10.1002/sim.70403
+Landsman, V., Wang, L., Carrillo-Garcia, I., Mitani, A. A., Smith, P. M., Graubard, B. I., Bui, T., and Carnide, N. (2026). Correction for Participation Bias in Nonprobability Samples Using Multiple Reference Surveys. Statistics in Medicine, 45(3–5). [doi:10.1002/sim.70403](https://doi.org/10.1002/sim.70403)
 
-Rust, K. F., and Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical Methods in Medical Research, 5(3), 283–310. doi:10.1177/096228029600500305
+Rust, K. F., and Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical Methods in Medical Research, 5(3), 283–310. [doi:10.1177/096228029600500305](https://doi.org/10.1177/096228029600500305)
 
-Wang, L., Valliant, R., and Li, Y. (2021). Adjusted logistic propensity weighting methods for population inference using nonprobability volunteer-based epidemiologic cohorts. Statistics in Medicine, 40(24), 5237–5250. doi:10.1002/sim.9122
+Wang, L., Valliant, R., and Li, Y. (2021). Adjusted logistic propensity weighting methods for population inference using nonprobability volunteer-based epidemiologic cohorts. Statistics in Medicine, 40(24), 5237–5250. [doi:10.1002/sim.9122](https://doi.org/10.1002/sim.9122)
 
