@@ -117,6 +117,27 @@ test_that("pwmean factor y matches manual 0/1 outcome estimates", {
   }
 })
 
+test_that("pwmean 4-level factor y matches separate 0/1 BMI outcome estimates", {
+  out <- pwmean(fit_cali, y = "BMI")
+
+  bmi_level_outputs <- lapply(seq_along(levels(sc$BMI)), function(level_index) {
+    level <- levels(sc$BMI)[[level_index]]
+    fit_level <- fit_cali
+    tmp_y <- paste0("BMI_", make.names(level))
+
+    fit_level$internal$raw_sc[[tmp_y]] <-
+      as.numeric(fit_level$internal$raw_sc$BMI == level)
+
+    manual <- pwmean(fit_level, y = tmp_y)
+    manual$domains$domain <- paste0("BMI = ", level)
+    manual$domains
+  })
+  manual_domains <- do.call(rbind, bmi_level_outputs)
+  row.names(manual_domains) <- NULL
+
+  expect_equal(out$domains, manual_domains)
+})
+
 test_that("pwmean factor y with factor zcol returns category-by-domain prevalences", {
   out <- pwmean(fit_cali, y = "diabetes", zcol = "race")
 
