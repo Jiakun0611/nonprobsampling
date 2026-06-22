@@ -1,7 +1,7 @@
-#' Build the domains summary data frame
+#' Build the estimates summary data frame
 #'
-#' Constructs the `domains` data frame that is stored in a `pwmean` object.
-#' Each row corresponds to one domain. The 95% confidence intervals are
+#' Constructs the `estimates` data frame that is stored in a `pwmean` object.
+#' Each row corresponds to one estimate. The 95% confidence intervals are
 #' computed using the 0.975 normal quantile (approximately 1.96).
 #'
 #' @param labels Character vector of domain labels, one entry per domain.
@@ -50,7 +50,7 @@ build_domains_df <- function(labels, mean_unw, se_unw, mean_adj, se_adj) {
 #'   as `est`.
 #' @param na_info NA-handling information returned by `process_na_yz()`.
 #'
-#' @return A list with components `method`, `domains`, and `na`.
+#' @return A list with components `method`, `estimates`, and `na.action`.
 #'   The S3 class is assigned by the calling function `pwmean()`.
 #'
 #' @keywords internal
@@ -72,7 +72,7 @@ assemble_output <- function(build, est, naive, na_info) {
   #----------------------------------#
   if (identical(est$type, "single")) {
 
-    domains_df <- build_domains_df(
+    estimates_df <- build_domains_df(
       labels   = naive$labels,
       mean_unw = naive$estimates$mean,
       se_unw   = sqrt(naive$estimates$variance),
@@ -80,7 +80,7 @@ assemble_output <- function(build, est, naive, na_info) {
       se_adj   = sqrt(est$estimates$variance)
     )
 
-    return(list(method = build$method, domains = domains_df, na.action = na_info$na_action))
+    return(list(method = build$method, estimates = estimates_df, na.action = na_info$na_action))
   }
 
   #----------------------------------#
@@ -100,7 +100,7 @@ assemble_output <- function(build, est, naive, na_info) {
       stop("`est$labels` and `naive$labels` do not match.", call. = FALSE)
     }
 
-    domains_df <- build_domains_df(
+    estimates_df <- build_domains_df(
       labels   = est$labels,
       mean_unw = vapply(naive$estimates, function(x) x$mean,            numeric(1)),
       se_unw   = vapply(naive$estimates, function(x) sqrt(x$variance),  numeric(1)),
@@ -108,7 +108,7 @@ assemble_output <- function(build, est, naive, na_info) {
       se_adj   = vapply(est$estimates,   function(x) sqrt(x$variance),  numeric(1))
     )
 
-    return(list(method = build$method, domains = domains_df, na.action = na_info$na_action))
+    return(list(method = build$method, estimates = estimates_df, na.action = na_info$na_action))
   }
 
   #----------------------------------#

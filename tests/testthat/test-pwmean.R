@@ -8,7 +8,7 @@
 # Covered scenarios:
 #   A. Domain modes: overall / binary / factor
 #   B. Methods: calibration / alp / clw / multi all produce valid pwmean objects
-#   C. Return-object structure (class, fields, domains data.frame layout)
+#   C. Return-object structure (class, fields, estimates data.frame layout)
 #   D. CI invariants: lower < mean < upper; width = 2 * z975 * se
 #   E. NA handling: na.omit / na.exclude
 #   F. Errors are tagged with the correct pipeline step
@@ -57,6 +57,8 @@ DOM_COLS <- c(
   "adjusted_mean",   "adjusted_se",   "adjusted_lower",   "adjusted_upper"
 )
 
+FAC_COLS <- c("category", DOM_COLS)
+
 
 # A. Domain modes ----
 
@@ -64,8 +66,8 @@ test_that("pwmean overall (zcol = NULL): returns a single-row pwmean object", {
   out <- pwmean(fit_cali, y = "psa_level")
 
   expect_s3_class(out, "pwmean")
-  expect_equal(nrow(out$domains), 1L)
-  expect_equal(out$domains$domain, "Overall")
+  expect_equal(nrow(out$estimates), 1L)
+  expect_equal(out$estimates$domain, "Overall")
 })
 
 test_that("pwmean binary zcol: returns a single-row domain with 'name = 1' label", {
@@ -78,25 +80,26 @@ test_that("pwmean binary zcol: returns a single-row domain with 'name = 1' label
   out <- pwmean(fit_bin, y = "psa_level", zcol = "has_diab")
 
   expect_s3_class(out, "pwmean")
-  expect_equal(nrow(out$domains), 1L)
-  expect_equal(out$domains$domain, "has_diab = 1")
+  expect_equal(nrow(out$estimates), 1L)
+  expect_equal(out$estimates$domain, "has_diab = 1")
 })
 
 test_that("pwmean factor zcol (race, 4 levels): returns 4 domain rows in factor-level order", {
   out <- pwmean(fit_cali, y = "psa_level", zcol = "race")
 
-  expect_equal(nrow(out$domains), 4L)
-  expect_equal(out$domains$domain, levels(sc$race))
+  expect_equal(nrow(out$estimates), 4L)
+  expect_equal(out$estimates$domain, levels(sc$race))
 })
 
 test_that("pwmean factor y: returns one prevalence row per outcome level", {
   out <- pwmean(fit_cali, y = "diabetes")
 
   expect_s3_class(out, "pwmean")
-  expect_equal(nrow(out$domains), length(levels(sc$diabetes)))
-  expect_equal(out$domains$domain, paste0("diabetes = ", levels(sc$diabetes)))
-  expect_equal(sum(out$domains$unweighted_mean), 1, tolerance = 1e-12)
-  expect_equal(sum(out$domains$adjusted_mean), 1, tolerance = 1e-12)
+  expect_equal(nrow(out$estimates), length(levels(sc$diabetes)))
+  expect_equal(out$estimates$category, paste0("diabetes = ", levels(sc$diabetes)))
+  expect_equal(out$estimates$domain, rep("Overall", length(levels(sc$diabetes))))
+  expect_equal(sum(out$estimates$unweighted_mean), 1, tolerance = 1e-12)
+  expect_equal(sum(out$estimates$adjusted_mean), 1, tolerance = 1e-12)
 })
 
 test_that("pwmean factor y matches manual 0/1 outcome estimates", {
@@ -109,11 +112,11 @@ test_that("pwmean factor y matches manual 0/1 outcome estimates", {
       as.numeric(fit_level$internal$raw_sc$diabetes == level)
 
     manual <- pwmean(fit_level, y = tmp_y)
-    idx <- which(out$domains$domain == paste0("diabetes = ", level))
+    idx <- which(out$estimates$category == paste0("diabetes = ", level))
 
-    expect_equal(out$domains$unweighted_mean[idx], manual$domains$unweighted_mean)
-    expect_equal(out$domains$adjusted_mean[idx], manual$domains$adjusted_mean)
-    expect_equal(out$domains$adjusted_se[idx], manual$domains$adjusted_se)
+    expect_equal(out$estimates$unweighted_mean[idx], manual$estimates$unweighted_mean)
+    expect_equal(out$estimates$adjusted_mean[idx], manual$estimates$adjusted_mean)
+    expect_equal(out$estimates$adjusted_se[idx], manual$estimates$adjusted_se)
   }
 })
 
@@ -129,13 +132,14 @@ test_that("pwmean 4-level factor y matches separate 0/1 BMI outcome estimates", 
       as.numeric(fit_level$internal$raw_sc$BMI == level)
 
     manual <- pwmean(fit_level, y = tmp_y)
-    manual$domains$domain <- paste0("BMI = ", level)
-    manual$domains
+    manual$estimates$category <- paste0("BMI = ", level)
+    manual$estimates <- manual$estimates[, c("category", names(manual$estimates)[names(manual$estimates) != "category"])]
+    manual$estimates
   })
   manual_domains <- do.call(rbind, bmi_level_outputs)
   row.names(manual_domains) <- NULL
 
-  expect_equal(out$domains, manual_domains)
+  expect_equal(out$estimates, manual_domains)
 })
 
 test_that("pwmean factor y with factor zcol returns category-by-domain prevalences", {
@@ -144,17 +148,17 @@ test_that("pwmean factor y with factor zcol returns category-by-domain prevalenc
   n_y <- length(levels(sc$diabetes))
   n_z <- length(levels(sc$race))
 
-  expect_equal(nrow(out$domains), n_y * n_z)
+  expect_equal(nrow(out$estimates), n_y * n_z)
   expect_equal(
-    out$domains$domain,
-    as.vector(vapply(
-      levels(sc$diabetes),
-      function(level) paste0("diabetes = ", level, " | ", levels(sc$race)),
-      character(n_z)
-    ))
+    out$estimates$category,
+    rep(paste0("diabetes = ", levels(sc$diabetes)), each = n_z)
+  )
+  expect_equal(
+    out$estimates$domain,
+    rep(levels(sc$race), times = n_y)
   )
 
-  adjusted <- matrix(out$domains$adjusted_mean, nrow = n_z, ncol = n_y)
+  adjusted <- matrix(out$estimates$adjusted_mean, nrow = n_z, ncol = n_y)
   expect_equal(rowSums(adjusted), rep(1, n_z), tolerance = 1e-12)
 })
 
@@ -172,19 +176,19 @@ test_that("pwmean works for all four methods (calibration / alp / clw / multi)",
 test_that("pwmean: adjusted means are finite for every method", {
   for (fit in list(fit_cali, fit_alp, fit_clw, fit_multi)) {
     out <- pwmean(fit, y = "psa_level")
-    expect_true(all(is.finite(out$domains$adjusted_mean)))
-    expect_true(all(is.finite(out$domains$adjusted_se)))
-    expect_true(all(out$domains$adjusted_se >= 0))
+    expect_true(all(is.finite(out$estimates$adjusted_mean)))
+    expect_true(all(is.finite(out$estimates$adjusted_se)))
+    expect_true(all(out$estimates$adjusted_se >= 0))
   }
 })
 
 
 # C. Return-object structure ----
 
-test_that("pwmean object has fields: method, domains, na.action, call", {
+test_that("pwmean object has fields: method, estimates, na.action, call", {
   out <- pwmean(fit_cali, y = "psa_level")
 
-  expect_named(out, c("method", "domains", "na.action", "call"))
+  expect_named(out, c("method", "estimates", "na.action", "call"))
 })
 
 test_that("pwmean$call is a captured call to pwmean()", {
@@ -194,11 +198,18 @@ test_that("pwmean$call is a captured call to pwmean()", {
   expect_equal(as.character(out$call[[1L]]), "pwmean")
 })
 
-test_that("pwmean$domains has all nine documented columns in order", {
+test_that("pwmean$estimates has all nine documented columns in order", {
   out <- pwmean(fit_cali, y = "psa_level", zcol = "race")
 
-  expect_s3_class(out$domains, "data.frame")
-  expect_equal(names(out$domains), DOM_COLS)
+  expect_s3_class(out$estimates, "data.frame")
+  expect_equal(names(out$estimates), DOM_COLS)
+})
+
+test_that("pwmean$estimates for factor y has category and domain columns first", {
+  out <- pwmean(fit_cali, y = "diabetes", zcol = "race")
+
+  expect_s3_class(out$estimates, "data.frame")
+  expect_equal(names(out$estimates), FAC_COLS)
 })
 
 test_that("pwmean$method propagates from the input pw_fit", {
@@ -213,7 +224,7 @@ test_that("pwmean$method propagates from the input pw_fit", {
 
 test_that("pwmean CIs are symmetric: width equals 2 * qnorm(0.975) * se", {
   out <- pwmean(fit_cali, y = "psa_level", zcol = "race")
-  d   <- out$domains
+  d   <- out$estimates
 
   expect_equal(d$adjusted_upper   - d$adjusted_lower,   2 * z975 * d$adjusted_se)
   expect_equal(d$unweighted_upper - d$unweighted_lower, 2 * z975 * d$unweighted_se)
@@ -221,7 +232,7 @@ test_that("pwmean CIs are symmetric: width equals 2 * qnorm(0.975) * se", {
 
 test_that("pwmean CIs bracket the point estimates (lower <= mean <= upper)", {
   out <- pwmean(fit_cali, y = "psa_level", zcol = "race")
-  d   <- out$domains
+  d   <- out$estimates
 
   expect_true(all(d$adjusted_lower   <= d$adjusted_mean))
   expect_true(all(d$adjusted_mean    <= d$adjusted_upper))
@@ -242,7 +253,7 @@ test_that("pwmean na.omit: drops missing-y rows silently and proceeds", {
   out <- pwmean(fit_na, y = "psa_level", na.action = stats::na.omit)
 
   expect_s3_class(out, "pwmean")
-  expect_true(is.finite(out$domains$adjusted_mean))
+  expect_true(is.finite(out$estimates$adjusted_mean))
 })
 
 test_that("pwmean na.exclude: produces a valid pwmean object", {
@@ -255,7 +266,7 @@ test_that("pwmean na.exclude: produces a valid pwmean object", {
   out <- pwmean(fit_na, y = "psa_level", na.action = stats::na.exclude)
 
   expect_s3_class(out, "pwmean")
-  expect_true(is.finite(out$domains$adjusted_mean))
+  expect_true(is.finite(out$estimates$adjusted_mean))
 })
 
 

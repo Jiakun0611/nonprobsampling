@@ -147,19 +147,19 @@ for (i in seq_len(n_sim)) {
   res_cali <- pwmean(fit_cali, y = "y")
 
   # naive (from any fit)
-  result_sp1[i, 1:2]  <- c(res_alp$domains$unweighted_mean,
-                            res_alp$domains$unweighted_se)
+  result_sp1[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
+                            res_alp$estimates$unweighted_se)
   # true weight
   result_sp1[i, 3:4]  <- result_tw
   # ALP
-  result_sp1[i, 5:6]  <- c(res_alp$domains$adjusted_mean,
-                            res_alp$domains$adjusted_se)
+  result_sp1[i, 5:6]  <- c(res_alp$estimates$adjusted_mean,
+                            res_alp$estimates$adjusted_se)
   # CLW
-  result_sp1[i, 7:8]  <- c(res_clw$domains$adjusted_mean,
-                            res_clw$domains$adjusted_se)
+  result_sp1[i, 7:8]  <- c(res_clw$estimates$adjusted_mean,
+                            res_clw$estimates$adjusted_se)
   # Calibration
-  result_sp1[i, 9:10] <- c(res_cali$domains$adjusted_mean,
-                            res_cali$domains$adjusted_se)
+  result_sp1[i, 9:10] <- c(res_cali$estimates$adjusted_mean,
+                            res_cali$estimates$adjusted_se)
 
   if (i %% 100 == 0) cat(i, " ")
 }
@@ -208,19 +208,19 @@ for (i in seq_len(n_sim)) {
   res_cali <- pwmean(fit_cali, y = "y")
 
   # naive
-  result_sp2[i, 1:2]  <- c(res_alp$domains$unweighted_mean,
-                            res_alp$domains$unweighted_se)
+  result_sp2[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
+                            res_alp$estimates$unweighted_se)
   # true weight
   result_sp2[i, 3:4]  <- result_tw
   # ALP
-  result_sp2[i, 5:6]  <- c(res_alp$domains$adjusted_mean,
-                            res_alp$domains$adjusted_se)
+  result_sp2[i, 5:6]  <- c(res_alp$estimates$adjusted_mean,
+                            res_alp$estimates$adjusted_se)
   # CLW
-  result_sp2[i, 7:8]  <- c(res_clw$domains$adjusted_mean,
-                            res_clw$domains$adjusted_se)
+  result_sp2[i, 7:8]  <- c(res_clw$estimates$adjusted_mean,
+                            res_clw$estimates$adjusted_se)
   # Calibration
-  result_sp2[i, 9:10] <- c(res_cali$domains$adjusted_mean,
-                            res_cali$domains$adjusted_se)
+  result_sp2[i, 9:10] <- c(res_cali$estimates$adjusted_mean,
+                            res_cali$estimates$adjusted_se)
 
   if (i %% 100 == 0) cat(i, " ")
 }
@@ -281,10 +281,10 @@ for (i in seq_len(n_sim)) {
   )
   res_false <- pwmean(fit_false, y = "y")
 
-  result_both[i, 1:2] <- c(res_true$domains$adjusted_mean,
-                            res_true$domains$adjusted_se)
-  result_both[i, 3:4] <- c(res_false$domains$adjusted_mean,
-                            res_false$domains$adjusted_se)
+  result_both[i, 1:2] <- c(res_true$estimates$adjusted_mean,
+                            res_true$estimates$adjusted_se)
+  result_both[i, 3:4] <- c(res_false$estimates$adjusted_mean,
+                            res_false$estimates$adjusted_se)
 
   if (i %% 100 == 0) cat(i, " ")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s6_output.R
 \name{build_domains_df}
 \alias{build_domains_df}
-\title{Build the domains summary data frame}
+\title{Build the estimates summary data frame}
 \usage{
 build_domains_df(labels, mean_unw, se_unw, mean_adj, se_adj)
 }
@@ -24,8 +24,8 @@ A data frame with one row per domain and columns `domain`,
   and `adjusted_upper`.
 }
 \description{
-Constructs the `domains` data frame that is stored in a `pwmean` object.
-Each row corresponds to one domain. The 95% confidence intervals are
+Constructs the `estimates` data frame that is stored in a `pwmean` object.
+Each row corresponds to one estimate. The 95% confidence intervals are
 computed using the 0.975 normal quantile (approximately 1.96).
 }
 \keyword{internal}

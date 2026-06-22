@@ -30,8 +30,8 @@ pwmean_factor <- function(
   })
 
   result <- level_outputs[[1L]]
-  result$domains <- do.call(rbind, lapply(level_outputs, function(x) x$domains))
-  row.names(result$domains) <- NULL
+  result$estimates <- do.call(rbind, lapply(level_outputs, function(x) x$estimates))
+  row.names(result$estimates) <- NULL
   result$call <- mc
   class(result) <- c("pwmean_factor", "pwmean")
 
@@ -68,10 +68,10 @@ pwmean_one_factor_level <- function(
     check_inputs = FALSE
   )
 
-  out$domains$domain <- factor_outcome_labels(
+  out$estimates <- add_factor_outcome_columns(
+    estimates = out$estimates,
     y = y,
     level = level,
-    domain_labels = out$domains$domain,
     has_domain = !is.null(zcol)
   )
 
@@ -92,13 +92,19 @@ make_factor_outcome_name <- function(y, level_index, existing_names) {
   out
 }
 
-# Helper: builds user-facing labels for factor-outcome prevalence rows.
-factor_outcome_labels <- function(y, level, domain_labels, has_domain) {
-  level_label <- paste0(y, " = ", level)
+# Helper: adds user-facing category and domain columns for factor outcomes.
+add_factor_outcome_columns <- function(estimates, y, level, has_domain) {
+  category_label <- paste0(y, " = ", level)
+  domain_labels <- estimates$domain
 
   if (!isTRUE(has_domain)) {
-    return(rep(level_label, length(domain_labels)))
+    domain_labels <- rep("Overall", nrow(estimates))
   }
 
-  paste0(level_label, " | ", domain_labels)
+  estimates$category <- rep(category_label, nrow(estimates))
+  estimates$domain <- domain_labels
+  estimates[, c(
+    "category", "domain",
+    setdiff(names(estimates), c("category", "domain"))
+  )]
 }

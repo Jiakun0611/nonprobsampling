@@ -36,7 +36,7 @@ test_that("print.pwmean shows the estimator header and per-domain fields", {
 
 test_that("print.pwmean prints one 'Domain:' block per domain level", {
   out <- capture.output(print(out_race))
-  expect_equal(sum(grepl("Domain:", out, fixed = TRUE)), nrow(out_race$domains))
+  expect_equal(sum(grepl("Domain:", out, fixed = TRUE)), nrow(out_race$estimates))
 })
 
 test_that("print.pwmean uppercases ALP in the header", {
@@ -56,8 +56,8 @@ test_that("print.pwmean_factor uses category and prevalence labels", {
   out <- capture.output(print(out_factor))
 
   expect_true(any(grepl("Category:", out, fixed = TRUE)))
+  expect_true(any(grepl("Domain:", out, fixed = TRUE)))
   expect_true(any(grepl("Prevalence:", out, fixed = TRUE)))
-  expect_false(any(grepl("Domain:", out, fixed = TRUE)))
   expect_false(any(grepl("Mean:", out, fixed = TRUE)))
 })
 
@@ -87,8 +87,8 @@ test_that("summary.pwmean_factor uses category and prevalence labels", {
   out <- capture.output(summary(out_factor))
 
   expect_true(any(grepl("category", out, fixed = TRUE)))
+  expect_true(any(grepl("domain", out, fixed = TRUE)))
   expect_true(any(grepl("prevalence", out, fixed = TRUE)))
-  expect_false(any(grepl("domain", out, fixed = TRUE)))
   expect_false(any(grepl("Mean:", out, fixed = TRUE)))
   expect_false(any(grepl(" mean ", out, fixed = TRUE)))
 })

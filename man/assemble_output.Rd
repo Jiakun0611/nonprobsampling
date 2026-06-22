@@ -18,7 +18,7 @@ as `est`.}
 \item{na_info}{NA-handling information returned by `process_na_yz()`.}
 }
 \value{
-A list with components `method`, `domains`, and `na`.
+A list with components `method`, `estimates`, and `na.action`.
   The S3 class is assigned by the calling function `pwmean()`.
 }
 \description{

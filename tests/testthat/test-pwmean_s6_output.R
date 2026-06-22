@@ -171,14 +171,14 @@ test_that("build_domains_df: domain column preserves the label vector", {
 
 # assemble_output: single-result case ----
 
-test_that("assemble_output: single-result returns list with method, domains, na.action", {
+test_that("assemble_output: single-result returns list with method, estimates, na.action", {
   res <- assemble_output(
     build   = make_build("alp"),
     est     = make_single_est(),
     naive   = make_single_naive(),
     na_info = make_na_info("omit")
   )
-  expect_named(res, c("method", "domains", "na.action"))
+  expect_named(res, c("method", "estimates", "na.action"))
 })
 
 test_that("assemble_output: single-result method propagates from build", {
@@ -202,15 +202,15 @@ test_that("assemble_output: single-result na.action propagates from na_info", {
   expect_identical(res$na.action, na_info$na_action)
 })
 
-test_that("assemble_output: single-result domains is a one-row data.frame", {
+test_that("assemble_output: single-result estimates is a one-row data.frame", {
   res <- assemble_output(
     build   = make_build("alp"),
     est     = make_single_est(),
     naive   = make_single_naive(),
     na_info = make_na_info("omit")
   )
-  expect_s3_class(res$domains, "data.frame")
-  expect_equal(nrow(res$domains), 1L)
+  expect_s3_class(res$estimates, "data.frame")
+  expect_equal(nrow(res$estimates), 1L)
 })
 
 test_that("assemble_output: single-result domain label equals naive$labels", {
@@ -220,7 +220,7 @@ test_that("assemble_output: single-result domain label equals naive$labels", {
     naive   = make_single_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$domain, "Overall")
+  expect_equal(res$estimates$domain, "Overall")
 })
 
 test_that("assemble_output: single-result unweighted mean and se come from naive", {
@@ -230,8 +230,8 @@ test_that("assemble_output: single-result unweighted mean and se come from naive
     naive   = make_single_naive(mean = 3.5, variance = 1.75),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$unweighted_mean, 3.5)
-  expect_equal(res$domains$unweighted_se,   sqrt(1.75))
+  expect_equal(res$estimates$unweighted_mean, 3.5)
+  expect_equal(res$estimates$unweighted_se,   sqrt(1.75))
 })
 
 test_that("assemble_output: single-result adjusted mean and se come from est", {
@@ -241,8 +241,8 @@ test_that("assemble_output: single-result adjusted mean and se come from est", {
     naive   = make_single_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$adjusted_mean, 4.0)
-  expect_equal(res$domains$adjusted_se,   0.5)
+  expect_equal(res$estimates$adjusted_mean, 4.0)
+  expect_equal(res$estimates$adjusted_se,   0.5)
 })
 
 test_that("assemble_output: single-result CIs equal mean +/- qnorm(0.975) * se", {
@@ -252,33 +252,33 @@ test_that("assemble_output: single-result CIs equal mean +/- qnorm(0.975) * se",
     naive   = make_single_naive(mean = 3.5, variance = 1.75),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$unweighted_lower, 3.5 - z975 * sqrt(1.75))
-  expect_equal(res$domains$unweighted_upper, 3.5 + z975 * sqrt(1.75))
-  expect_equal(res$domains$adjusted_lower,   4.0 - z975 * 0.5)
-  expect_equal(res$domains$adjusted_upper,   4.0 + z975 * 0.5)
+  expect_equal(res$estimates$unweighted_lower, 3.5 - z975 * sqrt(1.75))
+  expect_equal(res$estimates$unweighted_upper, 3.5 + z975 * sqrt(1.75))
+  expect_equal(res$estimates$adjusted_lower,   4.0 - z975 * 0.5)
+  expect_equal(res$estimates$adjusted_upper,   4.0 + z975 * 0.5)
 })
 
 
 # assemble_output: multi-result case ----
 
-test_that("assemble_output: multi-result returns list with method, domains, na.action", {
+test_that("assemble_output: multi-result returns list with method, estimates, na.action", {
   res <- assemble_output(
     build   = make_build("alp"),
     est     = make_multi_est(),
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_named(res, c("method", "domains", "na.action"))
+  expect_named(res, c("method", "estimates", "na.action"))
 })
 
-test_that("assemble_output: multi-result domains has one row per domain", {
+test_that("assemble_output: multi-result estimates has one row per domain", {
   res <- assemble_output(
     build   = make_build("alp"),
     est     = make_multi_est(),
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(nrow(res$domains), 2L)
+  expect_equal(nrow(res$estimates), 2L)
 })
 
 test_that("assemble_output: multi-result domain column equals est$labels", {
@@ -288,7 +288,7 @@ test_that("assemble_output: multi-result domain column equals est$labels", {
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$domain, c("A", "B"))
+  expect_equal(res$estimates$domain, c("A", "B"))
 })
 
 test_that("assemble_output: multi-result unweighted columns come from naive estimates", {
@@ -298,8 +298,8 @@ test_that("assemble_output: multi-result unweighted columns come from naive esti
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$unweighted_mean, c(2.5, 4.5))
-  expect_equal(res$domains$unweighted_se,   c(1.5, 2.5))
+  expect_equal(res$estimates$unweighted_mean, c(2.5, 4.5))
+  expect_equal(res$estimates$unweighted_se,   c(1.5, 2.5))
 })
 
 test_that("assemble_output: multi-result adjusted columns come from est estimates", {
@@ -309,8 +309,8 @@ test_that("assemble_output: multi-result adjusted columns come from est estimate
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$adjusted_mean, c(3.0, 5.0))
-  expect_equal(res$domains$adjusted_se,   c(1.0, 2.0))
+  expect_equal(res$estimates$adjusted_mean, c(3.0, 5.0))
+  expect_equal(res$estimates$adjusted_se,   c(1.0, 2.0))
 })
 
 test_that("assemble_output: multi-result CIs equal mean +/- qnorm(0.975) * se", {
@@ -320,10 +320,10 @@ test_that("assemble_output: multi-result CIs equal mean +/- qnorm(0.975) * se", 
     naive   = make_multi_naive(),
     na_info = make_na_info("omit")
   )
-  expect_equal(res$domains$unweighted_lower, c(2.5, 4.5) - z975 * c(1.5, 2.5))
-  expect_equal(res$domains$unweighted_upper, c(2.5, 4.5) + z975 * c(1.5, 2.5))
-  expect_equal(res$domains$adjusted_lower,   c(3.0, 5.0) - z975 * c(1.0, 2.0))
-  expect_equal(res$domains$adjusted_upper,   c(3.0, 5.0) + z975 * c(1.0, 2.0))
+  expect_equal(res$estimates$unweighted_lower, c(2.5, 4.5) - z975 * c(1.5, 2.5))
+  expect_equal(res$estimates$unweighted_upper, c(2.5, 4.5) + z975 * c(1.5, 2.5))
+  expect_equal(res$estimates$adjusted_lower,   c(3.0, 5.0) - z975 * c(1.0, 2.0))
+  expect_equal(res$estimates$adjusted_upper,   c(3.0, 5.0) + z975 * c(1.0, 2.0))
 })
 
 test_that("assemble_output: multi-result method propagates from build", {

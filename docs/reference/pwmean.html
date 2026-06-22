@@ -100,17 +100,21 @@ the estimate columns contain category prevalences.</p>
 <dd><p>Character. The pseudo-weighting method used.</p></dd>
 
 
-  <dt><code>domains</code></dt>
+  <dt><code>estimates</code></dt>
 <dd><p>A data frame with one row per domain or factor-outcome category.
     When <code>zcol = NULL</code>, it has a single row labeled <code>"Overall"</code>.
     For factor outcomes with <code>zcol = NULL</code>, it has one row per
-    non-missing outcome level labeled <code>"&lt;y&gt; = &lt;level&gt;"</code>.
+    non-missing outcome level, with <code>category</code> labeled
+    <code>"&lt;y&gt; = &lt;level&gt;"</code> and <code>domain</code> set to <code>"Overall"</code>.
     For a <code>logical</code> variable or a <code>numeric</code>/<code>integer</code>
     variable containing only <code>0</code> and <code>1</code>, it has a single row
     labeled <code>"&lt;zcol&gt; = 1"</code>. For a <code>factor</code> or <code>character</code>
     variable, it has one row per level. For factor outcomes with
-    <code>zcol</code> supplied, labels combine the outcome level and domain as
-    <code>"&lt;y&gt; = &lt;level&gt; | &lt;domain&gt;"</code>. The columns are:</p><dl><dt><code>domain</code></dt>
+    <code>zcol</code> supplied, <code>category</code> gives the outcome category and
+    <code>domain</code> gives the corresponding <code>zcol</code> level. The columns are:</p><dl><dt><code>category</code></dt>
+<dd><p>Category label for factor outcomes only.</p></dd>
+
+      <dt><code>domain</code></dt>
 <dd><p>Domain label.</p></dd>
 
       <dt><code>unweighted_mean</code>, <code>unweighted_se</code></dt>
@@ -161,10 +165,12 @@ The <code>object</code> argument should be an object of class <code>"pw_fit"</co
 returned by <code><a href="est_pw.html">est_pw</a></code>. It stores the estimated pseudo-weights,
 participation model information, and design-based quantities required for point
 and variance estimation.</p>
-<p><strong>Factor outcomes.</strong>
-When <code>y</code> is a factor, <code>pwmean()</code> estimates the prevalence of each
-non-missing factor level. Internally, each level is converted to a 0/1
-numeric indicator and the same pseudo-weighted mean estimator is applied.</p>
+<p><strong>Categorical outcomes.</strong>
+When <code>y</code> is a categorical variable (defined as a factor in R),
+<code>pwmean()</code> estimates the prevalence (proportion) of each category.
+To do so, each category is internally converted into a 0/1 indicator
+variable, and the pseudo-weighted mean estimator is then computed for each
+indicator.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

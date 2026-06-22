@@ -38,18 +38,20 @@ the estimate columns contain category prevalences.
     Character. The pseudo-weighting method used.
   }
 
-  \item{\code{domains}}{
+  \item{\code{estimates}}{
     A data frame with one row per domain or factor-outcome category.
     When \code{zcol = NULL}, it has a single row labeled \code{"Overall"}.
     For factor outcomes with \code{zcol = NULL}, it has one row per
-    non-missing outcome level labeled \code{"<y> = <level>"}.
+    non-missing outcome level, with \code{category} labeled
+    \code{"<y> = <level>"} and \code{domain} set to \code{"Overall"}.
     For a \code{logical} variable or a \code{numeric}/\code{integer}
     variable containing only \code{0} and \code{1}, it has a single row
     labeled \code{"<zcol> = 1"}. For a \code{factor} or \code{character}
     variable, it has one row per level. For factor outcomes with
-    \code{zcol} supplied, labels combine the outcome level and domain as
-    \code{"<y> = <level> | <domain>"}. The columns are:
+    \code{zcol} supplied, \code{category} gives the outcome category and
+    \code{domain} gives the corresponding \code{zcol} level. The columns are:
     \describe{
+      \item{\code{category}}{Category label for factor outcomes only.}
       \item{\code{domain}}{Domain label.}
       \item{\code{unweighted_mean}, \code{unweighted_se}}{Unweighted
         mean of \code{y} and its standard error.}
@@ -99,10 +101,12 @@ returned by \code{\link{est_pw}}. It stores the estimated pseudo-weights,
 participation model information, and design-based quantities required for point
 and variance estimation.
 
-\strong{Factor outcomes.}
-When \code{y} is a factor, \code{pwmean()} estimates the prevalence of each
-non-missing factor level. Internally, each level is converted to a 0/1
-numeric indicator and the same pseudo-weighted mean estimator is applied.
+\strong{Categorical outcomes.}
+When \code{y} is a categorical variable (defined as a factor in R),
+\code{pwmean()} estimates the prevalence (proportion) of each category.
+To do so, each category is internally converted into a 0/1 indicator
+variable, and the pseudo-weighted mean estimator is then computed for each
+indicator.
 }
 \examples{
 \donttest{

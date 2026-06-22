@@ -83,9 +83,11 @@ summary_pwmean_impl <- function(
 
   cat("\nMethod:", method_label, "\n")
 
-  d <- object$domains
+  d <- object$estimates
 
-  if (nrow(d) == 1L) {
+  has_category <- "category" %in% names(d)
+
+  if (nrow(d) == 1L && !has_category) {
 
     cat(sprintf("\n%s: %s\n", group_label, d$domain))
 
@@ -103,28 +105,54 @@ summary_pwmean_impl <- function(
 
   } else {
 
-    uw_tab <- data.frame(
-      d$domain,
-      d$unweighted_mean,
-      d$unweighted_se,
-      d$unweighted_lower,
-      d$unweighted_upper,
-      stringsAsFactors = FALSE
-    )
-    names(uw_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
+    if (has_category) {
+      uw_tab <- data.frame(
+        d$category,
+        d$domain,
+        d$unweighted_mean,
+        d$unweighted_se,
+        d$unweighted_lower,
+        d$unweighted_upper,
+        stringsAsFactors = FALSE
+      )
+      names(uw_tab) <- c("category", "domain", estimate_col, "se", "CI_lower", "CI_upper")
+    } else {
+      uw_tab <- data.frame(
+        d$domain,
+        d$unweighted_mean,
+        d$unweighted_se,
+        d$unweighted_lower,
+        d$unweighted_upper,
+        stringsAsFactors = FALSE
+      )
+      names(uw_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
+    }
 
     cat("\nUnweighted estimators:\n")
     print(uw_tab, row.names = FALSE)
 
-    ad_tab <- data.frame(
-      d$domain,
-      d$adjusted_mean,
-      d$adjusted_se,
-      d$adjusted_lower,
-      d$adjusted_upper,
-      stringsAsFactors = FALSE
-    )
-    names(ad_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
+    if (has_category) {
+      ad_tab <- data.frame(
+        d$category,
+        d$domain,
+        d$adjusted_mean,
+        d$adjusted_se,
+        d$adjusted_lower,
+        d$adjusted_upper,
+        stringsAsFactors = FALSE
+      )
+      names(ad_tab) <- c("category", "domain", estimate_col, "se", "CI_lower", "CI_upper")
+    } else {
+      ad_tab <- data.frame(
+        d$domain,
+        d$adjusted_mean,
+        d$adjusted_se,
+        d$adjusted_lower,
+        d$adjusted_upper,
+        stringsAsFactors = FALSE
+      )
+      names(ad_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
+    }
 
     cat("\nPseudo-weighted (", method_short, ") estimators:\n", sep = "")
     print(ad_tab, row.names = FALSE)
