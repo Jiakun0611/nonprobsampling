@@ -21,7 +21,7 @@
 #' participation model information, and design-based quantities required for point
 #' and variance estimation.
 #'
-#' \strong{Categorical outcomes.}
+#' \strong{Factor outcomes.}
 #' When \code{y} is a categorical variable (defined as a factor in R),
 #' \code{pwmean()} estimates the prevalence (proportion) of each category.
 #' To do so, each category is internally converted into a 0/1 indicator
@@ -60,17 +60,26 @@
 #'   }
 #'
 #'   \item{\code{estimates}}{
-#'     A data frame with one row per domain or factor-outcome category.
-#'     When \code{zcol = NULL}, it has a single row labeled \code{"Overall"}.
-#'     For factor outcomes with \code{zcol = NULL}, it has one row per
-#'     non-missing outcome level, with \code{category} labeled
-#'     \code{"<y> = <level>"} and \code{domain} set to \code{"Overall"}.
-#'     For a \code{logical} variable or a \code{numeric}/\code{integer}
-#'     variable containing only \code{0} and \code{1}, it has a single row
-#'     labeled \code{"<zcol> = 1"}. For a \code{factor} or \code{character}
-#'     variable, it has one row per level. For factor outcomes with
-#'     \code{zcol} supplied, \code{category} gives the outcome category and
-#'     \code{domain} gives the corresponding \code{zcol} level. The columns are:
+#'     A data frame containing the unweighted and pseudo-weighted estimates.
+#'
+#'     For numeric outcomes, the first column is \code{domain}. If
+#'     \code{zcol = NULL}, \code{domain} is \code{"Overall"}. If \code{zcol}
+#'     is a \code{logical} variable or a \code{numeric}/\code{integer}
+#'     variable containing only \code{0} and \code{1}, there is one row with
+#'     \code{domain} labeled \code{"<zcol> = 1"}. If \code{zcol} is a
+#'     \code{factor} or \code{character} variable, there is one row per
+#'     \code{zcol} level, with \code{domain} labeled
+#'     \code{"<zcol> = <level>"}.
+#'
+#'     For factor outcomes, the first two columns are
+#'     \code{category} and \code{domain}. \code{category} identifies the
+#'     outcome level as \code{"<y> = <level>"}. If \code{zcol = NULL},
+#'     \code{domain} is \code{"Overall"} for each outcome level. If
+#'     \code{zcol} is supplied, the rows are formed by each outcome category
+#'     within each domain, and \code{domain} follows the same labels described
+#'     above for \code{zcol}.
+#'
+#'     The columns are:
 #'     \describe{
 #'       \item{\code{category}}{Category label for factor outcomes only.}
 #'       \item{\code{domain}}{Domain label.}
