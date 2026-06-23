@@ -652,7 +652,7 @@ reliable or important.</p>
 </h3>
 <p>Once pseudo-weights have been estimated, <code><a href="../reference/pwmean.html">pwmean()</a></code> uses
 them to estimate population means for numeric outcomes and population
-prevalences of each observed category for factor outcomes. In both
+prevalences of each observed category for categorical outcomes. In both
 cases, the returned object includes unweighted and pseudo-weighted
 estimates, standard errors, and confidence intervals.</p>
 <p>For a numeric outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the overall
@@ -685,10 +685,10 @@ and reported as means.</p>
 <span><span class="co">#&gt;   Mean:             1.541785</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035178</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.472837, 1.610733]</span></span></code></pre></div>
-<p>For a factor outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the population
-prevalence of each observed category. Here, <code>BMI</code> is a factor
-outcome, so the output is printed with category and prevalence
-labels.</p>
+<p>For a categorical outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the
+population prevalence of each observed category. Here, <code>BMI</code>
+is a categorical outcome, so the output is printed with category and
+prevalence labels.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est_cali_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_factor</span><span class="op">)</span></span>
@@ -750,22 +750,22 @@ example, the mean of <code>psa_level</code> is estimated within each
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
-<span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Mean:             1.732436</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.140720</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.456629, 2.008243]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Domain: Normal</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Normal</span></span>
 <span><span class="co">#&gt;   Mean:             1.728680</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.083032</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.565940, 1.891420]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Domain: Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Obese</span></span>
 <span><span class="co">#&gt;   Mean:             1.362181</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.057429</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.249623, 1.474740]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Domain: Overweight</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Overweight</span></span>
 <span><span class="co">#&gt;   Mean:             1.491525</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.049834</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.393851, 1.589199]</span></span>
@@ -776,119 +776,120 @@ example, the mean of <code>psa_level</code> is estimated within each
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Unweighted estimators:</span></span>
-<span><span class="co">#&gt;          domain     mean         se CI_lower CI_upper</span></span>
-<span><span class="co">#&gt;  Morbidly Obese 1.673128 0.12901739 1.420259 1.925998</span></span>
-<span><span class="co">#&gt;          Normal 1.692864 0.08216978 1.531814 1.853914</span></span>
-<span><span class="co">#&gt;           Obese 1.360960 0.05707777 1.249089 1.472830</span></span>
-<span><span class="co">#&gt;      Overweight 1.513487 0.05114169 1.413251 1.613723</span></span>
+<span><span class="co">#&gt;                domain     mean         se CI_lower CI_upper</span></span>
+<span><span class="co">#&gt;  BMI = Morbidly Obese 1.673128 0.12901739 1.420259 1.925998</span></span>
+<span><span class="co">#&gt;          BMI = Normal 1.692864 0.08216978 1.531814 1.853914</span></span>
+<span><span class="co">#&gt;           BMI = Obese 1.360960 0.05707777 1.249089 1.472830</span></span>
+<span><span class="co">#&gt;      BMI = Overweight 1.513487 0.05114169 1.413251 1.613723</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
-<span><span class="co">#&gt;          domain     mean         se CI_lower CI_upper</span></span>
-<span><span class="co">#&gt;  Morbidly Obese 1.732436 0.14072032 1.456629 2.008243</span></span>
-<span><span class="co">#&gt;          Normal 1.728680 0.08303227 1.565940 1.891420</span></span>
-<span><span class="co">#&gt;           Obese 1.362181 0.05742881 1.249623 1.474740</span></span>
-<span><span class="co">#&gt;      Overweight 1.491525 0.04983443 1.393851 1.589199</span></span></code></pre></div>
-<p>With a factor outcome and a domain variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
-estimates a prevalence of each outcome category within each domain. In
-this example, the prevalence of each <code>agecat</code> category is
-estimated within each <code>BMI</code> domain.</p>
+<span><span class="co">#&gt;                domain     mean         se CI_lower CI_upper</span></span>
+<span><span class="co">#&gt;  BMI = Morbidly Obese 1.732436 0.14072032 1.456629 2.008243</span></span>
+<span><span class="co">#&gt;          BMI = Normal 1.728680 0.08303227 1.565940 1.891420</span></span>
+<span><span class="co">#&gt;           BMI = Obese 1.362181 0.05742881 1.249623 1.474740</span></span>
+<span><span class="co">#&gt;      BMI = Overweight 1.491525 0.04983443 1.393851 1.589199</span></span></code></pre></div>
+<p>With a categorical outcome and a domain variable,
+<code><a href="../reference/pwmean.html">pwmean()</a></code> estimates a prevalence of each outcome category
+within each domain. In this example, the prevalence of each
+<code>agecat</code> category is estimated within each <code>BMI</code>
+domain.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est_by_bmi_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"agecat"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_factor</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
 <span><span class="co">#&gt;   Category: agecat = 1</span></span>
-<span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.282210</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.032150</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.219196, 0.345223]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 1</span></span>
-<span><span class="co">#&gt;   Domain: Normal</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Normal</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.317870</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.019683</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.279293, 0.356447]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 1</span></span>
-<span><span class="co">#&gt;   Domain: Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.350691</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.020744</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.310033, 0.391349]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 1</span></span>
-<span><span class="co">#&gt;   Domain: Overweight</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Overweight</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.314797</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.015112</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.285177, 0.344417]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 2</span></span>
-<span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.325504</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.034144</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.258582, 0.392425]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 2</span></span>
-<span><span class="co">#&gt;   Domain: Normal</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Normal</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.256639</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.018350</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.220675, 0.292604]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 2</span></span>
-<span><span class="co">#&gt;   Domain: Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.295654</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.019828</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.256792, 0.334515]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 2</span></span>
-<span><span class="co">#&gt;   Domain: Overweight</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Overweight</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.262580</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.014320</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.234513, 0.290646]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 3</span></span>
-<span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.212538</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.030268</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.153214, 0.271862]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 3</span></span>
-<span><span class="co">#&gt;   Domain: Normal</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Normal</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.244468</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.018005</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.209178, 0.279757]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 3</span></span>
-<span><span class="co">#&gt;   Domain: Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.211416</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.017904</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.176325, 0.246508]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 3</span></span>
-<span><span class="co">#&gt;   Domain: Overweight</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Overweight</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.229366</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.013103</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.203685, 0.255047]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 4</span></span>
-<span><span class="co">#&gt;   Domain: Morbidly Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.179749</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.030531</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.119909, 0.239589]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 4</span></span>
-<span><span class="co">#&gt;   Domain: Normal</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Normal</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.181023</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.016755</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.148183, 0.213863]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 4</span></span>
-<span><span class="co">#&gt;   Domain: Obese</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.142239</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.015901</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.111073, 0.173405]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Category: agecat = 4</span></span>
-<span><span class="co">#&gt;   Domain: Overweight</span></span>
+<span><span class="co">#&gt;   Domain: BMI = Overweight</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.193257</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.012796</span></span>
 <span><span class="co">#&gt;   95% CI:         [0.168177, 0.218337]</span></span>
@@ -899,42 +900,42 @@ estimated within each <code>BMI</code> domain.</p>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Unweighted estimators:</span></span>
-<span><span class="co">#&gt;    category         domain prevalence         se   CI_lower  CI_upper</span></span>
-<span><span class="co">#&gt;  agecat = 1 Morbidly Obese  0.3282051 0.03371244 0.26212996 0.3942803</span></span>
-<span><span class="co">#&gt;  agecat = 1         Normal  0.3446602 0.01913314 0.30715993 0.3821605</span></span>
-<span><span class="co">#&gt;  agecat = 1          Obese  0.3891798 0.02038608 0.34922376 0.4291357</span></span>
-<span><span class="co">#&gt;  agecat = 1     Overweight  0.3467583 0.01492416 0.31750753 0.3760092</span></span>
-<span><span class="co">#&gt;  agecat = 2 Morbidly Obese  0.3384615 0.03397280 0.27187607 0.4050470</span></span>
-<span><span class="co">#&gt;  agecat = 2         Normal  0.2734628 0.01794467 0.23829188 0.3086337</span></span>
-<span><span class="co">#&gt;  agecat = 2          Obese  0.2966841 0.01909960 0.25924958 0.3341187</span></span>
-<span><span class="co">#&gt;  agecat = 2     Overweight  0.2681729 0.01389157 0.24094592 0.2953999</span></span>
-<span><span class="co">#&gt;  agecat = 3 Morbidly Obese  0.2000000 0.02871833 0.14371311 0.2562869</span></span>
-<span><span class="co">#&gt;  agecat = 3         Normal  0.2346278 0.01706018 0.20119050 0.2680652</span></span>
-<span><span class="co">#&gt;  agecat = 3          Obese  0.1954625 0.01658085 0.16296461 0.2279604</span></span>
-<span><span class="co">#&gt;  agecat = 3     Overweight  0.2229862 0.01305248 0.19740386 0.2485686</span></span>
-<span><span class="co">#&gt;  agecat = 4 Morbidly Obese  0.1333333 0.02440588 0.08549868 0.1811680</span></span>
-<span><span class="co">#&gt;  agecat = 4         Normal  0.1472492 0.01426576 0.11928881 0.1752096</span></span>
-<span><span class="co">#&gt;  agecat = 4          Obese  0.1186736 0.01352220 0.09217061 0.1451767</span></span>
-<span><span class="co">#&gt;  agecat = 4     Overweight  0.1620825 0.01155602 0.13943313 0.1847319</span></span>
+<span><span class="co">#&gt;    category               domain prevalence         se   CI_lower  CI_upper</span></span>
+<span><span class="co">#&gt;  agecat = 1 BMI = Morbidly Obese  0.3282051 0.03371244 0.26212996 0.3942803</span></span>
+<span><span class="co">#&gt;  agecat = 1         BMI = Normal  0.3446602 0.01913314 0.30715993 0.3821605</span></span>
+<span><span class="co">#&gt;  agecat = 1          BMI = Obese  0.3891798 0.02038608 0.34922376 0.4291357</span></span>
+<span><span class="co">#&gt;  agecat = 1     BMI = Overweight  0.3467583 0.01492416 0.31750753 0.3760092</span></span>
+<span><span class="co">#&gt;  agecat = 2 BMI = Morbidly Obese  0.3384615 0.03397280 0.27187607 0.4050470</span></span>
+<span><span class="co">#&gt;  agecat = 2         BMI = Normal  0.2734628 0.01794467 0.23829188 0.3086337</span></span>
+<span><span class="co">#&gt;  agecat = 2          BMI = Obese  0.2966841 0.01909960 0.25924958 0.3341187</span></span>
+<span><span class="co">#&gt;  agecat = 2     BMI = Overweight  0.2681729 0.01389157 0.24094592 0.2953999</span></span>
+<span><span class="co">#&gt;  agecat = 3 BMI = Morbidly Obese  0.2000000 0.02871833 0.14371311 0.2562869</span></span>
+<span><span class="co">#&gt;  agecat = 3         BMI = Normal  0.2346278 0.01706018 0.20119050 0.2680652</span></span>
+<span><span class="co">#&gt;  agecat = 3          BMI = Obese  0.1954625 0.01658085 0.16296461 0.2279604</span></span>
+<span><span class="co">#&gt;  agecat = 3     BMI = Overweight  0.2229862 0.01305248 0.19740386 0.2485686</span></span>
+<span><span class="co">#&gt;  agecat = 4 BMI = Morbidly Obese  0.1333333 0.02440588 0.08549868 0.1811680</span></span>
+<span><span class="co">#&gt;  agecat = 4         BMI = Normal  0.1472492 0.01426576 0.11928881 0.1752096</span></span>
+<span><span class="co">#&gt;  agecat = 4          BMI = Obese  0.1186736 0.01352220 0.09217061 0.1451767</span></span>
+<span><span class="co">#&gt;  agecat = 4     BMI = Overweight  0.1620825 0.01155602 0.13943313 0.1847319</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
-<span><span class="co">#&gt;    category         domain prevalence         se  CI_lower  CI_upper</span></span>
-<span><span class="co">#&gt;  agecat = 1 Morbidly Obese  0.2822096 0.03215020 0.2191964 0.3452229</span></span>
-<span><span class="co">#&gt;  agecat = 1         Normal  0.3178697 0.01968255 0.2792926 0.3564468</span></span>
-<span><span class="co">#&gt;  agecat = 1          Obese  0.3506910 0.02074425 0.3100330 0.3913490</span></span>
-<span><span class="co">#&gt;  agecat = 1     Overweight  0.3147969 0.01511246 0.2851770 0.3444168</span></span>
-<span><span class="co">#&gt;  agecat = 2 Morbidly Obese  0.3255038 0.03414428 0.2585822 0.3924253</span></span>
-<span><span class="co">#&gt;  agecat = 2         Normal  0.2566394 0.01834973 0.2206746 0.2926042</span></span>
-<span><span class="co">#&gt;  agecat = 2          Obese  0.2956536 0.01982781 0.2567918 0.3345154</span></span>
-<span><span class="co">#&gt;  agecat = 2     Overweight  0.2625798 0.01431989 0.2345133 0.2906462</span></span>
-<span><span class="co">#&gt;  agecat = 3 Morbidly Obese  0.2125376 0.03026785 0.1532137 0.2718615</span></span>
-<span><span class="co">#&gt;  agecat = 3         Normal  0.2444675 0.01800519 0.2091780 0.2797571</span></span>
-<span><span class="co">#&gt;  agecat = 3          Obese  0.2114163 0.01790418 0.1763248 0.2465079</span></span>
-<span><span class="co">#&gt;  agecat = 3     Overweight  0.2293664 0.01310283 0.2036853 0.2550475</span></span>
-<span><span class="co">#&gt;  agecat = 4 Morbidly Obese  0.1797490 0.03053137 0.1199086 0.2395894</span></span>
-<span><span class="co">#&gt;  agecat = 4         Normal  0.1810233 0.01675539 0.1481834 0.2138633</span></span>
-<span><span class="co">#&gt;  agecat = 4          Obese  0.1422391 0.01590142 0.1110728 0.1734053</span></span>
-<span><span class="co">#&gt;  agecat = 4     Overweight  0.1932569 0.01279605 0.1681771 0.2183367</span></span></code></pre></div>
+<span><span class="co">#&gt;    category               domain prevalence         se  CI_lower  CI_upper</span></span>
+<span><span class="co">#&gt;  agecat = 1 BMI = Morbidly Obese  0.2822096 0.03215020 0.2191964 0.3452229</span></span>
+<span><span class="co">#&gt;  agecat = 1         BMI = Normal  0.3178697 0.01968255 0.2792926 0.3564468</span></span>
+<span><span class="co">#&gt;  agecat = 1          BMI = Obese  0.3506910 0.02074425 0.3100330 0.3913490</span></span>
+<span><span class="co">#&gt;  agecat = 1     BMI = Overweight  0.3147969 0.01511246 0.2851770 0.3444168</span></span>
+<span><span class="co">#&gt;  agecat = 2 BMI = Morbidly Obese  0.3255038 0.03414428 0.2585822 0.3924253</span></span>
+<span><span class="co">#&gt;  agecat = 2         BMI = Normal  0.2566394 0.01834973 0.2206746 0.2926042</span></span>
+<span><span class="co">#&gt;  agecat = 2          BMI = Obese  0.2956536 0.01982781 0.2567918 0.3345154</span></span>
+<span><span class="co">#&gt;  agecat = 2     BMI = Overweight  0.2625798 0.01431989 0.2345133 0.2906462</span></span>
+<span><span class="co">#&gt;  agecat = 3 BMI = Morbidly Obese  0.2125376 0.03026785 0.1532137 0.2718615</span></span>
+<span><span class="co">#&gt;  agecat = 3         BMI = Normal  0.2444675 0.01800519 0.2091780 0.2797571</span></span>
+<span><span class="co">#&gt;  agecat = 3          BMI = Obese  0.2114163 0.01790418 0.1763248 0.2465079</span></span>
+<span><span class="co">#&gt;  agecat = 3     BMI = Overweight  0.2293664 0.01310283 0.2036853 0.2550475</span></span>
+<span><span class="co">#&gt;  agecat = 4 BMI = Morbidly Obese  0.1797490 0.03053137 0.1199086 0.2395894</span></span>
+<span><span class="co">#&gt;  agecat = 4         BMI = Normal  0.1810233 0.01675539 0.1481834 0.2138633</span></span>
+<span><span class="co">#&gt;  agecat = 4          BMI = Obese  0.1422391 0.01590142 0.1110728 0.1734053</span></span>
+<span><span class="co">#&gt;  agecat = 4     BMI = Overweight  0.1932569 0.01279605 0.1681771 0.2183367</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -1220,7 +1221,8 @@ multiple reference surveys</td>
 <tr class="even">
 <td><code><a href="../reference/pwmean.html">pwmean()</a></code></td>
 <td>Estimate pseudo-weighted population means for numeric outcomes and
-population prevalences for factor outcomes, overall or by domain</td>
+population prevalences for categorical outcomes, overall or by
+domain</td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/pw_solver_control.html">pw_solver_control()</a></code></td>

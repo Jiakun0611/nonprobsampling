@@ -6,7 +6,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
 
-**Inference for Nonprobability Samples Using Multiple Reference Surveys.**
+**Inference for Nonprobability Samples Using Multiple Reference Surveys**
 
 `nonprobsampling` 
 implements pseudo-weighting methods for finite population inference from nonprobability samples, such as convenience samples, volunteer cohorts, and opt-in panels.

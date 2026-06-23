@@ -94,25 +94,31 @@ are dropped).</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>"pwmean"</code> containing unweighted and pseudo-weighted
-estimates, standard errors, and confidence intervals. For factor outcomes,
+estimates, standard errors, and confidence intervals. For categorical outcomes,
 the estimate columns contain category prevalences.</p>
 <dl><dt><code>method</code></dt>
 <dd><p>Character. The pseudo-weighting method used.</p></dd>
 
 
   <dt><code>estimates</code></dt>
-<dd><p>A data frame with one row per domain or factor-outcome category.
-    When <code>zcol = NULL</code>, it has a single row labeled <code>"Overall"</code>.
-    For factor outcomes with <code>zcol = NULL</code>, it has one row per
-    non-missing outcome level, with <code>category</code> labeled
-    <code>"&lt;y&gt; = &lt;level&gt;"</code> and <code>domain</code> set to <code>"Overall"</code>.
-    For a <code>logical</code> variable or a <code>numeric</code>/<code>integer</code>
-    variable containing only <code>0</code> and <code>1</code>, it has a single row
-    labeled <code>"&lt;zcol&gt; = 1"</code>. For a <code>factor</code> or <code>character</code>
-    variable, it has one row per level. For factor outcomes with
-    <code>zcol</code> supplied, <code>category</code> gives the outcome category and
-    <code>domain</code> gives the corresponding <code>zcol</code> level. The columns are:</p><dl><dt><code>category</code></dt>
-<dd><p>Category label for factor outcomes only.</p></dd>
+<dd><p>A data frame containing the unweighted and pseudo-weighted estimates.</p>
+<p>For numeric outcomes, the first column is <code>domain</code>. If
+    <code>zcol = NULL</code>, <code>domain</code> is <code>"Overall"</code>. If <code>zcol</code>
+    is a <code>logical</code> variable or a <code>numeric</code>/<code>integer</code>
+    variable containing only <code>0</code> and <code>1</code>, there is one row with
+    <code>domain</code> labeled <code>"&lt;zcol&gt; = 1"</code>. If <code>zcol</code> is a
+    <code>factor</code> or <code>character</code> variable, there is one row per
+    <code>zcol</code> level, with <code>domain</code> labeled
+    <code>"&lt;zcol&gt; = &lt;level&gt;"</code>.</p>
+<p>For categorical outcomes, the first two columns are
+    <code>category</code> and <code>domain</code>. <code>category</code> identifies the
+    outcome level as <code>"&lt;y&gt; = &lt;level&gt;"</code>. If <code>zcol = NULL</code>,
+    <code>domain</code> is <code>"Overall"</code> for each outcome level. If
+    <code>zcol</code> is supplied, the rows are formed by each outcome category
+    within each domain, and <code>domain</code> follows the same labels described
+    above for <code>zcol</code>.</p>
+<p>The columns are:</p><dl><dt><code>category</code></dt>
+<dd><p>Category label for categorical outcomes only.</p></dd>
 
       <dt><code>domain</code></dt>
 <dd><p>Domain label.</p></dd>
@@ -205,22 +211,22 @@ indicator.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pseudo-weighted (calibration) Estimators:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: Morbidly Obese</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: BMI = Morbidly Obese</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mean:             1.732436</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Std. Error:       0.140720</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   95% CI:         [1.456629, 2.008243]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: Normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: BMI = Normal</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mean:             1.728680</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Std. Error:       0.083032</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   95% CI:         [1.565940, 1.891420]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: Obese</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: BMI = Obese</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mean:             1.362181</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Std. Error:       0.057429</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   95% CI:         [1.249623, 1.474740]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: Overweight</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Domain: BMI = Overweight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mean:             1.491525</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Std. Error:       0.049834</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   95% CI:         [1.393851, 1.589199]</span>
@@ -232,18 +238,18 @@ indicator.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Method: One reference calibration </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unweighted estimators:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          domain     mean         se CI_lower CI_upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Morbidly Obese 1.673128 0.12901739 1.420259 1.925998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Normal 1.692864 0.08216978 1.531814 1.853914</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Obese 1.360960 0.05707777 1.249089 1.472830</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Overweight 1.513487 0.05114169 1.413251 1.613723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                domain     mean         se CI_lower CI_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  BMI = Morbidly Obese 1.673128 0.12901739 1.420259 1.925998</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          BMI = Normal 1.692864 0.08216978 1.531814 1.853914</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           BMI = Obese 1.360960 0.05707777 1.249089 1.472830</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      BMI = Overweight 1.513487 0.05114169 1.413251 1.613723</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pseudo-weighted (calibration) estimators:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          domain     mean         se CI_lower CI_upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Morbidly Obese 1.732436 0.14072032 1.456629 2.008243</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Normal 1.728680 0.08303227 1.565940 1.891420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Obese 1.362181 0.05742881 1.249623 1.474740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Overweight 1.491525 0.04983443 1.393851 1.589199</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                domain     mean         se CI_lower CI_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  BMI = Morbidly Obese 1.732436 0.14072032 1.456629 2.008243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          BMI = Normal 1.728680 0.08303227 1.565940 1.891420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           BMI = Obese 1.362181 0.05742881 1.249623 1.474740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      BMI = Overweight 1.491525 0.04983443 1.393851 1.589199</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
