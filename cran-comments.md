@@ -1,6 +1,15 @@
 ## Submission
 
-This is a new submission.
+This is a resubmission of a new package.
+
+In this version I have:
+
+* Updated `NEWS.md` to summarize the changes made for this submission.
+* Updated the simulation script in `inst/` to avoid changing the user's global
+  settings.
+* Added support for categorical outcomes in `pwmean()`, allowing prevalence
+  estimation for each observed category.
+* Revised documentation, examples, and terminology for consistency.
 
 The package provides pseudo-weighting methods for finite population inference
 from nonprobability samples using auxiliary information from one or multiple
@@ -17,7 +26,7 @@ probability reference surveys.
 
 0 errors | 0 warnings | 1 note
 
-* This is a new submission.
+* This is a resubmission of a new package.
 
 The possibly misspelled words reported in DESCRIPTION are intentional:
 CLW is a method abbreviation; Valliant is an author surname; et al. is a
