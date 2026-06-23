@@ -127,7 +127,7 @@ standardize_zcol <- function(data, zcol = NULL) {
     return(list(
       mode = "factor",
       z_name = zcol,
-      labels = levs,         # original level names for output
+      labels = paste0(zcol, " = ", levs),
       indicators = ind_df
     ))
   }

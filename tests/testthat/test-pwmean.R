@@ -88,7 +88,7 @@ test_that("pwmean factor zcol (race, 4 levels): returns 4 domain rows in factor-
   out <- pwmean(fit_cali, y = "psa_level", zcol = "race")
 
   expect_equal(nrow(out$estimates), 4L)
-  expect_equal(out$estimates$domain, levels(sc$race))
+  expect_equal(out$estimates$domain, paste0("race = ", levels(sc$race)))
 })
 
 test_that("pwmean factor y: returns one prevalence row per outcome level", {
@@ -155,7 +155,7 @@ test_that("pwmean factor y with factor zcol returns category-by-domain prevalenc
   )
   expect_equal(
     out$estimates$domain,
-    rep(levels(sc$race), times = n_y)
+    rep(paste0("race = ", levels(sc$race)), times = n_y)
   )
 
   adjusted <- matrix(out$estimates$adjusted_mean, nrow = n_z, ncol = n_y)

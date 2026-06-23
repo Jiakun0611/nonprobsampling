@@ -225,7 +225,10 @@ test_that("process_na_yz: zcol = NULL gives domain$mode = 'overall'", {
 test_that("process_na_yz: factor zcol gives domain$mode = 'factor' with matching labels", {
   res <- process_na_yz(sc_data, y = "psa_level", zcol = "race")
   expect_equal(res$domain$mode, "factor")
-  expect_equal(sort(res$domain$labels), sort(levels(droplevels(factor(sc$race)))))
+  expect_equal(
+    sort(res$domain$labels),
+    sort(paste0("race = ", levels(droplevels(factor(sc$race)))))
+  )
 })
 
 test_that("process_na_yz: binary numeric zcol gives domain$mode = 'binary'", {

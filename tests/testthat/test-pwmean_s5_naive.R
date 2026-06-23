@@ -183,9 +183,9 @@ test_that("naive_mean: factor domain has two labels and two estimates", {
   expect_length(res$estimates, 2L)
 })
 
-test_that("naive_mean: factor domain labels are the original factor levels", {
+test_that("naive_mean: factor domain labels include the domain variable name", {
   res <- naive_mean(df, domain_var = "grp_fac", y = "y")
-  expect_equal(res$labels, c("A", "B"))
+  expect_equal(res$labels, c("grp_fac = A", "grp_fac = B"))
 })
 
 test_that("naive_mean: factor domain each estimate has mean and variance", {
@@ -197,25 +197,25 @@ test_that("naive_mean: factor domain each estimate has mean and variance", {
 
 test_that("naive_mean: factor domain level A mean equals 2.5", {
   res   <- naive_mean(df, domain_var = "grp_fac", y = "y")
-  idx_A <- which(res$labels == "A")
+  idx_A <- which(res$labels == "grp_fac = A")
   expect_equal(res$estimates[[idx_A]]$mean, 2.5)
 })
 
 test_that("naive_mean: factor domain level A variance equals 2.25", {
   res   <- naive_mean(df, domain_var = "grp_fac", y = "y")
-  idx_A <- which(res$labels == "A")
+  idx_A <- which(res$labels == "grp_fac = A")
   expect_equal(res$estimates[[idx_A]]$variance, 2.25)
 })
 
 test_that("naive_mean: factor domain level B mean equals 4.5", {
   res   <- naive_mean(df, domain_var = "grp_fac", y = "y")
-  idx_B <- which(res$labels == "B")
+  idx_B <- which(res$labels == "grp_fac = B")
   expect_equal(res$estimates[[idx_B]]$mean, 4.5)
 })
 
 test_that("naive_mean: factor domain level B variance equals 6.25", {
   res   <- naive_mean(df, domain_var = "grp_fac", y = "y")
-  idx_B <- which(res$labels == "B")
+  idx_B <- which(res$labels == "grp_fac = B")
   expect_equal(res$estimates[[idx_B]]$variance, 6.25)
 })
 
@@ -231,6 +231,11 @@ test_that("naive_mean: character domain has two labels and two estimates", {
   res <- naive_mean(df, domain_var = "grp_chr", y = "y")
   expect_length(res$labels,    2L)
   expect_length(res$estimates, 2L)
+})
+
+test_that("naive_mean: character domain labels include the domain variable name", {
+  res <- naive_mean(df, domain_var = "grp_chr", y = "y")
+  expect_equal(res$labels, c("grp_chr = A", "grp_chr = B"))
 })
 
 test_that("naive_mean: character domain each estimate has mean and variance", {
@@ -256,7 +261,7 @@ test_that("naive_mean: NA in domain_var is silently dropped before computing", {
   df_na$grp_fac[1L] <- NA
   # Obs 1 dropped; level A keeps only obs 3 (y=4): single obs -> NA variance
   res   <- naive_mean(df_na, domain_var = "grp_fac", y = "y")
-  idx_A <- which(res$labels == "A")
+  idx_A <- which(res$labels == "grp_fac = A")
   expect_equal(res$estimates[[idx_A]]$mean, 4.0)
   expect_true(is.na(res$estimates[[idx_A]]$variance))
 })
