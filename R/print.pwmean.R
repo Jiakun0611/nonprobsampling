@@ -14,7 +14,7 @@ print.pwmean <- function(x, ...) {
   print_pwmean_impl(x, group_label = "Domain", estimate_label = "Mean")
 }
 
-#' Print method for pwmean objects with factor outcomes
+#' Print method for pwmean objects with categorical outcomes
 #'
 #' Displays pseudo-weighted prevalence estimates and their uncertainty.
 #'

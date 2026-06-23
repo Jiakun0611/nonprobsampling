@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.pwmean.R
 \name{print.pwmean_factor}
 \alias{print.pwmean_factor}
-\title{Print method for pwmean objects with factor outcomes}
+\title{Print method for pwmean objects with categorical outcomes}
 \usage{
 \method{print}{pwmean_factor}(x, ...)
 }

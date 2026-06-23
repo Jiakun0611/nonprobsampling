@@ -241,7 +241,7 @@ summary(fit_multi_as_given)
 
 ## Step 3 — Estimate Population Means and Prevalences
 
-Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalences of each observed category for factor outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
+Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalences of each observed category for categorical outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
 
 For a numeric outcome, `pwmean()` estimates the overall population mean. Since `psa_level` is numeric, the estimate is reported as a mean. Binary 0/1 outcomes are also treated as numeric and reported as means.
 ```{r pwmean-numeric}
@@ -250,7 +250,7 @@ print(est_cali_numeric)
 summary(est_cali_numeric)
 ```
 
-For a factor outcome, `pwmean()` estimates the population prevalence of each observed category. Here, `BMI` is a factor outcome, so the output is printed with category and prevalence labels.
+For a categorical outcome, `pwmean()` estimates the population prevalence of each observed category. Here, `BMI` is a categorical outcome, so the output is printed with category and prevalence labels.
 ```{r pwmean-factor}
 est_cali_factor <- pwmean(fit_cali, y = "BMI")
 print(est_cali_factor)
@@ -268,7 +268,7 @@ print(est_by_bmi_numeric)
 summary(est_by_bmi_numeric)
 ```
 
-With a factor outcome and a domain variable, `pwmean()` estimates a prevalence of each outcome category within each domain. In this example, the prevalence of each `agecat` category is estimated within each `BMI` domain.
+With a categorical outcome and a domain variable, `pwmean()` estimates a prevalence of each outcome category within each domain. In this example, the prevalence of each `agecat` category is estimated within each `BMI` domain.
 ```{r pwmean-domain-factor}
 est_by_bmi_factor <- pwmean(fit_cali, y = "agecat", zcol = "BMI")
 print(est_by_bmi_factor)
@@ -411,7 +411,7 @@ fit_ctrl <- est_pw(
 | Function | Purpose |
 |----------|---------|
 | `est_pw()` | Estimate pseudo-weights from a nonprobability sample and one or multiple reference surveys |
-| `pwmean()` | Estimate pseudo-weighted population means for numeric outcomes and population prevalences for factor outcomes, overall or by domain |
+| `pwmean()` | Estimate pseudo-weighted population means for numeric outcomes and population prevalences for categorical outcomes, overall or by domain |
 | `pw_solver_control()` | Configure numerical solver settings |
 
 | Argument | Values | Notes |

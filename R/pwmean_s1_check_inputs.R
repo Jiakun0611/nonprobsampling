@@ -7,7 +7,7 @@
 #' non-missing levels in both the full sample and the build-stage complete cases.
 #'
 #' @param build A `pw_fit` object returned by the build step.
-#' @param y Single character string naming the numeric or factor outcome
+#' @param y Single character string naming the numeric or categorical outcome
 #'   variable in `build$internal$raw_sc`.
 #' @param zcol Single character string naming the domain variable in
 #'   `build$internal$raw_sc`, or NULL for the overall mean.

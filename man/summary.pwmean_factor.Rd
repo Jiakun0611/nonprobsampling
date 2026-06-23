@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.pwmean.R
 \name{summary.pwmean_factor}
 \alias{summary.pwmean_factor}
-\title{Summary method for pwmean objects with factor outcomes}
+\title{Summary method for pwmean objects with categorical outcomes}
 \usage{
 \method{summary}{pwmean_factor}(object, ...)
 }

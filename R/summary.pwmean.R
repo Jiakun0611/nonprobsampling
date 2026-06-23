@@ -22,7 +22,7 @@ summary.pwmean <- function(object, ...) {
   )
 }
 
-#' Summary method for pwmean objects with factor outcomes
+#' Summary method for pwmean objects with categorical outcomes
 #'
 #' Provides console output for objects of class \code{"pwmean_factor"},
 #' including unweighted and pseudo-weighted prevalence estimates, standard

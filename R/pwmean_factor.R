@@ -1,4 +1,4 @@
-# Estimates prevalence for each level of a factor outcome.
+# Estimates prevalence for each level of a categorical outcome.
 pwmean_factor <- function(
     object,
     y,
@@ -92,7 +92,7 @@ make_factor_outcome_name <- function(y, level_index, existing_names) {
   out
 }
 
-# Helper: adds user-facing category and domain columns for factor outcomes.
+# Helper: adds user-facing category and domain columns for categorical outcomes.
 add_factor_outcome_columns <- function(estimates, y, level, has_domain) {
   category_label <- paste0(y, " = ", level)
   domain_labels <- estimates$domain

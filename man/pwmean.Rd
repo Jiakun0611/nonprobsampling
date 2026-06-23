@@ -30,7 +30,7 @@ are dropped).}
 }
 \value{
 An object of class \code{"pwmean"} containing unweighted and pseudo-weighted
-estimates, standard errors, and confidence intervals. For factor outcomes,
+estimates, standard errors, and confidence intervals. For categorical outcomes,
 the estimate columns contain category prevalences.
 
 \describe{
@@ -50,7 +50,7 @@ the estimate columns contain category prevalences.
     \code{zcol} level, with \code{domain} labeled
     \code{"<zcol> = <level>"}.
 
-    For factor outcomes, the first two columns are
+    For categorical outcomes, the first two columns are
     \code{category} and \code{domain}. \code{category} identifies the
     outcome level as \code{"<y> = <level>"}. If \code{zcol = NULL},
     \code{domain} is \code{"Overall"} for each outcome level. If
@@ -60,7 +60,7 @@ the estimate columns contain category prevalences.
 
     The columns are:
     \describe{
-      \item{\code{category}}{Category label for factor outcomes only.}
+      \item{\code{category}}{Category label for categorical outcomes only.}
       \item{\code{domain}}{Domain label.}
       \item{\code{unweighted_mean}, \code{unweighted_se}}{Unweighted
         mean of \code{y} and its standard error.}
@@ -110,7 +110,7 @@ returned by \code{\link{est_pw}}. It stores the estimated pseudo-weights,
 participation model information, and design-based quantities required for point
 and variance estimation.
 
-\strong{Factor outcomes.}
+\strong{Categorical outcomes.}
 When \code{y} is a categorical variable (defined as a factor in R),
 \code{pwmean()} estimates the prevalence (proportion) of each category.
 To do so, each category is internally converted into a 0/1 indicator

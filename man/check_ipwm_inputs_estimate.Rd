@@ -9,7 +9,7 @@ check_ipwm_inputs_estimate(build, y, zcol = NULL)
 \arguments{
 \item{build}{A `pw_fit` object returned by the build step.}
 
-\item{y}{Single character string naming the numeric or factor outcome
+\item{y}{Single character string naming the numeric or categorical outcome
 variable in `build$internal$raw_sc`.}
 
 \item{zcol}{Single character string naming the domain variable in
