@@ -16,7 +16,6 @@ old_options <- options(
   scipen = 999,               # no scientific notation
   digits = 4
 )
-on.exit(options(old_options), add = TRUE)
 
 # -------- Simulation rounds and seeds ------------
 # Reduce n_sim for a quick trial run; set to 4000 to reproduce the paper.
@@ -316,3 +315,7 @@ print(kable(round(table_both, 2), align = "c"))
 # write.csv(round(table_sp1,  2), "table_sp1.csv")
 # write.csv(round(table_sp2,  2), "table_sp2.csv")
 # write.csv(round(table_both, 2), "table_both.csv")
+
+
+# Restore user's global options
+options(old_options)
