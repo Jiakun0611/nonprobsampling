@@ -12,8 +12,10 @@ library(sampling)
 library(survey)
 library(knitr)
 
+# Temporarily set display options for reproducible printed output.
+# These options are restored at the end of the script.
 old_options <- options(
-  scipen = 999,               # no scientific notation
+  scipen = 999,
   digits = 4
 )
 
@@ -316,6 +318,4 @@ print(kable(round(table_both, 2), align = "c"))
 # write.csv(round(table_sp2,  2), "table_sp2.csv")
 # write.csv(round(table_both, 2), "table_both.csv")
 
-
-# Restore user's global options
 options(old_options)
