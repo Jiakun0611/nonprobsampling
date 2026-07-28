@@ -18,7 +18,7 @@ The implemented methods are based on the generalized estimating equations framew
 
 ## Installation
 
-Install the released version from CRAN (once available):
+Install the released version from CRAN:
 
 ```r
 install.packages("nonprobsampling")
