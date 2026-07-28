@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/nonprobsampling)](https://CRAN.R-project.org/package=nonprobsampling)
+[![R-CMD-check](https://github.com/Jiakun0611/nonprobsampling/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Jiakun0611/nonprobsampling/actions/workflows/R-CMD-check.yaml)
 [![pkgdown site](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://jiakun0611.github.io/nonprobsampling/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
