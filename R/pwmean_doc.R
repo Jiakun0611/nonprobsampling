@@ -63,6 +63,8 @@
 #'     A data frame containing the unweighted and pseudo-weighted estimates.
 #'     Extract the pseudo-weighted means or category proportions as a named
 #'     numeric vector with \code{stats::coef()}.
+#'     Obtain normal-approximation confidence intervals at a chosen level
+#'     with \code{stats::confint()}.
 #'
 #'     For numeric outcomes, the first column is \code{domain}. If
 #'     \code{zcol = NULL}, \code{domain} is \code{"Overall"}. If \code{zcol}
@@ -115,6 +117,7 @@
 #' @seealso
 #' \code{\link{est_pw}},
 #' \code{\link{coef.pwmean}},
+#' \code{\link{confint.pwmean}},
 #' \code{\link{summary.pwmean}},
 #' \code{\link{print.pwmean}}
 #'
@@ -145,6 +148,9 @@
 #' summary(out)
 #'
 #' stats::coef(out)
+#'
+#' stats::confint(out)
+#' stats::confint(out, level = 0.90)
 #' }
 #'
 #' @export
