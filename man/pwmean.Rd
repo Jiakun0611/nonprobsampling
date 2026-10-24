@@ -40,6 +40,8 @@ the estimate columns contain category prevalences.
 
   \item{\code{estimates}}{
     A data frame containing the unweighted and pseudo-weighted estimates.
+    Extract the pseudo-weighted means or category proportions as a named
+    numeric vector with \code{stats::coef()}.
 
     For numeric outcomes, the first column is \code{domain}. If
     \code{zcol = NULL}, \code{domain} is \code{"Overall"}. If \code{zcol}
@@ -142,11 +144,14 @@ out <- pwmean(fit, y = "psa_level", zcol = "BMI")
 print(out)
 
 summary(out)
+
+stats::coef(out)
 }
 
 }
 \seealso{
 \code{\link{est_pw}},
+\code{\link{coef.pwmean}},
 \code{\link{summary.pwmean}},
 \code{\link{print.pwmean}}
 }
