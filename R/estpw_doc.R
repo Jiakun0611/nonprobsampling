@@ -229,7 +229,8 @@
 #'     and the vector has length \code{nrow(sc)}.
 #'   }
 #'   \item{\code{coefficients}}{
-#'     Estimated coefficients for the participation model variables.
+#'     Named numeric vector of estimated participation model coefficients.
+#'     Extract with \code{stats::coef()}.
 #'   }
 #'   \item{\code{solver_diagnostics}}{
 #'     A list of solver diagnostics: \code{solver} (solver name),
