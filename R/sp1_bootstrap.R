@@ -24,6 +24,8 @@
 #' variance estimation. The main survey weight \code{wts_sp1} and the replicate
 #' weight columns \code{bw1}--\code{bw500} are sufficient for constructing a
 #' replicate-weight survey design object via \code{survey::svrepdesign()}.
+#' These columns already include the main survey weight, so use
+#' \code{combined.weights = TRUE} to avoid multiplying by it again.
 #'
 #' @source
 #' Derived from \code{sp1} (National Health and Nutrition Examination Survey,
@@ -41,7 +43,7 @@
 #'   weights = ~wts_sp1,
 #'   repweights = "bw[0-9]+",
 #'   type    = "bootstrap",
-#'   combined.weights = FALSE
+#'   combined.weights = TRUE
 #' )
 #'
 #' summary(des_boot)

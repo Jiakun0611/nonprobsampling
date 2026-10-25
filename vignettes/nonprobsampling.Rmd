@@ -89,7 +89,8 @@ ref1_design_rep_wts <- survey::svrepdesign(
    data    = sp1_bootstrap,
    weights = ~wts_sp1,
    repweights = "bw[0-9]+",
-   type    = "bootstrap"
+   type    = "bootstrap",
+   combined.weights = TRUE
 )
 
 ```
