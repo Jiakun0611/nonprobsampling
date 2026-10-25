@@ -48,6 +48,8 @@ naive_mean_one_domain <- function(yvec, zvec = NULL) {
 #' unweighted sample mean (and its variance) for each domain using
 #' `naive_mean_one_domain()`. The domain structure is standardized via
 #' `standardize_zcol()`.
+#' Character domain values are trimmed and empty strings are treated as
+#' missing before complete-case filtering.
 #'
 #' @param df A data frame containing the convenience sample
 #'   (typically `build$internal$raw_sc`).
@@ -98,6 +100,7 @@ naive_mean <- function(df, domain_var = NULL, y) {
            call. = FALSE)
     }
 
+    df[[domain_var]] <- normalize_domain_values(df[[domain_var]])
     ok <- !is.na(df[[y]]) & !is.na(df[[domain_var]])
   }
 

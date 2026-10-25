@@ -29,5 +29,7 @@ Filters the convenience sample to complete cases, then computes the
 unweighted sample mean (and its variance) for each domain using
 `naive_mean_one_domain()`. The domain structure is standardized via
 `standardize_zcol()`.
+Character domain values are trimmed and empty strings are treated as
+missing before complete-case filtering.
 }
 \keyword{internal}

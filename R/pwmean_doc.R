@@ -14,6 +14,10 @@
 #' mean requires complete cases for the outcome \code{y} and, if supplied, the
 #' domain variable \code{zcol}. The argument \code{na.action} controls how
 #' these missing values are handled at the outcome-estimation step.
+#' For character domain variables, leading and trailing whitespace is removed
+#' and empty strings are converted to missing values before applying
+#' \code{na.action}. These rows are omitted with \code{stats::na.omit} or
+#' \code{stats::na.exclude}, and cause an error with \code{stats::na.fail}.
 #'
 #' \strong{Input \code{object}.}
 #' The \code{object} argument should be an object of class \code{"pw_fit"}

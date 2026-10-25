@@ -36,5 +36,7 @@ Identifies rows with missing values in `y` (and `zcol` if supplied),
 applies the chosen `na.action` strategy, and returns the complete-case
 subsets of the outcome vector, covariate matrix, and pseudo-weight vector.
 Also standardizes the domain variable via `standardize_zcol()`.
+Character domain values are trimmed and empty strings are treated as
+missing before applying `na.action`.
 }
 \keyword{internal}

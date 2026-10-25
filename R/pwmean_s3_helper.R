@@ -1,3 +1,13 @@
+# Normalize character domains before complete-case filtering. Leave other
+# domain types unchanged, including factors with explicitly defined levels.
+normalize_domain_values <- function(z) {
+  if (is.character(z)) {
+    z <- trimws(z)
+    z[z == ""] <- NA_character_
+  }
+  z
+}
+
 #' Standardize a domain variable into a common internal format
 #'
 #' Converts `zcol` in `data` to a standard form used throughout the
@@ -49,7 +59,7 @@ standardize_zcol <- function(data, zcol = NULL) {
     stop("`zcol` was not found in `data`.", call. = FALSE)
   }
 
-  z <- data[[zcol]]
+  z <- normalize_domain_values(data[[zcol]])
 
   #----------------------------------#
   # Step 3: logical -> binary
@@ -95,11 +105,6 @@ standardize_zcol <- function(data, zcol = NULL) {
   # Step 5: character -> factor
   #----------------------------------#
   if (is.character(z)) {
-    z <- trimws(z)
-
-    # treat empty string as missing
-    z[z == ""] <- NA_character_
-
     z <- factor(z)
   }
 

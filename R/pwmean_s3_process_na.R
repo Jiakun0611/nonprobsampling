@@ -4,6 +4,8 @@
 #' applies the chosen `na.action` strategy, and returns the complete-case
 #' subsets of the outcome vector, covariate matrix, and pseudo-weight vector.
 #' Also standardizes the domain variable via `standardize_zcol()`.
+#' Character domain values are trimmed and empty strings are treated as
+#' missing before applying `na.action`.
 #'
 #' @param sc_data A list returned by `prepare_sc_data()`, with components
 #'   `sc`, `X`, `w`, and `idx_keep`.
@@ -37,13 +39,14 @@ process_na_yz <- function(sc_data, y, zcol = NULL, na.action = stats::na.omit) {
   idx_keep <- sc_data$idx_keep
 
   #----------------------------------#
-  # Step 2: prepare raw y / z
+  # Step 2: prepare y and normalize domain values before NA filtering
   #----------------------------------#
   Y0 <- sc[[y]]
 
   if (is.null(zcol)) {
     ok <- !is.na(Y0)
   } else {
+    sc[[zcol]] <- normalize_domain_values(sc[[zcol]])
     Z0 <- sc[[zcol]]
     ok <- !is.na(Y0) & !is.na(Z0)
   }
