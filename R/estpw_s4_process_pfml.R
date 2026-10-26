@@ -27,10 +27,10 @@
 #' formula `j` plus the corresponding weight column. If
 #' `Pre.calibration = TRUE` and there are at least two reference surveys,
 #' `precal_cumulative_order()` is called to sequentially calibrate the
-#' reference survey weights before estimation. The calibration variables
-#' are the intersection of the variables appearing across all formulas in
-#' `p_formula`, ensuring precalibration aligns reference surveys on
-#' exactly the dimensions used in the participation models.
+#' reference survey weights before estimation. Each survey retains its own
+#' formula variables. Calibration uses columns shared with the accumulated
+#' targets from earlier surveys; variables need not occur in every formula.
+#' Newly encountered columns contribute targets using calibrated weights.
 #'
 #' @param sc A data frame. The nonprobability sample after NA processing.
 #' @param sp A data frame (one-reference) or a named list of data frames
@@ -211,9 +211,10 @@ process_p_formula <- function(
   log_messages <- character()
 
   if (Pre.calibration && length(sp_new) > 1) {
-    shared_vars <- Reduce(intersect, lapply(p_formula, all.vars))
     sp_for_precal <- lapply(seq_along(sp), function(j) {
-      sp[[j]][, c(shared_vars, weight[j]), drop = FALSE]
+      # Preserve local overlap so targets can pass through intermediate surveys.
+      vars_j <- unique(c(all.vars(p_formula[[j]]), weight[j]))
+      sp[[j]][, vars_j, drop = FALSE]
     })
 
     out <- precal_cumulative_order(

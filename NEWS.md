@@ -1,5 +1,10 @@
 # nonprobsampling (development version)
 
+* Fixed cumulative precalibration with multiple reference surveys to retain
+  variables shared by only some surveys. Each survey now uses its own formula
+  variables, allowing calibrated targets to pass through intermediate surveys
+  even when no variable occurs in every survey.
+
 * Fixed missing-value handling for character domains in `pwmean()`: empty
   and whitespace-only strings are now detected before applying `na.action`
   in the pseudo-weighted and unweighted estimation paths. Omitted row

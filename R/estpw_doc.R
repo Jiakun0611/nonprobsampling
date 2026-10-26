@@ -87,18 +87,20 @@
 #'
 #' @section Multi-reference precalibration:
 #' When \code{precali = TRUE}, cumulative precalibration is performed before the
-#' main multi-reference calibration step. For overlapping
-#' auxiliary variables, this procedure calibrates the survey weights of a
-#' reference survey so that its weighted totals of the overlapping variables
-#' and its sum of weights match the corresponding totals from the preceding
-#' reference survey in the cumulative order. If there are no overlapping
-#' auxiliary variables, cumulative precalibration is applied only to the sum of
-#' weights.
+#' main multi-reference calibration step. The first reference survey supplies
+#' the initial weighted totals and sum of weights. Each subsequent survey is
+#' calibrated to the accumulated targets for variables it shares with earlier
+#' surveys, together with the initial sum of weights. Newly encountered
+#' variables contribute targets computed using that survey's calibrated
+#' weights; previously established targets are retained. Variables need not
+#' appear in every survey. If a survey has no variables shared with the
+#' accumulated targets, only its sum of weights is calibrated.
 #'
 #' The order of the reference surveys is controlled by \code{sp_order}. If
 #' \code{sp_order = "size"}, reference surveys are ordered by sample size, from
 #' largest to smallest. If \code{sp_order = "given"}, the user-specified order
-#' of the reference surveys is used.
+#' of the reference surveys is used. The order determines which survey first
+#' supplies each target and can therefore affect the calibrated weights.
 #'
 #' Cumulative precalibration is based only on overlapping variables that are
 #' specified in \code{p_formula}, rather than on all overlapping variables in

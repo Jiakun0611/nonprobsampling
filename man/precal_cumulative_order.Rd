@@ -7,12 +7,14 @@
 precal_cumulative_order(sp_raw, sp_new, weight, sp_order)
 }
 \arguments{
-\item{sp_raw}{A list of data frames (raw reference samples).}
+\item{sp_raw}{A list of data frames containing each reference sample's own
+formula variables and weight column, before model matrix expansion.}
 
 \item{sp_new}{A list of data frames (working reference samples) with the same
-structure as \code{sp_raw}. Calibrated weights are written back in place.}
+row order as \code{sp_raw}, containing model matrix columns and weights.
+Calibrated weights are written back in the returned list.}
 
-\item{weight}{A list of weight column name strings, one per sample.}
+\item{weight}{A character vector of weight column names, one per sample.}
 
 \item{sp_order}{\code{"size"} to process largest sample first; otherwise
 the original list order is used.}
@@ -24,6 +26,11 @@ A list with components \code{sp_new}, \code{total_vector},
 \description{
 Performs a cumulative precalibration across multiple probability samples by
 sequentially calibrating each sample's weights to align with the marginal
-totals of the previous samples. Called internally by \code{est_pw()}.
+totals accumulated from earlier samples. The first sample supplies initial
+targets. Later samples match shared targets and contribute new targets using
+their calibrated weights. Variables need not occur in every sample. When no
+columns are shared with accumulated targets, only the sum of weights is
+calibrated. Previously established targets are retained, so processing order
+can affect the results. Called internally by \code{est_pw()}.
 }
 \keyword{internal}
