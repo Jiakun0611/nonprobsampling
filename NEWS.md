@@ -1,5 +1,10 @@
 # nonprobsampling (development version)
 
+* Fixed variance calculations when reference survey data contain columns
+  with internal helper names such as `h_x`. Calibration, ALP, CLW, and
+  multi-reference calibration now avoid these name collisions, preventing
+  unrelated columns from changing standard errors and confidence intervals.
+
 * Fixed cumulative precalibration with multiple reference surveys to retain
   variables shared by only some surveys. Each survey now uses its own formula
   variables, allowing calibrated targets to pass through intermediate surveys

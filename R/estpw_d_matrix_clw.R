@@ -79,7 +79,11 @@ compute_D_CLW <- function(sp_des, pi_sp, Xp) {
   H <- sweep(Xp, 1, pi_sp, "*")
 
   H_df <- as.data.frame(H)
-  colnames(H_df) <- paste0("h_", xp_names)
+  h_names <- paste0("h_", xp_names)
+  # Avoid existing user columns, including names with numeric suffixes.
+  colnames(H_df) <- utils::tail(
+    make.unique(c(names(sp_des$variables), h_names)), length(h_names)
+  )
 
   # attach h_j columns to existing survey design object
   sp_des_h <- sp_des
@@ -91,5 +95,7 @@ compute_D_CLW <- function(sp_des, pi_sp, Xp) {
   tot <- survey::svytotal(fml, design = sp_des_h)
   D   <- stats::vcov(tot)
 
+  # Keep matrix labels independent of temporary names in the survey design.
+  dimnames(D) <- list(h_names, h_names)
   return(D)
 }
