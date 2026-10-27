@@ -172,6 +172,8 @@ prepare_nleqslv_args <- function(control) {
 #' Inspects the termination code (`termcd`) from `nleqslv::nleqslv()` and
 #' either returns silently on success, issues a warning for partial
 #' convergence, or stops with an informative error message on failure.
+#' Unsuccessful convergence diagnostics suggest standardizing continuous
+#' auxiliary variables when they differ substantially in scale.
 #'
 #' @param root The list returned by `nleqslv::nleqslv()`.
 #' @param label Character string used as a prefix in messages to identify
@@ -184,6 +186,10 @@ prepare_nleqslv_args <- function(control) {
 #'
 #' @keywords internal
 check_nleqslv_result <- function(root, label, ftol) {
+  scaling_hint <- paste0(
+    "\nIf continuous auxiliary variables differ substantially in scale, ",
+    "consider standardizing them"
+  )
   if (is.null(root$fvec)) {
     stop(
       sprintf("[%s] nleqslv failed: result does not contain `fvec`.", label),
@@ -207,7 +213,8 @@ check_nleqslv_result <- function(root, label, ftol) {
   if (!is.finite(fmax)) {
     stop(
       sprintf(
-        "[%s] nleqslv failed: final estimating equations contain non-finite values.",
+        paste0("[%s] nleqslv failed: final estimating equations contain non-finite values.",
+               scaling_hint),
         label
       ),
       call. = FALSE
@@ -232,7 +239,8 @@ check_nleqslv_result <- function(root, label, ftol) {
           "but the estimating equations are not sufficiently close to zero.\n",
           "max|fvec| = %.3e; ftol = %.3e.\n",
           "The coefficients and pseudo-weights are returned, but users should decide ",
-          "whether this remaining equation imbalance is acceptable."
+          "whether this remaining equation imbalance is acceptable.",
+          scaling_hint
         ),
         label, fmax, ftol
       ),
@@ -265,7 +273,8 @@ check_nleqslv_result <- function(root, label, ftol) {
           "termcd = 3; message = %s; max|fvec| = %.3e.\n",
           "The algorithm stopped before the estimating equations became small enough. ",
           "Try changing the nleqslv global strategy, ",
-          "using xscalm = 'auto', simplifying p_formula, or combining rare factor levels."
+          "using xscalm = 'auto', simplifying p_formula, or combining rare factor levels.",
+          scaling_hint
         ),
         label, root$message, fmax
       ),
@@ -280,7 +289,8 @@ check_nleqslv_result <- function(root, label, ftol) {
           "[%s] nleqslv failed: iteration limit was reached.\n",
           "termcd = 4; message = %s; max|fvec| = %.3e.\n",
           "Try increasing the maximum number of iterations, ",
-          "changing the nleqslv global strategy, or simplifying p_formula."
+          "changing the nleqslv global strategy, or simplifying p_formula.",
+          scaling_hint
         ),
         label, root$message, fmax
       ),
@@ -309,7 +319,8 @@ check_nleqslv_result <- function(root, label, ftol) {
           "  4. The variables almost perfectly distinguish the nonprobability sample ",
           "from the reference survey.\n",
           "Try simplifying p_formula, removing overlapping variables, combining rare factor levels, ",
-          "or changing the global strategy in pw_solver_control()."
+          "or changing the global strategy in pw_solver_control().",
+          scaling_hint
         ),
         label, jac_reason, termcd, root$message, fmax
       ),
@@ -325,7 +336,8 @@ check_nleqslv_result <- function(root, label, ftol) {
           "termcd = -10; message = %s; max|fvec| = %.3e.\n",
           "This is likely caused by numerical instability in the model.\n",
           "Try simplifying p_formula, removing highly correlated variables, ",
-          "or combining rare factor levels."
+          "or combining rare factor levels.",
+          scaling_hint
         ),
         label, root$message, fmax
       ),
@@ -337,7 +349,8 @@ check_nleqslv_result <- function(root, label, ftol) {
     sprintf(
       paste0(
         "[%s] nleqslv failed with unrecognized termination code.\n",
-        "termcd = %s; message = %s; max|fvec| = %.3e."
+        "termcd = %s; message = %s; max|fvec| = %.3e.",
+        scaling_hint
       ),
       label, termcd, root$message, fmax
     ),

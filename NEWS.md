@@ -1,5 +1,12 @@
 # nonprobsampling (development version)
 
+* Added standardization guidance to the `est_pw()` documentation: use the same
+  centering and scaling constants across all datasets before estimation, rather
+  than standardizing each dataset separately or using `scale(x)` directly in
+  `p_formula`. Solver diagnostics now suggest standardizing continuous auxiliary
+  variables with substantially different scales when `nleqslv` does not converge
+  sufficiently.
+
 * Fixed variance calculations when reference survey data contain columns
   with internal helper names such as `h_x`. Calibration, ALP, CLW, and
   multi-reference calibration now avoid these name collisions, preventing

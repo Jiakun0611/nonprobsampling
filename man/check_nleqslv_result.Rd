@@ -23,5 +23,7 @@ whether partial convergence is acceptable.}
 Inspects the termination code (`termcd`) from `nleqslv::nleqslv()` and
 either returns silently on success, issues a warning for partial
 convergence, or stops with an informative error message on failure.
+Unsuccessful convergence diagnostics suggest standardizing continuous
+auxiliary variables when they differ substantially in scale.
 }
 \keyword{internal}

@@ -50,7 +50,12 @@ warning is issued if \code{FALSE} is supplied.}
   default formula is constructed automatically from variables shared across
   the data sources used for estimation. Since shared variables are identified
   by name, their names should be harmonized across data sources before
-  estimation.}
+  estimation.
+
+  If standardization is needed, use the same centering and scaling constants
+  across all datasets before calling \code{est_pw()}. Avoid standardizing
+  each dataset separately or using \code{scale(x)} directly within
+  \code{p_formula}.}
 
 \item{method}{Character string specifying the pseudo-weighting method, or
   \code{NULL} (default). If \code{NULL}, \code{"calibration"} is used when
