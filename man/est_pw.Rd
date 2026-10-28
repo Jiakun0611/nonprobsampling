@@ -176,10 +176,18 @@ categorical variable is named \code{agecat} in the nonprobability sample and
 \code{age_group} in the reference survey, the user should rename one of the
 variables before estimation.
 
-Categorical variables should be encoded as factors with compatible category
-definitions and identical levels in the same order. Even when categories are
-substantively equivalent, mismatched factor levels may cause
-\code{est_pw()} to return an error. Continuous variables included in the
+Categorical variables must have compatible category definitions, identical
+levels in the same order, and the same contrast coding across the
+nonprobability sample and all reference surveys containing the variable.
+When treatment contrasts are used, the reference category must be the same
+across samples. Matching factor levels alone does not guarantee matching
+contrast coding. The package checks factor levels but does not check contrast
+coding; inconsistent coding can produce incorrect estimates without an error.
+Harmonize factor coding before creating reference survey design objects.
+Changing the original data frame afterwards does not update the data stored
+in an existing survey design object.
+
+Continuous variables included in the
 participation model should also be measured on comparable scales across
 datasets.
 

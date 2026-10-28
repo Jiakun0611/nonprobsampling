@@ -53,6 +53,13 @@ Variance estimation is based on Taylor linearization, with complex sampling desi
 Estimation proceeds in two steps: `est_pw()` estimates pseudo-weights, then
 `pwmean()` estimates a pseudo-weighted mean or prevalence for an outcome.
 
+For user-supplied data, harmonize shared variables before creating survey design
+objects. Categorical variables must have identical factor levels in the same
+order and the same contrast coding across samples; treatment contrasts must use
+the same reference category. The package checks factor levels but does not check
+contrast coding. See the [variable harmonization guidance](https://jiakun0611.github.io/nonprobsampling/reference/est_pw.html#details)
+for details.
+
 ```r
 library(nonprobsampling)
 

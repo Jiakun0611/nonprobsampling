@@ -89,6 +89,7 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Estimation proceeds in two steps: <code><a href="reference/est_pw.html">est_pw()</a></code> estimates pseudo-weights, then <code><a href="reference/pwmean.html">pwmean()</a></code> estimates a pseudo-weighted mean or prevalence for an outcome.</p>
+<p>For user-supplied data, harmonize shared variables before creating survey design objects. Categorical variables must have identical factor levels in the same order and the same contrast coding across samples; treatment contrasts must use the same reference category. The package checks factor levels but does not check contrast coding. See the <a href="https://jiakun0611.github.io/nonprobsampling/reference/est_pw.html#details">variable harmonization guidance</a> for details.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Jiakun0611/nonprobsampling" class="external-link">nonprobsampling</a></span><span class="op">)</span></span>
 <span></span>

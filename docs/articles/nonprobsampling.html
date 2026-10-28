@@ -139,7 +139,11 @@ and <code>sp2</code> are <code>agecat</code>, <code>race</code>,
 <p>For user-supplied data, shared variables must be harmonized before
 estimation. Variable names must match exactly, and continuous variables
 included in the participation model should be measured on comparable
-scales across datasets.</p>
+scales across datasets. Categorical variables must have identical levels
+in the same order and use the same contrast coding across samples. When
+treatment contrasts are used, the reference category must also be the
+same. Complete any harmonization before creating survey design objects.
+The package does not check contrast coding.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Jiakun0611/nonprobsampling" class="external-link">nonprobsampling</a></span><span class="op">)</span></span>
 <span></span>
@@ -240,7 +244,8 @@ the survey data provider when available.</p>
 <span>   data    <span class="op">=</span> <span class="va">sp1_bootstrap</span>,</span>
 <span>   weights <span class="op">=</span> <span class="op">~</span><span class="va">wts_sp1</span>,</span>
 <span>   repweights <span class="op">=</span> <span class="st">"bw[0-9]+"</span>,</span>
-<span>   type    <span class="op">=</span> <span class="st">"bootstrap"</span></span>
+<span>   type    <span class="op">=</span> <span class="st">"bootstrap"</span>,</span>
+<span>   combined.weights <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -534,6 +539,9 @@ reliable or important.</p>
 <span>  precali   <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  control   <span class="op">=</span> <span class="fu"><a href="../reference/pw_solver_control.html">pw_solver_control</a></span><span class="op">(</span>ftol<span class="op">=</span><span class="fl">1e-6</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: [Multi_Calibration] nleqslv returned termcd = 2: the coefficient updates became very small, but the estimating equations are not sufficiently close to zero.</span></span>
+<span><span class="co">#&gt; max|fvec| = 1.132e-06; ftol = 1.000e-06.</span></span>
+<span><span class="co">#&gt; The coefficients and pseudo-weights are returned, but users should decide whether this remaining equation imbalance is acceptable.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_multi_order_by_size</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -547,7 +555,7 @@ reliable or important.</p>
 <span><span class="co">#&gt; Precalibration summary:</span></span>
 <span><span class="co">#&gt; Non-calibrated sample (largest): sp[[2]]</span></span>
 <span><span class="co">#&gt; Calibrated sample: sp[[1]]</span></span>
-<span><span class="co">#&gt;   Calibration variables: survey weights total, agecat2, agecat3, agecat4, BMINormal, BMIObese, BMIOverweight, comorbidity1, diabetes1, race2, race3, race4</span></span>
+<span><span class="co">#&gt;   Calibration variables: survey weights total, BMINormal, BMIObese, BMIOverweight, agecat2, agecat3, agecat4, comorbidity1, diabetes1, race2, race3, race4</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Reference samples summary:</span></span>
 <span><span class="co">#&gt; Order of samples by size (largest to smallest):</span></span>
@@ -568,10 +576,10 @@ reliable or important.</p>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
-<span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination code: 2 </span></span>
 <span><span class="co">#&gt;   Iterations: 7 </span></span>
-<span><span class="co">#&gt;   Max |estimating equation|: 4.768e-07 </span></span>
-<span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
+<span><span class="co">#&gt;   Max |estimating equation|: 1.132e-06 </span></span>
+<span><span class="co">#&gt;   Message: x-values within tolerance 'xtol' </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
 <span><span class="co">#&gt;  (Intercept)    agecat2    agecat3    agecat4      race2      race3      race4</span></span>

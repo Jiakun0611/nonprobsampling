@@ -141,7 +141,11 @@ warning is issued if <code>FALSE</code> is supplied.</p></dd>
   default formula is constructed automatically from variables shared across
   the data sources used for estimation. Since shared variables are identified
   by name, their names should be harmonized across data sources before
-  estimation.</p></dd>
+  estimation.</p>
+<p>If standardization is needed, use the same centering and scaling constants
+  across all datasets before calling <code>est_pw()</code>. Avoid standardizing
+  each dataset separately or using <code>scale(x)</code> directly within
+  <code>p_formula</code>.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
@@ -201,7 +205,8 @@ outputs and internal objects required by <code><a href="pwmean.html">pwmean</a><
     and the vector has length <code>nrow(sc)</code>.</p></dd>
 
   <dt><code>coefficients</code></dt>
-<dd><p>Estimated coefficients for the participation model variables.</p></dd>
+<dd><p>Named numeric vector of estimated participation model coefficients.
+    Extract with <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">stats::coef()</a></code>.</p></dd>
 
   <dt><code>solver_diagnostics</code></dt>
 <dd><p>A list of solver diagnostics: <code>solver</code> (solver name),
@@ -245,10 +250,17 @@ nonprobability sample and reference survey data. For example, if a
 categorical variable is named <code>agecat</code> in the nonprobability sample and
 <code>age_group</code> in the reference survey, the user should rename one of the
 variables before estimation.</p>
-<p>Categorical variables should be encoded as factors with compatible category
-definitions and identical levels in the same order. Even when categories are
-substantively equivalent, mismatched factor levels may cause
-<code>est_pw()</code> to return an error. Continuous variables included in the
+<p>Categorical variables must have compatible category definitions, identical
+levels in the same order, and the same contrast coding across the
+nonprobability sample and all reference surveys containing the variable.
+When treatment contrasts are used, the reference category must be the same
+across samples. Matching factor levels alone does not guarantee matching
+contrast coding. The package checks factor levels but does not check contrast
+coding; inconsistent coding can produce incorrect estimates without an error.
+Harmonize factor coding before creating reference survey design objects.
+Changing the original data frame afterwards does not update the data stored
+in an existing survey design object.</p>
+<p>Continuous variables included in the
 participation model should also be measured on comparable scales across
 datasets.</p>
 <p>Internally, <code>est_pw()</code> performs the following steps:</p><ol><li><p><strong>Input validation</strong><br>
@@ -292,17 +304,19 @@ should be harmonized across all data sources before calling
 
 
 <p>When <code>precali = TRUE</code>, cumulative precalibration is performed before the
-main multi-reference calibration step. For overlapping
-auxiliary variables, this procedure calibrates the survey weights of a
-reference survey so that its weighted totals of the overlapping variables
-and its sum of weights match the corresponding totals from the preceding
-reference survey in the cumulative order. If there are no overlapping
-auxiliary variables, cumulative precalibration is applied only to the sum of
-weights.</p>
+main multi-reference calibration step. The first reference survey supplies
+the initial weighted totals and sum of weights. Each subsequent survey is
+calibrated to the accumulated targets for variables it shares with earlier
+surveys, together with the initial sum of weights. Newly encountered
+variables contribute targets computed using that survey's calibrated
+weights; previously established targets are retained. Variables need not
+appear in every survey. If a survey has no variables shared with the
+accumulated targets, only its sum of weights is calibrated.</p>
 <p>The order of the reference surveys is controlled by <code>sp_order</code>. If
 <code>sp_order = "size"</code>, reference surveys are ordered by sample size, from
 largest to smallest. If <code>sp_order = "given"</code>, the user-specified order
-of the reference surveys is used.</p>
+of the reference surveys is used. The order determines which survey first
+supplies each target and can therefore affect the calibrated weights.</p>
 <p>Cumulative precalibration is based only on overlapping variables that are
 specified in <code>p_formula</code>, rather than on all overlapping variables in
 the reference surveys. This choice avoids excluding observations because

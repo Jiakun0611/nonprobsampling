@@ -35,9 +35,7 @@ The dataset `sc` represents the nonprobability sample and contains the outcome v
 
 For illustration purposes, all shared variables have already been harmonized across the example datasets. Variable names, factor levels, and category definitions are consistent. The variables shared between `sc` and `sp1` are `agecat`, `race`, `education`, `BMI`, `comorbidity`, `diabetes` and `pros_enlarged`. The variables shared between `sc` and `sp2` are `agecat`, `race`, `BMI`, `comorbidity`, and `diabetes`. 
 
-For user-supplied data, shared variables must be harmonized before estimation. Variable names must match exactly, and continuous variables included in the participation model should be measured on comparable scales across datasets.
-
-
+For user-supplied data, shared variables must be harmonized before estimation. Variable names must match exactly, and continuous variables included in the participation model should be measured on comparable scales across datasets. Categorical variables must have identical levels in the same order and use the same contrast coding across samples. When treatment contrasts are used, the reference category must also be the same. Complete any harmonization before creating survey design objects. The package does not check contrast coding.
 
 ```{r load-data}
 library(nonprobsampling)

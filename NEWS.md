@@ -1,5 +1,9 @@
 # nonprobsampling (development version)
 
+* Added guidance on harmonizing factor levels, contrast coding, and reference
+  categories across samples before creating survey design objects. The help
+  page and vignette clarify that contrast coding is not checked by the package.
+
 * Added standardization guidance to the `est_pw()` documentation: use the same
   centering and scaling constants across all datasets before estimation, rather
   than standardizing each dataset separately or using `scale(x)` directly in

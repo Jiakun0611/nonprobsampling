@@ -35,7 +35,16 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="nonprobsampling-development-version">nonprobsampling (development version)<a class="anchor" aria-label="anchor" href="#nonprobsampling-development-version"></a></h2>
-</div>
+<ul><li><p>Added guidance on harmonizing factor levels, contrast coding, and reference categories across samples before creating survey design objects. The help page and vignette clarify that contrast coding is not checked by the package.</p></li>
+<li><p>Added standardization guidance to the <code><a href="../reference/est_pw.html">est_pw()</a></code> documentation: use the same centering and scaling constants across all datasets before estimation, rather than standardizing each dataset separately or using <code>scale(x)</code> directly in <code>p_formula</code>. Solver diagnostics now suggest standardizing continuous auxiliary variables with substantially different scales when <code>nleqslv</code> does not converge sufficiently.</p></li>
+<li><p>Fixed variance calculations when reference survey data contain columns with internal helper names such as <code>h_x</code>. Calibration, ALP, CLW, and multi-reference calibration now avoid these name collisions, preventing unrelated columns from changing standard errors and confidence intervals.</p></li>
+<li><p>Fixed cumulative precalibration with multiple reference surveys to retain variables shared by only some surveys. Each survey now uses its own formula variables, allowing calibrated targets to pass through intermediate surveys even when no variable occurs in every survey.</p></li>
+<li><p>Fixed missing-value handling for character domains in <code><a href="../reference/pwmean.html">pwmean()</a></code>: empty and whitespace-only strings are now detected before applying <code>na.action</code> in the pseudo-weighted and unweighted estimation paths. Omitted row indices include these values, and <code>na.fail</code> rejects them.</p></li>
+<li><p>Corrected the <code>sp1_bootstrap</code> help example to use <code>combined.weights = TRUE</code>, because the bootstrap replicate weights already include the main survey weight.</p></li>
+<li><p>Added a <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code> method for <code>pwmean</code> objects, inherited by <code>pwmean_factor</code>, providing normal-approximation confidence intervals with configurable confidence levels and estimate group selection.</p></li>
+<li><p>Added a <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> method for <code>pwmean</code> objects to extract pseudo-weighted means. <code>pwmean_factor</code> objects inherit the method and return category proportions (prevelance), named by category and domain.</p></li>
+<li><p>Added a <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> method for <code>pw_fit</code> objects to extract participation model coefficients.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="nonprobsampling-010">nonprobsampling 0.1.0<a class="anchor" aria-label="anchor" href="#nonprobsampling-010"></a></h2><p class="text-muted">CRAN release: 2026-07-07</p>
 <ul><li>Initial CRAN release.</li>
