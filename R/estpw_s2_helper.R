@@ -19,7 +19,7 @@ build_one_formula <- function(sc, sp_i, weight_i, sp_name = NULL) {
     )
   }
 
-  fml <- stats::as.formula(paste("~", paste(vars, collapse = " + ")))
+  fml <- as.formula(paste("~", paste(vars, collapse = " + ")))
 
   label <- if (is.null(sp_name)) "Generated default p_formula" else paste0("Generated default p_formula for ", sp_name)
 

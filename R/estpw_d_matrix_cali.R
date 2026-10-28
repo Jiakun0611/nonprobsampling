@@ -46,7 +46,7 @@ compute_D_raking <- function(sp_des, Xp) {
   H_df <- as.data.frame(Xp)
   h_names <- paste0("h_", xp_names)
   # Avoid existing user columns, including names with numeric suffixes.
-  colnames(H_df) <- utils::tail(
+  colnames(H_df) <- tail(
     make.unique(c(names(sp_des$variables), h_names)), length(h_names)
   )
 
@@ -55,7 +55,7 @@ compute_D_raking <- function(sp_des, Xp) {
   sp_des_h$variables <- cbind(sp_des_h$variables, H_df)
 
   # no intercept
-  fml <- stats::reformulate(colnames(H_df), intercept = FALSE)
+  fml <- reformulate(colnames(H_df), intercept = FALSE)
 
   tot <- survey::svytotal(fml, sp_des_h)
   D <- stats::vcov(tot)

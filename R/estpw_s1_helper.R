@@ -71,7 +71,7 @@ check_lonely_psu <- function(des, name = "sp_des") {
   }
 
   max_show <- 5L
-  show_strata <- utils::head(lonely_strata, max_show)
+  show_strata <- head(lonely_strata, max_show)
 
   more_flag <- if (length(lonely_strata) > max_show) {
     paste0(" ... (", length(lonely_strata) - max_show, " more)")

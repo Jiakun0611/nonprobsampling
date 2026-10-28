@@ -17,7 +17,7 @@
 #'
 #' @keywords internal
 build_domains_df <- function(labels, mean_unw, se_unw, mean_adj, se_adj) {
-  z975 <- stats::qnorm(0.975)
+  z975 <- qnorm(0.975)
   df <- data.frame(
     domain          = labels,
     unweighted_mean = mean_unw,

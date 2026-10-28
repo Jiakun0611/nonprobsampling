@@ -65,7 +65,7 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
   .population_vector <- function(ds, cols) {
     total_w <- sum(stats::weights(ds))
     if (length(cols) == 0) return(c("(Intercept)" = total_w))
-    fml  <- stats::as.formula(paste0("~", paste(cols, collapse = " + ")))
+    fml  <- as.formula(paste0("~", paste(cols, collapse = " + ")))
     marg <- stats::coef(survey::svytotal(fml, ds))
     c("(Intercept)" = total_w, marg)
   }
@@ -120,7 +120,7 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
       if (length(shared_cols) > 0) pops <- c(pops, total_vec[shared_cols])
 
       fml <- if (length(shared_cols) > 0) {
-        stats::as.formula(paste0("~", paste(shared_cols, collapse = " + ")))
+        as.formula(paste0("~", paste(shared_cols, collapse = " + ")))
       } else {
         ~1
       }

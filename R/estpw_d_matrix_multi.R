@@ -68,7 +68,7 @@ make_block_D_multi <- function(sp_des_list, Xp_list) {
   }
 
   total_dim <- sum(block_sizes)
-  starts <- cumsum(c(1, utils::head(block_sizes, -1)))
+  starts <- cumsum(c(1, head(block_sizes, -1)))
   ends   <- cumsum(block_sizes)
 
   D <- matrix(0, total_dim, total_dim)

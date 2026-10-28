@@ -226,7 +226,7 @@ ipwm_multi_build <- function(
   out <- list(
     pseudo_weights = wts_sc,
 
-    coefficients   = stats::setNames(as.numeric(beta), colnames(Xc)),
+    coefficients   = setNames(as.numeric(beta), colnames(Xc)),
 
     method         = "multi",
 

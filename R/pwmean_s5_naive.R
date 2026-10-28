@@ -35,7 +35,7 @@ naive_mean_one_domain <- function(yvec, zvec = NULL) {
 
   out <- list(
     mean     = if (n > 0L) mean(y_sub) else NA_real_,
-    variance = if (n > 1L) stats::var(y_sub) / n else NA_real_
+    variance = if (n > 1L) var(y_sub) / n else NA_real_
   )
 
   out

@@ -61,7 +61,7 @@ confint.pwmean <- function(object, parm, level = 0.95, ...) {
 
   se <- object[["estimates"]][["adjusted_se"]]
   probabilities <- c((1 - level) / 2, (1 + level) / 2)
-  margin <- stats::qnorm(probabilities[[2L]]) * se
+  margin <- qnorm(probabilities[[2L]]) * se
   intervals <- cbind(estimates - margin, estimates + margin)
   dimnames(intervals) <- list(
     estimate_names,

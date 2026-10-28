@@ -81,7 +81,7 @@ compute_D_CLW <- function(sp_des, pi_sp, Xp) {
   H_df <- as.data.frame(H)
   h_names <- paste0("h_", xp_names)
   # Avoid existing user columns, including names with numeric suffixes.
-  colnames(H_df) <- utils::tail(
+  colnames(H_df) <- tail(
     make.unique(c(names(sp_des$variables), h_names)), length(h_names)
   )
 
@@ -90,7 +90,7 @@ compute_D_CLW <- function(sp_des, pi_sp, Xp) {
   sp_des_h$variables <- cbind(sp_des_h$variables, H_df)
 
   # no intercept: H already contains all columns of h_j
-  fml <- stats::reformulate(colnames(H_df), intercept = FALSE)
+  fml <- reformulate(colnames(H_df), intercept = FALSE)
 
   tot <- survey::svytotal(fml, design = sp_des_h)
   D   <- stats::vcov(tot)

@@ -90,4 +90,6 @@
 #' @seealso
 #' \code{\link{est_pw}}, \code{\link{pwmean}}, \code{\link{pw_solver_control}}
 #'
+#' @importFrom stats complete.cases plogis qnorm reformulate var
+#' @importFrom utils head tail
 "_PACKAGE"

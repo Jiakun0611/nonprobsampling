@@ -150,7 +150,7 @@ clw_build <- function(vars, sc, sp, sp_des, wts.col,
 
   out <- list(
     weights      = wts_sc,
-    coefficients = stats::setNames(as.numeric(beta), colnames(Xc)),
+    coefficients = setNames(as.numeric(beta), colnames(Xc)),
 
     solver_diagnostics = list(
       solver  = sol$solver,

@@ -123,7 +123,7 @@ handle_na_for_ipwm <- function(sc, sp, p_formula, na_mode = c("omit", "exclude",
 
   if (length(vars_sc) > 0) {
     log <- c(log, .na_summary(sc, vars_sc, "sc"))
-    keep_sc <- stats::complete.cases(sc[, vars_sc, drop = FALSE])
+    keep_sc <- complete.cases(sc[, vars_sc, drop = FALSE])
   } else {
     keep_sc <- rep(TRUE, nrow(sc))
   }
@@ -152,7 +152,7 @@ handle_na_for_ipwm <- function(sc, sp, p_formula, na_mode = c("omit", "exclude",
 
     if (length(vars_sc) > 0) {
       log <- c(log, .na_summary(sp, vars_sc, "sp"))
-      keep_sp <- stats::complete.cases(sp[, vars_sc, drop = FALSE])
+      keep_sp <- complete.cases(sp[, vars_sc, drop = FALSE])
     } else {
       keep_sp <- rep(TRUE, nrow(sp))
     }
@@ -201,7 +201,7 @@ handle_na_for_ipwm <- function(sc, sp, p_formula, na_mode = c("omit", "exclude",
 
       if (length(vars_j) > 0) {
         log <- c(log, .na_summary(sp[[j]], vars_j, use_names[j]))
-        keep_spj <- stats::complete.cases(sp[[j]][, vars_j, drop = FALSE])
+        keep_spj <- complete.cases(sp[[j]][, vars_j, drop = FALSE])
       } else {
         keep_spj <- rep(TRUE, nrow(sp[[j]]))
       }
