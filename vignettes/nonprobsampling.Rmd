@@ -80,6 +80,9 @@ ref2_design <- survey::svydesign(
 The replicate weights in the example reference survey `sp1_bootstrap`
 were generated using the Rao-Wu rescaling bootstrap method (Rust and Rao, 1996). They are provided to illustrate variance estimation with a replicate-weight survey design
 object.
+The bootstrap replicate weights are used to estimate the reference survey
+contribution to the variance; the package does not bootstrap the entire
+estimation procedure.
 In real applications, users should use the replicate weights supplied by the
 survey data provider when available.
 ```{r replicate-wts-survey-design}

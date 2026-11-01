@@ -24,7 +24,8 @@ data(sp1_bootstrap)
 \description{
 A replicate-weight version of \code{sp1}, including the main survey weight
 and 500 bootstrap replicate weights. It is provided to illustrate
-design-based variance estimation with \code{\link[survey]{svrepdesign}}.
+estimation of the reference survey contribution to the variance with
+\code{\link[survey]{svrepdesign}}.
 The original primary sampling unit and stratum identifiers are not included.
 }
 \details{
@@ -32,6 +33,10 @@ The bootstrap replicate weights were constructed from the original
 stratified cluster design of \code{sp1}, using the Rao-Wu rescaling
 bootstrap method. A total of \code{R = 500} replicates were
 produced with \code{seed = 2026}.
+
+The bootstrap replicate weights are used to estimate the reference survey
+contribution to the variance; the package does not bootstrap the entire
+estimation procedure.
 
 The variables \code{psu_sp1} and \code{strata_sp1} are not included in this
 dataset because they are not needed when using replicate weights for

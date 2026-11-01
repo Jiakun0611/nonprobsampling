@@ -46,8 +46,9 @@ reference surveys.
 Variance estimation is based on Taylor linearization. The resulting analytic
 variance estimator accounts for uncertainty from pseudo-weight estimation and
 for the sampling designs of the reference surveys through integration with
-the \pkg{survey} package. The package also supports bootstrap-based variance
-estimation when bootstrap weights are provided with the reference surveys.
+the \pkg{survey} package. When a reference survey is supplied as a
+replicate-weight design, its contribution to the variance is estimated using
+the supplied replicate weights.
 }
 \section{Typical workflow}{
 

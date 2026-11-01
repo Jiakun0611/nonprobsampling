@@ -83,7 +83,7 @@
 <li>
 <strong>Multi-reference calibration</strong> — enables the integration of auxiliary information across multiple surveys when no single reference survey contains all variables relevant to participation (Landsman et al., 2026), with an optional cumulative precalibration step to preserve information on the relationships between overlapping and unique auxiliary variables across reference surveys.</li>
 </ul>
-<p>Variance estimation is based on Taylor linearization, with complex sampling designs in the reference surveys handled through integration with the <a href="https://CRAN.R-project.org/package=survey" class="external-link"><code>survey</code></a> package; when bootstrap replicate weights are provided, bootstrap-based variance estimation is also supported.</p>
+<p>Variance estimation is based on Taylor linearization, with complex sampling designs in the reference surveys handled through integration with the <a href="https://CRAN.R-project.org/package=survey" class="external-link"><code>survey</code></a> package. When a reference survey is supplied as a replicate-weight design, its contribution to the variance is estimated using the supplied replicate weights.</p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>

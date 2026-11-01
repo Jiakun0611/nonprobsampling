@@ -236,8 +236,7 @@ variance estimation.</p>
 <p>The replicate weights in the example reference survey
 <code>sp1_bootstrap</code> were generated using the Rao-Wu rescaling
 bootstrap method (Rust and Rao, 1996). They are provided to illustrate
-variance estimation with a replicate-weight survey design object. In
-real applications, users should use the replicate weights supplied by
+variance estimation with a replicate-weight survey design object. The bootstrap replicate weights are used to estimate the reference survey contribution to the variance; the package does not bootstrap the entire estimation procedure. In real applications, users should use the replicate weights supplied by
 the survey data provider when available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ref1_design_rep_wts</span> <span class="op">&lt;-</span> <span class="fu">survey</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survey/man/svrepdesign.html" class="external-link">svrepdesign</a></span><span class="op">(</span></span>
