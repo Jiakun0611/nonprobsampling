@@ -1,11 +1,11 @@
-#' Estimate Pseudo-Weighted Means, Prevalences, and Standard Errors
+#' Estimate Pseudo-Weighted Means, Prevalence, and Standard Errors
 #'
 #' @description
 #' Computes pseudo-weighted means and standard errors using a fitted
 #' pseudo-weight object of class \code{"pw_fit"} returned by
 #' \code{\link{est_pw}}. The function applies second-layer missing-data
 #' handling for the outcome and optional domain variable, and then estimates
-#' overall or domain-specific means or prevalences using the pseudo-weighting
+#' overall or domain-specific means or prevalence using the pseudo-weighting
 #' method stored in \code{object}.
 #'
 #' @details
@@ -56,7 +56,7 @@
 #' @return
 #' An object of class \code{"pwmean"} containing unweighted and pseudo-weighted
 #' estimates, standard errors, and confidence intervals. For categorical outcomes,
-#' the estimate columns contain category prevalences.
+#' the estimate columns contain estimates of category prevalence.
 #'
 #' \describe{
 #'   \item{\code{method}}{
@@ -65,7 +65,7 @@
 #'
 #'   \item{\code{estimates}}{
 #'     A data frame containing the unweighted and pseudo-weighted estimates.
-#'     Extract the pseudo-weighted means or category proportions as a named
+#'     Extract the pseudo-weighted means or category prevalence as a named
 #'     numeric vector with \code{stats::coef()}.
 #'     Obtain normal-approximation confidence intervals at a chosen level
 #'     with \code{stats::confint()}.

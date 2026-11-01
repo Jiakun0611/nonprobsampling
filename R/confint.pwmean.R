@@ -1,7 +1,7 @@
 #' Confidence Intervals for Pseudo-Weighted Estimates
 #'
 #' Computes normal-approximation confidence intervals for pseudo-weighted
-#' means or category proportions returned by \code{\link{pwmean}}.
+#' means or category prevalence returned by \code{\link{pwmean}}.
 #'
 #' @param object An object of class \code{"pwmean"} or
 #'   \code{"pwmean_factor"} returned by \code{\link{pwmean}}.
@@ -20,7 +20,7 @@
 #'
 #' Row names match \code{names(stats::coef(object))}. Objects of class
 #' \code{"pwmean_factor"} inherit this method. Intervals for category
-#' proportions are not truncated to the range from 0 to 1, consistent with
+#' prevalence are not truncated to the range from 0 to 1, consistent with
 #' the intervals stored by \code{pwmean()}.
 #'
 #' @return A numeric matrix with one row per requested estimate and two

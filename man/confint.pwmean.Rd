@@ -27,7 +27,7 @@ A numeric matrix with one row per requested estimate and two
 }
 \description{
 Computes normal-approximation confidence intervals for pseudo-weighted
-means or category proportions returned by \code{\link{pwmean}}.
+means or category prevalence returned by \code{\link{pwmean}}.
 }
 \details{
 Intervals use the pseudo-weighted estimates and standard errors stored in
@@ -37,7 +37,7 @@ default confidence level, the intervals match the stored
 
 Row names match \code{names(stats::coef(object))}. Objects of class
 \code{"pwmean_factor"} inherit this method. Intervals for category
-proportions are not truncated to the range from 0 to 1, consistent with
+prevalence are not truncated to the range from 0 to 1, consistent with
 the intervals stored by \code{pwmean()}.
 }
 \seealso{

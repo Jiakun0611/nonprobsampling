@@ -10,11 +10,11 @@
 finite population inference from nonprobability samples, such as
 convenience samples, volunteer cohorts, and opt-in panels. Because the
 participation mechanism in a nonprobability sample is unknown, unadjusted
-estimates of population means and prevalences may be biased. The package
+estimates of population means and prevalence may be biased. The package
 addresses this issue by leveraging auxiliary information from one or more
 probability reference surveys to estimate participation probabilities and
 using their inverses as pseudo-weights to obtain estimates of finite
-population means and prevalences adjusted for participation bias.
+population means and prevalence adjusted for participation bias.
 
 The extent of bias reduction depends on the assumptions underlying the chosen
 method and the auxiliary information available.

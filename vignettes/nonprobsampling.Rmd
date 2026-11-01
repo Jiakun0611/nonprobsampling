@@ -243,9 +243,9 @@ summary(fit_multi_as_given)
 
 ---
 
-## Step 3 — Estimate Population Means and Prevalences
+## Step 3 — Estimate Population Means and Prevalence
 
-Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalences of each observed category for categorical outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
+Once pseudo-weights have been estimated, `pwmean()` uses them to estimate population means for numeric outcomes and population prevalence of each observed category for categorical outcomes. In both cases, the returned object includes unweighted and pseudo-weighted estimates, standard errors, and confidence intervals.
 
 For a numeric outcome, `pwmean()` estimates the overall population mean. Since `psa_level` is numeric, the estimate is reported as a mean. Binary 0/1 outcomes are also treated as numeric and reported as means.
 ```{r pwmean-numeric}
@@ -418,7 +418,7 @@ fit_ctrl <- est_pw(
 | Function | Purpose |
 |----------|---------|
 | `est_pw()` | Estimate pseudo-weights from a nonprobability sample and one or multiple reference surveys |
-| `pwmean()` | Estimate pseudo-weighted population means for numeric outcomes and population prevalences for categorical outcomes, overall or by domain |
+| `pwmean()` | Estimate pseudo-weighted population means for numeric outcomes and population prevalence for categorical outcomes, overall or by domain |
 | `pw_solver_control()` | Configure numerical solver settings |
 
 | Argument | Values | Notes |

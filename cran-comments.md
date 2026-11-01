@@ -24,7 +24,7 @@ expected for this resubmission.
 The possibly misspelled words reported in DESCRIPTION are intentional:
 CLW is a method abbreviation; Valliant is an author surname; et al. is a
 standard citation abbreviation; nonprobability, Nonprobability,
-precalibration, and prevalences are technical or standard terms used in the
+and precalibration are technical or standard terms used in the
 survey sampling literature.
 
 On win-builder R-devel, the only note is:

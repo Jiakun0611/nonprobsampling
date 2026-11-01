@@ -70,7 +70,8 @@ the generalized estimating equation framework proposed by Landsman et
 al. (2026), in which pseudo-weights are constructed by aligning
 auxiliary information from the nonprobability sample with corresponding
 information from probability reference surveys.</p>
-<p>The extent of bias reduction depends on the assumptions underlying the chosen method and the auxiliary information available.</p>
+<p>The extent of bias reduction depends on the assumptions underlying
+the chosen method and the auxiliary information available.</p>
 <p>The package implements three one-reference methods within the
 framework: the raking ratio calibration method of Landsman et
 al. (2026), the adjusted logistic propensity (ALP) method of Wang et
@@ -237,8 +238,12 @@ variance estimation.</p>
 <p>The replicate weights in the example reference survey
 <code>sp1_bootstrap</code> were generated using the Rao-Wu rescaling
 bootstrap method (Rust and Rao, 1996). They are provided to illustrate
-variance estimation with a replicate-weight survey design object. The bootstrap replicate weights are used to estimate the reference survey contribution to the variance; the package does not bootstrap the entire estimation procedure. In real applications, users should use the replicate weights supplied by
-the survey data provider when available.</p>
+variance estimation with a replicate-weight survey design object. The
+bootstrap replicate weights are used to estimate the reference survey
+contribution to the variance; the package does not bootstrap the entire
+estimation procedure. In real applications, users should use the
+replicate weights supplied by the survey data provider when
+available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ref1_design_rep_wts</span> <span class="op">&lt;-</span> <span class="fu">survey</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survey/man/svrepdesign.html" class="external-link">svrepdesign</a></span><span class="op">(</span></span>
 <span>   data    <span class="op">=</span> <span class="va">sp1_bootstrap</span>,</span>
@@ -399,9 +404,10 @@ the model summary.</p>
 <span><span class="co">#&gt; (1190 observations deleted due to missingness in sp)</span></span></code></pre></div>
 <p>Setting <code>verbose = TRUE</code> prints a brief processing log,
 including the number of observations used after missing-data filtering,
-the estimation method, number of participation model parameters (including the intercept), and solver
-convergence diagnostics such as iteration count and the final maximum
-absolute estimating equation value.</p>
+the estimation method, number of participation model parameters
+(including the intercept), and solver convergence diagnostics such as
+iteration count and the final maximum absolute estimating equation
+value.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_cali</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
@@ -472,9 +478,8 @@ equation framework.</p>
 <div class="section level4">
 <h4 id="clw-method">CLW Method<a class="anchor" aria-label="anchor" href="#clw-method"></a>
 </h4>
-<p>The Chen–Li–Wu (CLW) method is another one-reference
-pseudo-weighting method within the generalized estimating equation
-framework.</p>
+<p>The Chen–Li–Wu (CLW) method is another one-reference pseudo-weighting
+method within the generalized estimating equation framework.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_clw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
@@ -542,6 +547,7 @@ reliable or important.</p>
 <span><span class="co">#&gt; Warning: [Multi_Calibration] nleqslv returned termcd = 2: the coefficient updates became very small, but the estimating equations are not sufficiently close to zero.</span></span>
 <span><span class="co">#&gt; max|fvec| = 1.132e-06; ftol = 1.000e-06.</span></span>
 <span><span class="co">#&gt; The coefficients and pseudo-weights are returned, but users should decide whether this remaining equation imbalance is acceptable.</span></span>
+<span><span class="co">#&gt; If continuous auxiliary variables differ substantially in scale, consider standardizing them</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_multi_order_by_size</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -656,11 +662,11 @@ reliable or important.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="step-3-estimate-population-means-and-prevalences">Step 3 — Estimate Population Means and Prevalences<a class="anchor" aria-label="anchor" href="#step-3-estimate-population-means-and-prevalences"></a>
+<h3 id="step-3-estimate-population-means-and-prevalence">Step 3 — Estimate Population Means and Prevalence<a class="anchor" aria-label="anchor" href="#step-3-estimate-population-means-and-prevalence"></a>
 </h3>
 <p>Once pseudo-weights have been estimated, <code><a href="../reference/pwmean.html">pwmean()</a></code> uses
 them to estimate population means for numeric outcomes and population
-prevalences of each observed category for categorical outcomes. In both
+prevalence of each observed category for categorical outcomes. In both
 cases, the returned object includes unweighted and pseudo-weighted
 estimates, standard errors, and confidence intervals.</p>
 <p>For a numeric outcome, <code><a href="../reference/pwmean.html">pwmean()</a></code> estimates the overall
@@ -747,10 +753,16 @@ prevalence labels.</p>
 <div class="section level4">
 <h4 id="domain-subgroup-estimates">Domain (Subgroup) Estimates<a class="anchor" aria-label="anchor" href="#domain-subgroup-estimates"></a>
 </h4>
-<p>When a domain variable is passed to <code>zcol</code>, the returned domains depend on its type:</p>
+<p>When a domain variable is passed to <code>zcol</code>, the returned
+domains depend on its type:</p>
 <ul>
-<li>For a factor or character variable, <code><a href="../reference/pwmean.html">pwmean()</a></code> returns separate estimates for each observed level.</li>
-<li>For a logical or numeric/integer 0/1 variable, <code><a href="../reference/pwmean.html">pwmean()</a></code> returns an estimate only for the domain where the variable equals <code>TRUE</code> or <code>1</code>. To obtain estimates for both groups, convert the variable to a factor before calling <code><a href="../reference/est_pw.html">est_pw()</a></code>.</li>
+<li>For a factor or character variable, <code><a href="../reference/pwmean.html">pwmean()</a></code> returns
+separate estimates for each observed level.</li>
+<li>For a logical or numeric/integer 0/1 variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
+returns an estimate only for the domain where the variable equals
+<code>TRUE</code> or <code>1</code>. To obtain estimates for both
+groups, convert the variable to a factor before calling
+<code><a href="../reference/est_pw.html">est_pw()</a></code>.</li>
 </ul>
 <p>With a numeric outcome and a domain variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
 estimates a separate population mean within each domain. In this
@@ -971,8 +983,8 @@ layer of missing-data handling is applied after pseudo-weights have
 already been estimated.</p>
 <p>For illustration, we create temporary versions of the example
 datasets. In the nonprobability sample, we insert three missing values
-into the participation model variable <code>agecat</code> and four missing
-values into the outcome variable <code>psa_level</code>. In the
+into the participation model variable <code>agecat</code> and four
+missing values into the outcome variable <code>psa_level</code>. In the
 reference survey <code>sp1</code>, we insert two missing values into the
 participation model variable <code>education</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -1232,7 +1244,7 @@ multiple reference surveys</td>
 <tr class="even">
 <td><code><a href="../reference/pwmean.html">pwmean()</a></code></td>
 <td>Estimate pseudo-weighted population means for numeric outcomes and
-population prevalences for categorical outcomes, overall or by
+population prevalence for categorical outcomes, overall or by
 domain</td>
 </tr>
 <tr class="odd">

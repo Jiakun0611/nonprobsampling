@@ -16,7 +16,7 @@ Authors@R:
              role = "aut")
     )
 Description: Provides pseudo-weighted estimates of means and
-    prevalences for finite population inference from nonprobability
+    prevalence for finite population inference from nonprobability
     samples using auxiliary information from one or multiple probability
     reference surveys. The package supports estimation with multiple
     reference surveys, allowing auxiliary information to be combined

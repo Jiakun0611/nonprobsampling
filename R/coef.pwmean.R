@@ -1,4 +1,4 @@
-#' Extract Pseudo-Weighted Means or Category Proportions
+#' Extract Pseudo-Weighted Means or Category Prevalence
 #'
 #' Extracts pseudo-weighted estimates from an object returned by
 #' \code{\link{pwmean}}.
@@ -12,7 +12,7 @@
 #' For numeric outcomes, names are the domain labels, including
 #' \code{"Overall"} when no domain variable was supplied.
 #'
-#' For categorical outcomes, values are category prevalences or proportions.
+#' For categorical outcomes, values estimate category prevalence.
 #' Names combine the category and domain labels separated by \code{" | "},
 #' including \code{"Overall"} when no domain variable was supplied.
 #' Objects of class \code{"pwmean_factor"} inherit this method.
@@ -22,7 +22,7 @@
 #' \code{"pw_fit"} object using \code{\link{coef.pw_fit}}.
 #'
 #' @return A named numeric vector of pseudo-weighted means for numeric
-#'   outcomes, or category prevalences or proportions for categorical outcomes.
+#'   outcomes, or category prevalence estimates for categorical outcomes.
 #'
 #' @seealso \code{\link[stats]{coef}}, \code{\link{pwmean}},
 #'   \code{\link{coef.pw_fit}}

@@ -22,6 +22,9 @@ reference:
       - print.pwmean_factor
       - summary.pwmean
       - summary.pwmean_factor
+      - coef.pw_fit
+      - coef.pwmean
+      - confint.pwmean
       - na.action.pw_fit
       - na.action.pwmean
       - print.pw_na_summary
