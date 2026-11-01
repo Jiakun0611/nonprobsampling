@@ -62,9 +62,7 @@ survey::svydesign() or survey::svrepdesign().</p>
 
 
 <dt id="arg-p-sp">p_sp<a class="anchor" aria-label="anchor" href="#arg-p-sp"></a></dt>
-<dd><p>Numeric vector of estimated participation probabilities
-for the probability sample. Length must equal the number of rows in
-`sp_des$variables`.</p></dd>
+<dd><p>Numeric vector of fitted ALP logistic probabilities for the reference survey. The ALP logistic probability `p` is related to the participation probability `pi` by `pi = p / (1 - p)`; it is not `pi`. Length must equal the number of rows in `sp_des$variables`.</p></dd>
 
 
 <dt id="arg-xp">Xp<a class="anchor" aria-label="anchor" href="#arg-xp"></a></dt>

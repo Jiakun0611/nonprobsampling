@@ -25,9 +25,9 @@ out_factor  <- pwmean(fit_cali, y = "BMI")
 
 # print.pwmean ----
 
-test_that("print.pwmean shows the estimator header and per-domain fields", {
+test_that("print.pwmean shows the estimate header and per-domain fields", {
   expect_output(print(out_overall), "Pseudo-weighted", fixed = TRUE)
-  expect_output(print(out_overall), "Estimators:",     fixed = TRUE)
+  expect_output(print(out_overall), "Estimates:",     fixed = TRUE)
   expect_output(print(out_overall), "Domain:",         fixed = TRUE)
   expect_output(print(out_overall), "Mean:",           fixed = TRUE)
   expect_output(print(out_overall), "Std. Error:",     fixed = TRUE)
@@ -64,16 +64,16 @@ test_that("print.pwmean_factor uses category and prevalence labels", {
 
 # summary.pwmean ----
 
-test_that("summary.pwmean shows call, method and estimator sections (overall)", {
+test_that("summary.pwmean shows call, method and estimate sections (overall)", {
   expect_output(summary(out_overall), "Call:",                            fixed = TRUE)
   expect_output(summary(out_overall), "Method: One reference calibration", fixed = TRUE)
   expect_output(summary(out_overall), "Domain: Overall",                  fixed = TRUE)
-  expect_output(summary(out_overall), "Unweighted estimators:",           fixed = TRUE)
+  expect_output(summary(out_overall), "Unweighted estimates:",           fixed = TRUE)
   expect_output(summary(out_overall), "Pseudo-weighted",                  fixed = TRUE)
 })
 
 test_that("summary.pwmean prints a multi-row table for a factor domain", {
-  expect_output(summary(out_race), "Unweighted estimators:", fixed = TRUE)
+  expect_output(summary(out_race), "Unweighted estimates:", fixed = TRUE)
   expect_output(summary(out_race), "domain",                 fixed = TRUE)
 })
 

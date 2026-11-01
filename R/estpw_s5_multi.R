@@ -104,7 +104,7 @@ ipwm_multi_build <- function(
 
   if (verbose) {
     message(sprintf(
-      "Fitting multi-reference calibration model: %d reference surveys, %d variables total.",
+      "Fitting multi-reference calibration model: %d reference surveys, %d parameters total (including intercept).",
       length(Xp_list), ncol(Xc)
     ))
   }

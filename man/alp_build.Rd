@@ -40,8 +40,10 @@ A list with components:
   \item{solver_diagnostics}{List of solver convergence diagnostics.}
   \item{log_messages}{Updated character vector of log messages.}
   \item{internal}{List containing design matrices (`Xc`, `Xp`), fitted
-    participation probabilities (`p_sc`, `p_sp`), and sandwich components
-    (`S_beta`, `D`) needed by the estimation stage.}
+    ALP logistic probabilities (`p_sc`, `p_sp`), and sandwich components
+    (`S_beta`, `D`) needed by the estimation stage. The ALP logistic
+    probability `p` is related to the participation probability `pi` by
+    `pi = p / (1 - p)`; the pseudo-weight is `1 / pi`, not `1 / p`.}
 }
 \description{
 Build pseudo-weights using the ALP method

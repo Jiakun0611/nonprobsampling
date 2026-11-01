@@ -102,8 +102,8 @@ ref1_design_rep_wts <- survey::svrepdesign(
 The `method` argument specifies the pseudo-weighting method to use, and
 `p_formula` defines the participation model by selecting the shared auxiliary variables used to estimate the pseudo-weights.
 
-### Calibration Estimator
-The raking ratio calibration estimator is a one-reference pseudo-weighting method within the generalized estimating equation framework.
+### Calibration Method
+The raking ratio calibration method is a one-reference pseudo-weighting method within the generalized estimating equation framework.
 ```{r one-ref-calibration-classic}
 
 fit_cali <- est_pw(
@@ -145,7 +145,7 @@ summary(fit_cali_interaction)
 
 
 
-Setting `verbose = TRUE` prints a brief processing log, including the number of observations used after missing-data filtering, the estimation method, participation model dimension, and solver convergence diagnostics such as iteration count and the final maximum absolute estimating equation value.
+Setting `verbose = TRUE` prints a brief processing log, including the number of observations used after missing-data filtering, the estimation method, number of participation model parameters (including the intercept), and solver convergence diagnostics such as iteration count and the final maximum absolute estimating equation value.
 
 ```{r one-ref-calibration-verbose}
 fit_cali <- est_pw(
@@ -168,9 +168,9 @@ head(fit_cali$pseudo_weights)
 ```
 
 
-### ALP Estimator
+### ALP Method
 
-The adjusted logistic propensity (ALP) estimator is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+The adjusted logistic propensity (ALP) method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
 
 ```{r one-ref-alp}
 fit_alp <- est_pw(
@@ -182,9 +182,9 @@ fit_alp <- est_pw(
 print(fit_alp)
 ```
 
-### CLW Estimator
+### CLW Method
 
-The Chen--Li--Wu (CLW) estimator is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+The Chen--Li--Wu (CLW) method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
 ```{r one-ref-clw}
 fit_clw <- est_pw(
   data      = list(sc, ref1_design),
@@ -258,7 +258,10 @@ summary(est_cali_factor)
 
 ### Domain (Subgroup) Estimates
 
-When a categorical domain variable is passed to `zcol`, the function returns separate estimates for each domain.
+When a domain variable is passed to `zcol`, the returned domains depend on its type:
+
+- For a factor or character variable, `pwmean()` returns separate estimates for each observed level.
+- For a logical or numeric/integer 0/1 variable, `pwmean()` returns an estimate only for the domain where the variable equals `TRUE` or `1`. To obtain estimates for both groups, convert the variable to a factor before calling `est_pw()`.
 
 With a numeric outcome and a domain variable, `pwmean()` estimates a separate population mean within each domain. In this example, the mean of `psa_level` is estimated within each `BMI` domain.
 ```{r pwmean-domain-numeric}
@@ -284,7 +287,7 @@ Alternatively, users may specify `na.action = stats::na.exclude`. In this case, 
 
 Second, `pwmean()` handles missing values in the outcome variable and, if specified, the categorical domain variable. This second layer of missing-data handling is applied after pseudo-weights have already been estimated.
 
-For illustration, we create temporary versions of the example datasets. In the nonprobability sample, we insert three missing values into the participation variable `agecat` and four missing values into the outcome variable `psa_level`. In the reference survey `sp1`, we insert two missing values into the participation variable `education`.
+For illustration, we create temporary versions of the example datasets. In the nonprobability sample, we insert three missing values into the participation model variable `agecat` and four missing values into the outcome variable `psa_level`. In the reference survey `sp1`, we insert two missing values into the participation model variable `education`.
 
 ```{r na-setup}
 sc_with_na <- sc

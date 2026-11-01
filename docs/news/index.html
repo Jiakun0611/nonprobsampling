@@ -42,7 +42,7 @@
 <li><p>Fixed missing-value handling for character domains in <code><a href="../reference/pwmean.html">pwmean()</a></code>: empty and whitespace-only strings are now detected before applying <code>na.action</code> in the pseudo-weighted and unweighted estimation paths. Omitted row indices include these values, and <code>na.fail</code> rejects them.</p></li>
 <li><p>Corrected the <code>sp1_bootstrap</code> help example to use <code>combined.weights = TRUE</code>, because the bootstrap replicate weights already include the main survey weight.</p></li>
 <li><p>Added a <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code> method for <code>pwmean</code> objects, inherited by <code>pwmean_factor</code>, providing normal-approximation confidence intervals with configurable confidence levels and estimate group selection.</p></li>
-<li><p>Added a <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> method for <code>pwmean</code> objects to extract pseudo-weighted means. <code>pwmean_factor</code> objects inherit the method and return category proportions (prevelance), named by category and domain.</p></li>
+<li><p>Added a <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> method for <code>pwmean</code> objects to extract pseudo-weighted means. <code>pwmean_factor</code> objects inherit the method and return category proportions (prevalence), named by category and domain.</p></li>
 <li><p>Added a <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> method for <code>pw_fit</code> objects to extract participation model coefficients.</p></li>
 </ul></div>
     <div class="section level2">

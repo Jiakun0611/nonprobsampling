@@ -36,7 +36,7 @@
 
 * Added a `coef()` method for `pwmean` objects to extract pseudo-weighted
   means. `pwmean_factor` objects inherit the method and return category
-  proportions (prevelance), named by category and domain.
+  proportions (prevalence), named by category and domain.
 
 * Added a `coef()` method for `pw_fit` objects to extract participation
   model coefficients.

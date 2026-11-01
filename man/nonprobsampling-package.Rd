@@ -59,7 +59,7 @@ Estimation is carried out in two steps:
     needed for subsequent estimation. It does not require an outcome variable.
   \item \code{\link{pwmean}()} uses the object returned by \code{est_pw()}
     to estimate a pseudo-weighted mean or prevalence for an outcome, either
-    overall or by category. It also returns the standard error and confidence
+    overall or by domain. It also returns the standard error and confidence
     interval.
 }
 

@@ -75,7 +75,7 @@ summary_pwmean_impl <- function(
     method_short <- "calibration"
   } else if (method_key == "multi") {
     method_label <- "Multi-reference calibration"
-    method_short <- "calibration"
+    method_short <- "Multi-reference calibration"
   } else {
     method_label <- method_raw
     method_short <- method_raw
@@ -91,13 +91,13 @@ summary_pwmean_impl <- function(
 
     cat(sprintf("\n%s: %s\n", group_label, d$domain))
 
-    cat("\nUnweighted estimators:\n")
+    cat("\nUnweighted estimates:\n")
     cat(sprintf("  %-15s %10.6f\n", paste0(estimate_label, ":"), d$unweighted_mean))
     cat(sprintf("  %-15s %10.6f\n", "Std. Error:",                d$unweighted_se))
     cat(sprintf("  %-15s [%0.6f, %0.6f]\n",
                 "95% CI:", d$unweighted_lower, d$unweighted_upper))
 
-    cat("\nPseudo-weighted (", method_short, ") estimators:\n", sep = "")
+    cat("\nPseudo-weighted (", method_short, ") estimates:\n", sep = "")
     cat(sprintf("  %-15s %10.6f\n", paste0(estimate_label, ":"), d$adjusted_mean))
     cat(sprintf("  %-15s %10.6f\n", "Std. Error:",                d$adjusted_se))
     cat(sprintf("  %-15s [%0.6f, %0.6f]\n",
@@ -128,7 +128,7 @@ summary_pwmean_impl <- function(
       names(uw_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
     }
 
-    cat("\nUnweighted estimators:\n")
+    cat("\nUnweighted estimates:\n")
     print(uw_tab, row.names = FALSE)
 
     if (has_category) {
@@ -154,7 +154,7 @@ summary_pwmean_impl <- function(
       names(ad_tab) <- c(group_col, estimate_col, "se", "CI_lower", "CI_upper")
     }
 
-    cat("\nPseudo-weighted (", method_short, ") estimators:\n", sep = "")
+    cat("\nPseudo-weighted (", method_short, ") estimates:\n", sep = "")
     print(ad_tab, row.names = FALSE)
   }
 

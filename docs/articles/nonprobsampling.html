@@ -261,9 +261,9 @@ method to use, and <code>p_formula</code> defines the participation
 model by selecting the shared auxiliary variables used to estimate the
 pseudo-weights.</p>
 <div class="section level4">
-<h4 id="calibration-estimator">Calibration Estimator<a class="anchor" aria-label="anchor" href="#calibration-estimator"></a>
+<h4 id="calibration-method">Calibration Method<a class="anchor" aria-label="anchor" href="#calibration-method"></a>
 </h4>
-<p>The raking ratio calibration estimator is a one-reference
+<p>The raking ratio calibration method is a one-reference
 pseudo-weighting method within the generalized estimating equation
 framework.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -302,7 +302,7 @@ framework.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 education2 education3 education4 education5 comorbidity1 BMINormal BMIObese BMIOverweight diabetes1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -338,7 +338,7 @@ the model summary.</p>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; Generated default p_formula: ~psa_level + BMI + race + agecat + education + pros_enlarged +     comorbidity + diabetes</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; psa_level BMINormal BMIObese BMIOverweight race2 race3 race4 agecat2 agecat3 agecat4 education2 education3 education4 education5 pros_enlarged1 comorbidity1 diabetes1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -377,7 +377,7 @@ the model summary.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; BMINormal BMIObese BMIOverweight psa_level diabetes1 pros_enlarged1 I(psa_level^2) BMINormal:psa_level BMIObese:psa_level BMIOverweight:psa_level </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -399,7 +399,7 @@ the model summary.</p>
 <span><span class="co">#&gt; (1190 observations deleted due to missingness in sp)</span></span></code></pre></div>
 <p>Setting <code>verbose = TRUE</code> prints a brief processing log,
 including the number of observations used after missing-data filtering,
-the estimation method, participation model dimension, and solver
+the estimation method, number of participation model parameters (including the intercept), and solver
 convergence diagnostics such as iteration count and the final maximum
 absolute estimating equation value.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -412,7 +412,7 @@ absolute estimating equation value.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; sc: 2404 rows, no exclusions.</span></span>
 <span><span class="co">#&gt; sp: 3494 rows, no exclusions.</span></span>
-<span><span class="co">#&gt; Fitting Calibration participation model with 16 variables.</span></span>
+<span><span class="co">#&gt; Fitting Calibration participation model with 16 parameters (including intercept).</span></span>
 <span><span class="co">#&gt; Converged after 5 iterations (max |eq| = 1.304e-08).</span></span></code></pre></div>
 <p>The updated <code>sc</code> data frame is returned with a
 <code>pseudo_wts</code> column added.</p>
@@ -439,9 +439,9 @@ vector.</p>
 <span><span class="co">#&gt; [1]  9142.734 10285.206  9772.742 11185.397  9154.969 11084.897</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="alp-estimator">ALP Estimator<a class="anchor" aria-label="anchor" href="#alp-estimator"></a>
+<h4 id="alp-method">ALP Method<a class="anchor" aria-label="anchor" href="#alp-method"></a>
 </h4>
-<p>The adjusted logistic propensity (ALP) estimator is another
+<p>The adjusted logistic propensity (ALP) method is another
 one-reference pseudo-weighting method within the generalized estimating
 equation framework.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -470,9 +470,9 @@ equation framework.</p>
 <span><span class="co">#&gt; Use summary() for coefficients and diagnostics; pwmean() to estimate means.</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="clw-estimator">CLW Estimator<a class="anchor" aria-label="anchor" href="#clw-estimator"></a>
+<h4 id="clw-method">CLW Method<a class="anchor" aria-label="anchor" href="#clw-method"></a>
 </h4>
-<p>The Chen–Li–Wu (CLW) estimator is another one-reference
+<p>The Chen–Li–Wu (CLW) method is another one-reference
 pseudo-weighting method within the generalized estimating equation
 framework.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -570,7 +570,7 @@ reliable or important.</p>
 <span><span class="co">#&gt; Variables used for calculation in sp[[1]]:</span></span>
 <span><span class="co">#&gt;   education2, education3, education4, education5, psa_level, pros_enlarged1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 diabetes1 BMINormal BMIObese BMIOverweight comorbidity1 education2 education3 education4 education5 psa_level pros_enlarged1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -632,7 +632,7 @@ reliable or important.</p>
 <span><span class="co">#&gt; Variables used for calculation in sp[[2]]:</span></span>
 <span><span class="co">#&gt;   BMINormal, BMIObese, BMIOverweight</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 education2 education3 education4 education5 psa_level pros_enlarged1 comorbidity1 diabetes1 BMINormal BMIObese BMIOverweight </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -671,7 +671,7 @@ and reported as means.</p>
 <code class="sourceCode R"><span><span class="va">est_cali_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimates:</span></span>
 <span><span class="co">#&gt;   Domain: Overall</span></span>
 <span><span class="co">#&gt;   Mean:             1.541785</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035178</span></span>
@@ -684,12 +684,12 @@ and reported as means.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Domain: Overall</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;   Mean:             1.536194</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.034852</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.467886, 1.604502]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimates:</span></span>
 <span><span class="co">#&gt;   Mean:             1.541785</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035178</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.472837, 1.610733]</span></span></code></pre></div>
@@ -701,7 +701,7 @@ prevalence labels.</p>
 <code class="sourceCode R"><span><span class="va">est_cali_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_cali_factor</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimates:</span></span>
 <span><span class="co">#&gt;   Category: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Domain: Overall</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.087922</span></span>
@@ -731,14 +731,14 @@ prevalence labels.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;              category  domain prevalence          se  CI_lower   CI_upper</span></span>
 <span><span class="co">#&gt;  BMI = Morbidly Obese Overall 0.08111481 0.005569341 0.0701991 0.09203052</span></span>
 <span><span class="co">#&gt;          BMI = Normal Overall 0.25707155 0.008915047 0.2395984 0.27454472</span></span>
 <span><span class="co">#&gt;           BMI = Obese Overall 0.23835275 0.008691808 0.2213171 0.25538838</span></span>
 <span><span class="co">#&gt;      BMI = Overweight Overall 0.42346090 0.010079620 0.4037052 0.44321659</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimates:</span></span>
 <span><span class="co">#&gt;              category  domain prevalence          se   CI_lower  CI_upper</span></span>
 <span><span class="co">#&gt;  BMI = Morbidly Obese Overall  0.0879218 0.006215612 0.07573942 0.1001042</span></span>
 <span><span class="co">#&gt;          BMI = Normal Overall  0.2489010 0.009127032 0.23101234 0.2667896</span></span>
@@ -747,8 +747,11 @@ prevalence labels.</p>
 <div class="section level4">
 <h4 id="domain-subgroup-estimates">Domain (Subgroup) Estimates<a class="anchor" aria-label="anchor" href="#domain-subgroup-estimates"></a>
 </h4>
-<p>When a categorical domain variable is passed to <code>zcol</code>,
-the function returns separate estimates for each domain.</p>
+<p>When a domain variable is passed to <code>zcol</code>, the returned domains depend on its type:</p>
+<ul>
+<li>For a factor or character variable, <code><a href="../reference/pwmean.html">pwmean()</a></code> returns separate estimates for each observed level.</li>
+<li>For a logical or numeric/integer 0/1 variable, <code><a href="../reference/pwmean.html">pwmean()</a></code> returns an estimate only for the domain where the variable equals <code>TRUE</code> or <code>1</code>. To obtain estimates for both groups, convert the variable to a factor before calling <code><a href="../reference/est_pw.html">est_pw()</a></code>.</li>
+</ul>
 <p>With a numeric outcome and a domain variable, <code><a href="../reference/pwmean.html">pwmean()</a></code>
 estimates a separate population mean within each domain. In this
 example, the mean of <code>psa_level</code> is estimated within each
@@ -757,7 +760,7 @@ example, the mean of <code>psa_level</code> is estimated within each
 <code class="sourceCode R"><span><span class="va">est_by_bmi_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"psa_level"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_numeric</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimates:</span></span>
 <span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Mean:             1.732436</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.140720</span></span>
@@ -783,14 +786,14 @@ example, the mean of <code>psa_level</code> is estimated within each
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;                domain     mean         se CI_lower CI_upper</span></span>
 <span><span class="co">#&gt;  BMI = Morbidly Obese 1.673128 0.12901739 1.420259 1.925998</span></span>
 <span><span class="co">#&gt;          BMI = Normal 1.692864 0.08216978 1.531814 1.853914</span></span>
 <span><span class="co">#&gt;           BMI = Obese 1.360960 0.05707777 1.249089 1.472830</span></span>
 <span><span class="co">#&gt;      BMI = Overweight 1.513487 0.05114169 1.413251 1.613723</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimates:</span></span>
 <span><span class="co">#&gt;                domain     mean         se CI_lower CI_upper</span></span>
 <span><span class="co">#&gt;  BMI = Morbidly Obese 1.732436 0.14072032 1.456629 2.008243</span></span>
 <span><span class="co">#&gt;          BMI = Normal 1.728680 0.08303227 1.565940 1.891420</span></span>
@@ -805,7 +808,7 @@ domain.</p>
 <code class="sourceCode R"><span><span class="va">est_by_bmi_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pwmean.html">pwmean</a></span><span class="op">(</span><span class="va">fit_cali</span>, y <span class="op">=</span> <span class="st">"agecat"</span>, zcol <span class="op">=</span> <span class="st">"BMI"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_by_bmi_factor</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) Estimates:</span></span>
 <span><span class="co">#&gt;   Category: agecat = 1</span></span>
 <span><span class="co">#&gt;   Domain: BMI = Morbidly Obese</span></span>
 <span><span class="co">#&gt;   Prevalence:       0.282210</span></span>
@@ -907,7 +910,7 @@ domain.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;    category               domain prevalence         se   CI_lower  CI_upper</span></span>
 <span><span class="co">#&gt;  agecat = 1 BMI = Morbidly Obese  0.3282051 0.03371244 0.26212996 0.3942803</span></span>
 <span><span class="co">#&gt;  agecat = 1         BMI = Normal  0.3446602 0.01913314 0.30715993 0.3821605</span></span>
@@ -926,7 +929,7 @@ domain.</p>
 <span><span class="co">#&gt;  agecat = 4          BMI = Obese  0.1186736 0.01352220 0.09217061 0.1451767</span></span>
 <span><span class="co">#&gt;  agecat = 4     BMI = Overweight  0.1620825 0.01155602 0.13943313 0.1847319</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimates:</span></span>
 <span><span class="co">#&gt;    category               domain prevalence         se  CI_lower  CI_upper</span></span>
 <span><span class="co">#&gt;  agecat = 1 BMI = Morbidly Obese  0.2822096 0.03215020 0.2191964 0.3452229</span></span>
 <span><span class="co">#&gt;  agecat = 1         BMI = Normal  0.3178697 0.01968255 0.2792926 0.3564468</span></span>
@@ -968,10 +971,10 @@ layer of missing-data handling is applied after pseudo-weights have
 already been estimated.</p>
 <p>For illustration, we create temporary versions of the example
 datasets. In the nonprobability sample, we insert three missing values
-into the participation variable <code>agecat</code> and four missing
+into the participation model variable <code>agecat</code> and four missing
 values into the outcome variable <code>psa_level</code>. In the
 reference survey <code>sp1</code>, we insert two missing values into the
-participation variable <code>education</code>.</p>
+participation model variable <code>education</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc_with_na</span> <span class="op">&lt;-</span> <span class="va">sc</span></span>
 <span><span class="va">sc_with_na</span><span class="op">$</span><span class="va">agecat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
@@ -1010,7 +1013,7 @@ summary.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method: One reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Participation model involves the following variables:</span></span>
+<span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 education2 education3 education4 education5 comorbidity1 BMINormal BMIObese BMIOverweight diabetes1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Solver diagnostics:</span></span>
@@ -1085,12 +1088,12 @@ handling performed by <code><a href="../reference/est_pw.html">est_pw()</a></cod
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Domain: Overall</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unweighted estimators:</span></span>
+<span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;   Mean:             1.537379</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.034904</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.468969, 1.605790]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Pseudo-weighted (calibration) estimators:</span></span>
+<span><span class="co">#&gt; Pseudo-weighted (calibration) estimates:</span></span>
 <span><span class="co">#&gt;   Mean:             1.544108</span></span>
 <span><span class="co">#&gt;   Std. Error:       0.035273</span></span>
 <span><span class="co">#&gt;   95% CI:         [1.474975, 1.613241]</span></span>

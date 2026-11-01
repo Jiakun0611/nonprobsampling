@@ -37,7 +37,7 @@ summary.pw_fit <- function(object, ...) {
 
   # --- Model information ---
   if (!is.null(object$coefficients)) {
-    cat("\nParticipation model involves the following variables:\n")
+    cat("\nParticipation model matrix columns (excluding intercept):\n")
     cat(names(object$coefficients)[-1], "\n\n")
   }
 

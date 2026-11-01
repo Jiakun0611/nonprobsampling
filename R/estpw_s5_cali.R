@@ -67,7 +67,7 @@ raking_build <- function(vars, sc, sp, sp_des, wts.col,
   }
 
   if (verbose) {
-    message(sprintf("Fitting Calibration participation model with %d variables.", ncol(Xc)))
+    message(sprintf("Fitting Calibration participation model with %d parameters (including intercept).", ncol(Xc)))
   }
 
   beta_start <- raking_start(Xc = Xc, f_p = f_p)

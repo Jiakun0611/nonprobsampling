@@ -59,7 +59,7 @@ clw_build <- function(vars, sc, sp, sp_des, wts.col,
   }
 
   if (verbose) {
-    message(sprintf("Fitting CLW participation model with %d variables.", ncol(Xc)))
+    message(sprintf("Fitting CLW participation model with %d parameters (including intercept).", ncol(Xc)))
   }
 
   beta_start <- clw_start(

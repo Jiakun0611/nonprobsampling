@@ -33,9 +33,15 @@ print.pwmean_factor <- function(x, ...) {
 print_pwmean_impl <- function(x, group_label, estimate_label) {
 
   m_raw <- trimws(tolower(as.character(x$method %||% "")))
-  m <- if (m_raw %in% c("alp", "clw")) toupper(m_raw) else m_raw
+  m <- if (m_raw == "multi") {
+    "Multi-reference calibration"
+  } else if (m_raw %in% c("alp", "clw")) {
+    toupper(m_raw)
+  } else {
+    m_raw
+  }
 
-  cat("\nPseudo-weighted (", m, ") Estimators:\n", sep = "")
+  cat("\nPseudo-weighted (", m, ") Estimates:\n", sep = "")
 
   for (i in seq_len(nrow(x$estimates))) {
 

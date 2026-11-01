@@ -10,9 +10,10 @@ compute_D_ALP(sp_des, p_sp, Xp)
 \item{sp_des}{A survey design object of class `"survey.design2"` or
 `"svyrep.design"`.}
 
-\item{p_sp}{Numeric vector of estimated participation probabilities
-for the probability sample. Length must equal the number of rows in
-`sp_des$variables`.}
+\item{p_sp}{Numeric vector of fitted ALP logistic probabilities for the
+reference survey. The ALP logistic probability `p` is related to the
+participation probability `pi` by `pi = p / (1 - p)`; it is not `pi`.
+Length must equal the number of rows in `sp_des$variables`.}
 
 \item{Xp}{Numeric matrix of dimension `n_p x p`. Each row is the
 covariate vector `x_j` used in the ALP estimating equation.}
