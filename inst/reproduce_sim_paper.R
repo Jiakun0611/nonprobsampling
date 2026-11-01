@@ -28,7 +28,8 @@ seeds_sp <- sample.int(1e6, n_sim)
 
 # -------- Helper functions ------------
 
-# True-weight estimator using known participation probabilities.
+# Benchmark estimator using weights based on known participation probabilities.
+# The table label 'True weight' is retained for comparison with the paper.
 # sc must have columns 'y' and 'wt_sc' (= 1 / pi_c).
 # Returns c(mean, se) under Poisson sampling.
 TW.sc <- function(sc) {
@@ -135,7 +136,7 @@ for (i in seq_len(n_sim)) {
 
   des_sp1 <- svydesign(ids = ~1, probs = ~pi_sp1, data = sp1)
 
-  # true-weight estimator
+  # benchmark using weights based on known participation probabilities
   result_tw <- TW.sc(sc)
 
   # pseudo-weight estimation: ALP, CLW, Calibration
@@ -150,7 +151,7 @@ for (i in seq_len(n_sim)) {
   # naive (from any fit)
   result_sp1[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
                             res_alp$estimates$unweighted_se)
-  # true weight
+  # weights based on known participation probabilities
   result_sp1[i, 3:4]  <- result_tw
   # ALP
   result_sp1[i, 5:6]  <- c(res_alp$estimates$adjusted_mean,
@@ -196,7 +197,7 @@ for (i in seq_len(n_sim)) {
 
   des_sp2 <- svydesign(ids = ~1, fpc = ~pi_sp2, data = sp2, pps = "brewer")
 
-  # true-weight estimator
+  # benchmark using weights based on known participation probabilities
   result_tw <- TW.sc(sc)
 
   # pseudo-weight estimation: ALP, CLW, Calibration
@@ -211,7 +212,7 @@ for (i in seq_len(n_sim)) {
   # naive
   result_sp2[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
                             res_alp$estimates$unweighted_se)
-  # true weight
+  # weights based on known participation probabilities
   result_sp2[i, 3:4]  <- result_tw
   # ALP
   result_sp2[i, 5:6]  <- c(res_alp$estimates$adjusted_mean,

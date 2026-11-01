@@ -34,9 +34,9 @@
 #' The \code{sp1} dataset
 #' contains the outcome variable \code{psa_level}, which is also observed in
 #' \code{sc}, allowing for the evaluation of pseudo-weighted estimators against
-#' estimates based on true sampling weights. It may also be incorporated into
-#' the participation model, potentially enhancing bias reduction when
-#' participation depends on the outcome.
+#' estimates based on the reference survey sampling weights. It may also be
+#' incorporated into the participation model, potentially enhancing bias
+#' reduction when participation depends on the outcome.
 #'
 #' @source
 #' Derived from the National Health and Nutrition Examination Survey (NHANES),
