@@ -9,13 +9,13 @@ build_domains_df(labels, mean_unw, se_unw, mean_adj, se_adj)
 \arguments{
 \item{labels}{Character vector of domain labels, one entry per domain.}
 
-\item{mean_unw}{Numeric vector of unweighted (naive) domain means.}
+\item{mean_unw}{Numeric vector of unweighted domain means.}
 
 \item{se_unw}{Numeric vector of standard errors for the unweighted means.}
 
-\item{mean_adj}{Numeric vector of pseudo-weighted (adjusted) domain means.}
+\item{mean_adj}{Numeric vector of pseudo-weighted domain means.}
 
-\item{se_adj}{Numeric vector of standard errors for the adjusted means.}
+\item{se_adj}{Numeric vector of standard errors for the pseudo-weighted means.}
 }
 \value{
 A data frame with one row per domain and columns `domain`,

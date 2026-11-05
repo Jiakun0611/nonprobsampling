@@ -1,6 +1,6 @@
-#' Compute the naive mean for one domain
+#' Compute the unweighted mean for one domain
 #'
-#' Computes the unweighted sample mean and its variance for observations
+#' Computes the unweighted (naive) sample mean and its variance for observations
 #' belonging to a single domain, identified by a 0/1 indicator vector.
 #'
 #' @param yvec Numeric or integer outcome vector of length \eqn{n}.
@@ -42,10 +42,10 @@ naive_mean_one_domain <- function(yvec, zvec = NULL) {
 }
 
 
-#' Compute naive (unweighted) means from the nonprobability sample
+#' Compute unweighted means from the nonprobability sample
 #'
 #' Filters the nonprobability sample to complete cases, then computes the
-#' unweighted sample mean (and its variance) for each domain using
+#' unweighted (naive) sample mean (and its variance) for each domain using
 #' `naive_mean_one_domain()`. The domain structure is standardized via
 #' `standardize_zcol()`.
 #' Character domain values are trimmed and empty strings are treated as

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s5_naive.R
 \name{naive_mean}
 \alias{naive_mean}
-\title{Compute naive (unweighted) means from the nonprobability sample}
+\title{Compute unweighted means from the nonprobability sample}
 \usage{
 naive_mean(df, domain_var = NULL, y)
 }
@@ -26,7 +26,7 @@ A list with components:
 }
 \description{
 Filters the nonprobability sample to complete cases, then computes the
-unweighted sample mean (and its variance) for each domain using
+unweighted (naive) sample mean (and its variance) for each domain using
 `naive_mean_one_domain()`. The domain structure is standardized via
 `standardize_zcol()`.
 Character domain values are trimmed and empty strings are treated as

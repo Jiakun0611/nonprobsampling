@@ -22,7 +22,7 @@ A list with components `method`, `estimates`, and `na.action`.
   The S3 class is assigned by the calling function `pwmean()`.
 }
 \description{
-Combines the pseudo-weighted estimates and naive (unweighted) estimates
+Combines the pseudo-weighted estimates and unweighted estimates
 into a plain list to be returned by `pwmean()`.
 }
 \keyword{internal}

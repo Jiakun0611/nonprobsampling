@@ -55,7 +55,7 @@ pwmean_numeric <- function(
   )
 
   #------------------------------#
-  # Step 5: naive estimator
+  # Step 5: unweighted estimator
   #------------------------------#
   naive <- tryCatch(
     naive_mean(

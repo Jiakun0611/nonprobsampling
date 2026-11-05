@@ -5,10 +5,10 @@
 #' computed using the 0.975 normal quantile (approximately 1.96).
 #'
 #' @param labels Character vector of domain labels, one entry per domain.
-#' @param mean_unw Numeric vector of unweighted (naive) domain means.
+#' @param mean_unw Numeric vector of unweighted domain means.
 #' @param se_unw Numeric vector of standard errors for the unweighted means.
-#' @param mean_adj Numeric vector of pseudo-weighted (adjusted) domain means.
-#' @param se_adj Numeric vector of standard errors for the adjusted means.
+#' @param mean_adj Numeric vector of pseudo-weighted domain means.
+#' @param se_adj Numeric vector of standard errors for the pseudo-weighted means.
 #'
 #' @return A data frame with one row per domain and columns `domain`,
 #'   `unweighted_mean`, `unweighted_se`, `unweighted_lower`,
@@ -40,7 +40,7 @@ build_domains_df <- function(labels, mean_unw, se_unw, mean_adj, se_adj) {
 
 #' Assemble the final output object
 #'
-#' Combines the pseudo-weighted estimates and naive (unweighted) estimates
+#' Combines the pseudo-weighted estimates and unweighted estimates
 #' into a plain list to be returned by `pwmean()`.
 #'
 #' @param build A `pw_fit` object returned by the build step.

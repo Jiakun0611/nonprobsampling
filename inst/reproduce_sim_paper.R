@@ -6,6 +6,7 @@
 # and Table 2, Case PC.1, for the multi-reference calibration method.
 #
 # The reported metrics follow the paper: RB(%), v(*100), MSE(*100), SER, and CP.
+# Unweighted estimates are also called naive estimates.
 
 library(nonprobsampling)
 library(sampling)
@@ -148,7 +149,7 @@ for (i in seq_len(n_sim)) {
   res_clw  <- pwmean(fit_clw,  y = "y")
   res_cali <- pwmean(fit_cali, y = "y")
 
-  # naive (from any fit)
+  # unweighted (from any fit)
   result_sp1[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
                             res_alp$estimates$unweighted_se)
   # weights based on known participation probabilities
@@ -168,7 +169,7 @@ for (i in seq_len(n_sim)) {
 
 table_sp1 <- matrix(NA, nrow = 5, ncol = 5)
 colnames(table_sp1) <- c("RB(%)", "v(*100)", "MSE(*100)", "SER", "CP")
-rownames(table_sp1) <- c("Naive", "True weight", "ALP", "CLW", "Calibration")
+rownames(table_sp1) <- c("Unweighted", "True weight", "ALP", "CLW", "Calibration")
 
 table_sp1[1, ] <- evaluation(result_sp1[, 1],  result_sp1[, 2],  mu_true)
 table_sp1[2, ] <- evaluation(result_sp1[, 3],  result_sp1[, 4],  mu_true)
@@ -209,7 +210,7 @@ for (i in seq_len(n_sim)) {
   res_clw  <- pwmean(fit_clw,  y = "y")
   res_cali <- pwmean(fit_cali, y = "y")
 
-  # naive
+  # unweighted
   result_sp2[i, 1:2]  <- c(res_alp$estimates$unweighted_mean,
                             res_alp$estimates$unweighted_se)
   # weights based on known participation probabilities
@@ -229,7 +230,7 @@ for (i in seq_len(n_sim)) {
 
 table_sp2 <- matrix(NA, nrow = 5, ncol = 5)
 colnames(table_sp2) <- c("RB(%)", "v(*100)", "MSE(*100)", "SER", "CP")
-rownames(table_sp2) <- c("Naive", "True weight", "ALP", "CLW", "Calibration")
+rownames(table_sp2) <- c("Unweighted", "True weight", "ALP", "CLW", "Calibration")
 
 table_sp2[1, ] <- evaluation(result_sp2[, 1],  result_sp2[, 2],  mu_true)
 table_sp2[2, ] <- evaluation(result_sp2[, 3],  result_sp2[, 4],  mu_true)

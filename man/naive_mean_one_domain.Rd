@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s5_naive.R
 \name{naive_mean_one_domain}
 \alias{naive_mean_one_domain}
-\title{Compute the naive mean for one domain}
+\title{Compute the unweighted mean for one domain}
 \usage{
 naive_mean_one_domain(yvec, zvec = NULL)
 }
@@ -21,7 +21,7 @@ A list with components:
   or NA if fewer than two observations are available.
 }
 \description{
-Computes the unweighted sample mean and its variance for observations
+Computes the unweighted (naive) sample mean and its variance for observations
 belonging to a single domain, identified by a 0/1 indicator vector.
 }
 \keyword{internal}

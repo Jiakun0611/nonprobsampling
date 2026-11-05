@@ -40,6 +40,7 @@ the estimate columns contain estimates of category prevalence.
 
   \item{\code{estimates}}{
     A data frame containing the unweighted and pseudo-weighted estimates.
+    The \code{adjusted_} prefix in column names denotes pseudo-weighted results.
     Extract the pseudo-weighted means or category prevalence as a named
     numeric vector with \code{stats::coef()}.
     Obtain normal-approximation confidence intervals at a chosen level
