@@ -1,7 +1,7 @@
-#' Estimate step for the ALP estimator
+#' Estimate step for the ALP method
 #'
 #' Computes the domain-specific pseudo-weighted Hájek mean and its
-#' Taylor-linearized variance for the adjusted logistic propensity estimator.
+#' Taylor-linearized variance using the ALP method.
 #'
 #' @param Y Outcome vector for the nonprobability sample.
 #' @param Z Domain indicator vector. Use `rep(1, length(Y))` for the

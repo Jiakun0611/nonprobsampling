@@ -150,7 +150,7 @@ and the reference survey data used for estimation.
 
 With one reference survey, the available methods include the
 raking ratio calibration method described in Landsman et al. (2026),
-the adjusted logistic propensity weighting (ALP) method proposed by Wang, Valliant,
+the adjusted logistic propensity (ALP) weighting method proposed by Wang, Valliant,
 and Li (2021), and the CLW method proposed by Chen, Li, and Wu (2020).
 With multiple reference surveys, pseudo-weights are estimated using the
 multi-reference calibration method proposed by Landsman et al. (2026).

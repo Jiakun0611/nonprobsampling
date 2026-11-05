@@ -39,7 +39,7 @@ remotes::install_github("Jiakun0611/nonprobsampling")
 With **one** reference survey:
 
 - **Calibration** — raking ratio calibration (Landsman et al., 2026)
-- **ALP** — adjusted logistic propensity weighting (Wang, Valliant, and Li, 2021)
+- **Adjusted logistic propensity (ALP) weighting method** — Wang, Valliant, and Li (2021)
 - **CLW** — Chen, Li, and Wu (2020)
 
 

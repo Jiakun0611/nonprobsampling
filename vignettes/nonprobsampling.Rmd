@@ -20,7 +20,7 @@ The `nonprobsampling` package provides methods for correcting participation bias
 
 The extent of bias reduction depends on the assumptions underlying the chosen method and the auxiliary information available.
 
-The package implements three one-reference methods within the framework: the raking ratio calibration method of Landsman et al. (2026), the adjusted logistic propensity (ALP) method of Wang et al. (2021), and the Chen–Li–Wu (CLW) method of Chen et al. (2020). It also implements the multi-reference calibration method of Landsman et al. (2026), which integrates auxiliary information from multiple reference surveys when no single reference survey contains all variables relevant to participation.
+The package implements three one-reference methods within the framework: the raking ratio calibration method of Landsman et al. (2026), the adjusted logistic propensity (ALP) weighting method of Wang et al. (2021), and the Chen–Li–Wu (CLW) method of Chen et al. (2020). It also implements the multi-reference calibration method of Landsman et al. (2026), which integrates auxiliary information from multiple reference surveys when no single reference survey contains all variables relevant to participation.
 
 
 ## Datasets
@@ -175,7 +175,7 @@ head(fit_cali$pseudo_weights)
 
 ### ALP Method
 
-The adjusted logistic propensity (ALP) method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+The ALP method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
 
 ```{r one-ref-alp}
 fit_alp <- est_pw(

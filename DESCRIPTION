@@ -27,7 +27,7 @@ Description: Provides pseudo-weighted estimates of means and
     Landsman et al. (2026) <doi:10.1002/sim.70403> for correcting
     participation bias. For a single reference survey, the package
     implements the raking ratio calibration method and includes the
-    adjusted logistic propensity (ALP) method of Wang, Valliant, and Li
+    adjusted logistic propensity (ALP) weighting method of Wang, Valliant, and Li
     (2021) <doi:10.1002/sim.9122>, as well as the Chen-Li-Wu (CLW)
     method of Chen, Li, and Wu (2020) <doi:10.1080/01621459.2019.1677241>.
     Analytic variance estimation uses Taylor linearization and accounts

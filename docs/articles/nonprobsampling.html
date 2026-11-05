@@ -74,12 +74,12 @@ information from probability reference surveys.</p>
 the chosen method and the auxiliary information available.</p>
 <p>The package implements three one-reference methods within the
 framework: the raking ratio calibration method of Landsman et
-al. (2026), the adjusted logistic propensity (ALP) method of Wang et
-al. (2021), and the Chen–Li–Wu (CLW) method of Chen et al. (2020). It
-also implements the multi-reference calibration method of Landsman et
-al. (2026), which integrates auxiliary information from multiple
-reference surveys when no single reference survey contains all variables
-relevant to participation.</p>
+al. (2026), the adjusted logistic propensity (ALP) weighting method of
+Wang et al. (2021), and the Chen–Li–Wu (CLW) method of Chen et
+al. (2020). It also implements the multi-reference calibration method of
+Landsman et al. (2026), which integrates auxiliary information from
+multiple reference surveys when no single reference survey contains all
+variables relevant to participation.</p>
 </div>
 <div class="section level3">
 <h3 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a>
@@ -446,9 +446,8 @@ vector.</p>
 <div class="section level4">
 <h4 id="alp-method">ALP Method<a class="anchor" aria-label="anchor" href="#alp-method"></a>
 </h4>
-<p>The adjusted logistic propensity (ALP) method is another
-one-reference pseudo-weighting method within the generalized estimating
-equation framework.</p>
+<p>The ALP method is another one-reference pseudo-weighting method
+within the generalized estimating equation framework.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_alp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design_rep_wts</span><span class="op">)</span>,</span>

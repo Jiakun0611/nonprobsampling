@@ -33,7 +33,7 @@ different choices of the weight and estimating functions:
 \itemize{
   \item the raking ratio calibration method of
     Landsman et al. (2026);
-  \item the adjusted logistic propensity (ALP) method of
+  \item the adjusted logistic propensity (ALP) weighting method of
     Wang, Valliant, and Li (2021);
   \item the Chen--Li--Wu (CLW) method of Chen, Li, and Wu (2020).
 }

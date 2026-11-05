@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s4_alp.R
 \name{alp_estimate}
 \alias{alp_estimate}
-\title{Estimate step for the ALP estimator}
+\title{Estimate step for the ALP method}
 \usage{
 alp_estimate(Y, Z, w, X, D, S_beta)
 }
@@ -26,6 +26,6 @@ A list with components `mean` and `variance`.
 }
 \description{
 Computes the domain-specific pseudo-weighted Hájek mean and its
-Taylor-linearized variance for the adjusted logistic propensity estimator.
+Taylor-linearized variance using the ALP method.
 }
 \keyword{internal}
