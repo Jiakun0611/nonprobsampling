@@ -30,7 +30,7 @@
 #'     Landsman et al. (2026);
 #'   \item the adjusted logistic propensity (ALP) weighting method of
 #'     Wang, Valliant, and Li (2021);
-#'   \item the Chen--Li--Wu (CLW) method of Chen, Li, and Wu (2020).
+#'   \item the Chen-Li-Wu (CLW) method of Chen, Li, and Wu (2020).
 #' }
 #'
 #' A key feature of the package is the multi-reference extension of the
