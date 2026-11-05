@@ -1,9 +1,9 @@
-#' Probability Reference Sample 2 (sp2)
+#' Probability Reference Survey 2 (sp2)
 #'
-#' This dataset represents a probability survey derived from the
+#' This dataset represents a probability sample derived from the
 #' 1997--2008 cycles of the National Health Interview Survey (NHIS).
-#' It is intended for use
-#' alongside \code{sc} and \code{sp1} to illustrate the multi-reference
+#' It is used as a probability reference survey alongside \code{sc} and
+#' \code{sp1} to illustrate the multi-reference
 #' calibration method implemented in the \code{nonprobsampling} package.
 #'
 #' @format A data frame with 35525 observations and 11 variables:

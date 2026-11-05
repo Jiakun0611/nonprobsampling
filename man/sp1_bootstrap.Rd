@@ -3,7 +3,7 @@
 \docType{data}
 \name{sp1_bootstrap}
 \alias{sp1_bootstrap}
-\title{Probability Reference Sample 1 with Bootstrap Replicate Weights (sp1_bootstrap)}
+\title{Probability Reference Survey 1 with Bootstrap Replicate Weights (sp1_bootstrap)}
 \format{
 A data frame with 3494 rows and 512 columns. The first 12 columns
   are the substantive survey variables from \code{sp1} (\code{agecat},

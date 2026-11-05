@@ -20,8 +20,8 @@ est_pw(
 \item{data}{A list of input data objects of the form
 \code{list(sc, sp1_design, sp2_design, ...)}. The first element must be a
 data frame corresponding to the nonprobability sample. Each remaining
-element must be a valid survey design object corresponding to a reference
-probability survey, such as an object created by
+element must be a valid survey design object corresponding to a probability
+reference survey, such as an object created by
 \code{\link[survey]{svydesign}} or \code{\link[survey]{svrepdesign}}.}
 
 \item{sp_order}{Character string controlling the order of reference surveys
@@ -138,7 +138,7 @@ Important components include:
 }
 \description{
 \code{est_pw()} estimates pseudo-weights for a nonprobability sample using
-one reference survey or multiple reference surveys. The function specifies the
+one or multiple probability reference surveys. The function specifies the
 participation model, handles missing values in the participation model
 variables, solves the estimating equations, and stores the quantities needed
 for downstream point and variance estimation.

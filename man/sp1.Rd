@@ -3,7 +3,7 @@
 \docType{data}
 \name{sp1}
 \alias{sp1}
-\title{Probability Reference Sample 1 (sp1)}
+\title{Probability Reference Survey 1 (sp1)}
 \format{
 A data frame with 3494 observations and 14 variables:
 \describe{

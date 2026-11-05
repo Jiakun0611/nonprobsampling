@@ -1,4 +1,4 @@
-#' Probability Reference Sample 1 with Bootstrap Replicate Weights (sp1_bootstrap)
+#' Probability Reference Survey 1 with Bootstrap Replicate Weights (sp1_bootstrap)
 #'
 #' A replicate-weight version of \code{sp1}, including the main survey weight
 #' and 500 bootstrap replicate weights. It is provided to illustrate

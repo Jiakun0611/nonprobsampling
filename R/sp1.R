@@ -1,4 +1,4 @@
-#' Probability Reference Sample 1 (sp1)
+#' Probability Reference Survey 1 (sp1)
 #'
 #' This dataset represents a probability sample derived from the
 #' 1999--2010 cycles of the National Health and Nutrition

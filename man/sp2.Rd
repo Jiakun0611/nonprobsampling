@@ -3,7 +3,7 @@
 \docType{data}
 \name{sp2}
 \alias{sp2}
-\title{Probability Reference Sample 2 (sp2)}
+\title{Probability Reference Survey 2 (sp2)}
 \format{
 A data frame with 35525 observations and 11 variables:
 \describe{
@@ -28,10 +28,10 @@ conducted by the U.S. National Center for Health Statistics (NCHS).
 data(sp2)
 }
 \description{
-This dataset represents a probability survey derived from the
+This dataset represents a probability sample derived from the
 1997--2008 cycles of the National Health Interview Survey (NHIS).
-It is intended for use
-alongside \code{sc} and \code{sp1} to illustrate the multi-reference
+It is used as a probability reference survey alongside \code{sc} and
+\code{sp1} to illustrate the multi-reference
 calibration method implemented in the \code{nonprobsampling} package.
 }
 \details{
