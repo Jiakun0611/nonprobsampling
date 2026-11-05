@@ -15,7 +15,7 @@ dispatch_estimator_one_domain(build, Y, zvec, w, X)
 
 \item{w}{Pseudo-weight vector of length `n`.}
 
-\item{X}{Design matrix for the convenience sample, with dimension
+\item{X}{Design matrix for the nonprobability sample, with dimension
 `n x p`.}
 }
 \value{

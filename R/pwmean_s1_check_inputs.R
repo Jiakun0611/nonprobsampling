@@ -1,7 +1,7 @@
 #' Validate inputs at the estimation stage
 #'
 #' Checks that `build` is a valid `pw_fit` object with all required internal
-#' fields, that `y` names a numeric or factor column in the raw convenience
+#' fields, that `y` names a numeric or factor column in the raw nonprobability
 #' sample, and
 #' that `zcol` (if supplied) is a supported domain variable with at least two
 #' non-missing levels in both the full sample and the build-stage complete cases.

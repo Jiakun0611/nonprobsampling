@@ -8,7 +8,7 @@
 #' @param Y Outcome vector of length `n`.
 #' @param zvec Domain indicator vector of length `n`.
 #' @param w Pseudo-weight vector of length `n`.
-#' @param X Design matrix for the convenience sample, with dimension
+#' @param X Design matrix for the nonprobability sample, with dimension
 #'  `n x p`.
 #'
 #' @return A list with components `mean` and `variance`.

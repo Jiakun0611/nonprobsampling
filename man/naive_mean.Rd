@@ -2,12 +2,12 @@
 % Please edit documentation in R/pwmean_s5_naive.R
 \name{naive_mean}
 \alias{naive_mean}
-\title{Compute naive (unweighted) means from the convenience sample}
+\title{Compute naive (unweighted) means from the nonprobability sample}
 \usage{
 naive_mean(df, domain_var = NULL, y)
 }
 \arguments{
-\item{df}{A data frame containing the convenience sample
+\item{df}{A data frame containing the nonprobability sample
 (typically `build$internal$raw_sc`).}
 
 \item{domain_var}{Single character string naming the domain variable in
@@ -25,7 +25,7 @@ A list with components:
   For `type = "multi"`, a list of such lists, one per domain level.
 }
 \description{
-Filters the convenience sample to complete cases, then computes the
+Filters the nonprobability sample to complete cases, then computes the
 unweighted sample mean (and its variance) for each domain using
 `naive_mean_one_domain()`. The domain structure is standardized via
 `standardize_zcol()`.

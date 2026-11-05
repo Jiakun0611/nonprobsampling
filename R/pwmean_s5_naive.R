@@ -42,16 +42,16 @@ naive_mean_one_domain <- function(yvec, zvec = NULL) {
 }
 
 
-#' Compute naive (unweighted) means from the convenience sample
+#' Compute naive (unweighted) means from the nonprobability sample
 #'
-#' Filters the convenience sample to complete cases, then computes the
+#' Filters the nonprobability sample to complete cases, then computes the
 #' unweighted sample mean (and its variance) for each domain using
 #' `naive_mean_one_domain()`. The domain structure is standardized via
 #' `standardize_zcol()`.
 #' Character domain values are trimmed and empty strings are treated as
 #' missing before complete-case filtering.
 #'
-#' @param df A data frame containing the convenience sample
+#' @param df A data frame containing the nonprobability sample
 #'   (typically `build$internal$raw_sc`).
 #' @param domain_var Single character string naming the domain variable in
 #'   `df`, or NULL for the overall mean.

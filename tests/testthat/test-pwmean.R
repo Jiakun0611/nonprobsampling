@@ -284,7 +284,7 @@ test_that("pwmean tags Step 1 errors with 'Step 1 (input check) failed:'", {
   )
 })
 
-test_that("pwmean tags Step 1 errors when y is not in the convenience sample", {
+test_that("pwmean tags Step 1 errors when y is not in the nonprobability sample", {
   expect_error(
     pwmean(fit_cali, y = "not_a_column"),
     "Step 1 (input check) failed:",
