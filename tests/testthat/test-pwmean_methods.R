@@ -66,7 +66,7 @@ test_that("print.pwmean_factor uses category and prevalence labels", {
 
 test_that("summary.pwmean shows call, method and estimate sections (overall)", {
   expect_output(summary(out_overall), "Call:",                            fixed = TRUE)
-  expect_output(summary(out_overall), "Method: One reference calibration", fixed = TRUE)
+  expect_output(summary(out_overall), "Method: One-reference calibration", fixed = TRUE)
   expect_output(summary(out_overall), "Domain: Overall",                  fixed = TRUE)
   expect_output(summary(out_overall), "Unweighted estimates:",           fixed = TRUE)
   expect_output(summary(out_overall), "Pseudo-weighted",                  fixed = TRUE)

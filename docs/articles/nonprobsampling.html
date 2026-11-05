@@ -287,7 +287,7 @@ within the generalized estimating equation framework.</p>
 <span><span class="co">#&gt;     education + comorbidity + BMI + diabetes, method = "calibration", </span></span>
 <span><span class="co">#&gt;     control = pw_solver_control(ftol = 1e-06))</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method:               One reference calibration</span></span>
+<span><span class="co">#&gt; Method:               One-reference calibration</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
 <span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.30e-08)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -304,7 +304,7 @@ within the generalized estimating equation framework.</p>
 <span><span class="co">#&gt;     education + comorbidity + BMI + diabetes, method = "calibration", </span></span>
 <span><span class="co">#&gt;     control = pw_solver_control(ftol = 1e-06))</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 education2 education3 education4 education5 comorbidity1 BMINormal BMIObese BMIOverweight diabetes1 </span></span>
@@ -339,7 +339,7 @@ the model summary.</p>
 <span><span class="co">#&gt; est_pw(data = list(sc, ref1_design), method = "calibration", </span></span>
 <span><span class="co">#&gt;     control = pw_solver_control(ftol = 1e-06))</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; Generated default p_formula: ~psa_level + BMI + race + agecat + education + pros_enlarged +     comorbidity + diabetes</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
@@ -379,7 +379,7 @@ the model summary.</p>
 <span><span class="co">#&gt;     diabetes + pros_enlarged + I(psa_level^2), method = "calibration", </span></span>
 <span><span class="co">#&gt;     control = pw_solver_control(ftol = 1e-06))</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; BMINormal BMIObese BMIOverweight psa_level diabetes1 pros_enlarged1 I(psa_level^2) BMINormal:psa_level BMIObese:psa_level BMIOverweight:psa_level </span></span>
@@ -462,7 +462,7 @@ within the generalized estimating equation framework.</p>
 <span><span class="co">#&gt; est_pw(data = list(sc, ref1_design_rep_wts), p_formula = ~agecat + </span></span>
 <span><span class="co">#&gt;     race + education + comorbidity + BMI + diabetes, method = "alp")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method:               One reference ALP</span></span>
+<span><span class="co">#&gt; Method:               One-reference ALP</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
 <span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.59e-12)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -492,7 +492,7 @@ method within the generalized estimating equation framework.</p>
 <span><span class="co">#&gt; est_pw(data = list(sc, ref1_design), p_formula = ~agecat + race + </span></span>
 <span><span class="co">#&gt;     education + comorbidity + BMI + diabetes, method = "clw")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method:               One reference CLW</span></span>
+<span><span class="co">#&gt; Method:               One-reference CLW</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
 <span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.53e-10)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -684,7 +684,7 @@ and reported as means.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "psa_level")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Domain: Overall</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -733,7 +733,7 @@ prevalence labels.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "BMI")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;              category  domain prevalence          se  CI_lower   CI_upper</span></span>
@@ -794,7 +794,7 @@ example, the mean of <code>psa_level</code> is estimated within each
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "psa_level", zcol = "BMI")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;                domain     mean         se CI_lower CI_upper</span></span>
@@ -918,7 +918,7 @@ domain.</p>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_cali, y = "agecat", zcol = "BMI")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Unweighted estimates:</span></span>
 <span><span class="co">#&gt;    category               domain prevalence         se   CI_lower  CI_upper</span></span>
@@ -1021,7 +1021,7 @@ summary.</p>
 <span><span class="co">#&gt;     race + education + comorbidity + BMI + diabetes, method = "calibration", </span></span>
 <span><span class="co">#&gt;     na.action = stats::na.exclude, control = pw_solver_control(ftol = 1e-06))</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model matrix columns (excluding intercept):</span></span>
 <span><span class="co">#&gt; agecat2 agecat3 agecat4 race2 race3 race4 education2 education3 education4 education5 comorbidity1 BMINormal BMIObese BMIOverweight diabetes1 </span></span>
@@ -1094,7 +1094,7 @@ handling performed by <code><a href="../reference/est_pw.html">est_pw()</a></cod
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; pwmean(object = fit_na_exclude, y = "psa_level")</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Method: One reference calibration </span></span>
+<span><span class="co">#&gt; Method: One-reference calibration </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Domain: Overall</span></span>
 <span><span class="co">#&gt; </span></span>

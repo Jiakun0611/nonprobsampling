@@ -30,7 +30,7 @@ fit_multi <- suppressMessages(est_pw(list(sc, des1, des2),
 
 test_that("summary.pw_fit prints call, method, diagnostics and coefficients", {
   expect_output(summary(fit_cali), "Call:",                            fixed = TRUE)
-  expect_output(summary(fit_cali), "Method: One reference calibration", fixed = TRUE)
+  expect_output(summary(fit_cali), "Method: One-reference calibration", fixed = TRUE)
   expect_output(summary(fit_cali), "Solver diagnostics:",              fixed = TRUE)
   expect_output(summary(fit_cali), "Participation model coefficients:", fixed = TRUE)
 })
@@ -45,11 +45,11 @@ test_that("summary.pw_fit returns its argument invisibly", {
 # Method labels ----
 
 test_that("summary.pw_fit labels one-reference ALP", {
-  expect_output(summary(fit_alp), "Method: One reference ALP", fixed = TRUE)
+  expect_output(summary(fit_alp), "Method: One-reference ALP", fixed = TRUE)
 })
 
 test_that("summary.pw_fit labels one-reference CLW", {
-  expect_output(summary(fit_clw), "Method: One reference CLW", fixed = TRUE)
+  expect_output(summary(fit_clw), "Method: One-reference CLW", fixed = TRUE)
 })
 
 test_that("summary.pw_fit labels multi-reference calibration", {

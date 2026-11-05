@@ -51,15 +51,15 @@ test_that("print.pw_fit returns its argument invisibly", {
 # Method labels ----
 
 test_that("print.pw_fit labels one-reference calibration", {
-  expect_output(print(fit_cali), "One reference calibration", fixed = TRUE)
+  expect_output(print(fit_cali), "One-reference calibration", fixed = TRUE)
 })
 
 test_that("print.pw_fit labels one-reference ALP", {
-  expect_output(print(fit_alp), "One reference ALP", fixed = TRUE)
+  expect_output(print(fit_alp), "One-reference ALP", fixed = TRUE)
 })
 
 test_that("print.pw_fit labels one-reference CLW", {
-  expect_output(print(fit_clw), "One reference CLW", fixed = TRUE)
+  expect_output(print(fit_clw), "One-reference CLW", fixed = TRUE)
 })
 
 test_that("print.pw_fit labels multi-reference calibration", {

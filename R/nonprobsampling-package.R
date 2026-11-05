@@ -23,7 +23,7 @@
 #' computed using estimated pseudo-weights, whereas totals from the reference
 #' surveys are computed using the known survey sampling weights.
 #'
-#' Several one reference methods arise as special cases of this framework under
+#' Several one-reference methods arise as special cases of this framework under
 #' different choices of the weight and estimating functions:
 #' \itemize{
 #'   \item the raking ratio calibration method of
@@ -65,8 +65,8 @@
 #' \code{\link{pw_solver_control}()}.
 #'
 #' @section Datasets:
-#' The package includes example datasets for demonstrating one reference and
-#' multiple reference analyses: \code{\link{sc}} is a nonprobability sample,
+#' The package includes example datasets for demonstrating one-reference and
+#' multi-reference analyses: \code{\link{sc}} is a nonprobability sample,
 #' \code{\link{sp1}} and \code{\link{sp2}} are probability reference surveys,
 #' and \code{\link{sp1_bootstrap}} contains replicate weights for
 #' \code{sp1}. See the package vignette for worked examples.

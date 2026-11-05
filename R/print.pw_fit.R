@@ -24,11 +24,11 @@ print.pw_fit <- function(x, ...) {
   # --- Method ---
   m <- tolower(trimws(as.character(x$method %||% "")))
   method_label <- if (m == "alp") {
-    "One reference ALP"
+    "One-reference ALP"
   } else if (m == "clw") {
-    "One reference CLW"
+    "One-reference CLW"
   } else if (m %in% c("cali", "calibration")) {
-    "One reference calibration"
+    "One-reference calibration"
   } else if (m == "multi") {
     "Multi-reference calibration"
   } else {

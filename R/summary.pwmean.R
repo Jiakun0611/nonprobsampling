@@ -65,13 +65,13 @@ summary_pwmean_impl <- function(
   method_key <- tolower(method_raw)
 
   if (method_key == "alp") {
-    method_label <- "One reference ALP"
+    method_label <- "One-reference ALP"
     method_short <- "ALP"
   } else if (method_key == "clw") {
-    method_label <- "One reference CLW"
+    method_label <- "One-reference CLW"
     method_short <- "CLW"
   } else if (method_key %in% c("cali", "calibration")) {
-    method_label <- "One reference calibration"
+    method_label <- "One-reference calibration"
     method_short <- "calibration"
   } else if (method_key == "multi") {
     method_label <- "Multi-reference calibration"

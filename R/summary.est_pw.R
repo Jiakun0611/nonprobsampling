@@ -18,7 +18,7 @@ summary.pw_fit <- function(object, ...) {
     if (method == "clw")         method <- "CLW"
     if (method == "calibration") method <- "calibration"
 
-    cat("\nMethod: One reference", method, "\n")
+    cat("\nMethod: One-reference", method, "\n")
 
     log <- object$internal$log_messages
     if (!is.null(log) && length(log) > 0) {
