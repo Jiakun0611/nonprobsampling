@@ -38,8 +38,8 @@
 #' information across multiple surveys when no single reference survey
 #' contains all variables relevant to participation (Landsman et al., 2026),
 #' with an optional cumulative precalibration step to preserve information on
-#' the relationships between overlapping and unique auxiliary variables across
-#' reference surveys.
+#' the relationships between overlapping and survey-specific auxiliary variables
+#' across reference surveys.
 #'
 #' Variance estimation is based on Taylor linearization. The resulting analytic
 #' variance estimator accounts for uncertainty from pseudo-weight estimation and
