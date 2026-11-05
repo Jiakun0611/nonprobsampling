@@ -2,7 +2,7 @@
 % Please edit documentation in R/estpw_d_matrix_multi.R
 \name{make_block_D_multi}
 \alias{make_block_D_multi}
-\title{Construct block-diagonal D matrix for multi-reference raking}
+\title{Construct block-diagonal D matrix for multi-reference calibration}
 \usage{
 make_block_D_multi(sp_des_list, Xp_list)
 }
@@ -19,7 +19,7 @@ A block-diagonal covariance matrix \eqn{D}.
 }
 \description{
 Internal helper to assemble the block-diagonal covariance matrix
-\eqn{D} for the multi-reference raking estimator. Each reference survey
+\eqn{D} for the multi-reference calibration estimator. Each reference survey
 contributes one design-based covariance block computed from
 `compute_D_raking()`.
 }

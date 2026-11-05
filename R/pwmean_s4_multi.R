@@ -1,17 +1,17 @@
-#' Estimate step for multi-reference raking
+#' Estimate step for multi-reference calibration
 #'
 #' Computes the domain-specific pseudo-weighted Hájek mean and its
-#' Taylor-linearized variance for the multi-reference raking estimator.
+#' Taylor-linearized variance for the multi-reference calibration estimator.
 #'
 #' @param Y Outcome vector for the nonprobability sample.
 #' @param Z Domain indicator vector. Use `rep(1, length(Y))` for the
 #'   overall mean.
-#' @param w Estimated pseudo-weights from the multi-reference raking
+#' @param w Estimated pseudo-weights from the multi-reference calibration
 #'   build step.
 #' @param X Design matrix for the nonprobability sample.
 #' @param D Block-diagonal design-based variance-covariance matrix of the
 #'   estimated auxiliary totals from the reference surveys.
-#' @param S_beta Sensitivity matrix for the multi-reference raking
+#' @param S_beta Sensitivity matrix for the multi-reference calibration
 #'   estimating equations, typically \code{t(w * X) \%*\% X}.
 #'
 #' @return A list with components `mean` and `variance`.

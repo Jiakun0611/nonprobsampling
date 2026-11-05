@@ -2,7 +2,7 @@
 % Please edit documentation in R/estpw_s5_cali.R
 \name{raking_build}
 \alias{raking_build}
-\title{Build pseudo-weights using the calibration (raking) method}
+\title{Build pseudo-weights using the calibration method}
 \usage{
 raking_build(
   vars,
@@ -43,6 +43,6 @@ A list with components:
     components (`S_beta`, `D`) needed by the estimation stage.}
 }
 \description{
-Build pseudo-weights using the calibration (raking) method
+Build pseudo-weights using the calibration method
 }
 \keyword{internal}

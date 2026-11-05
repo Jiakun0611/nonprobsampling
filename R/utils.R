@@ -3,7 +3,7 @@
 
 
 # Logistic (inverse-logit) transformation.
-# Used by ALP, CLW, and raking solver helpers.
+# Used by ALP, CLW, and calibration solver helpers.
 #
 # Implemented via plogis() rather than the algebraically equivalent
 # exp(x) / (1 + exp(x)). The naive form overflows to Inf once x exceeds about

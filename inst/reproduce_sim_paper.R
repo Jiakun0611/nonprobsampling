@@ -293,7 +293,7 @@ for (i in seq_len(n_sim)) {
 
 table_both <- matrix(NA, nrow = 2, ncol = 5)
 colnames(table_both) <- c("RB(%)", "v(*100)", "MSE(*100)", "SER", "CP")
-rownames(table_both) <- c("Multi (precali = TRUE)", "Multi (precali = FALSE)")
+rownames(table_both) <- c("Multi-reference calibration (precali = TRUE)", "Multi-reference calibration (precali = FALSE)")
 
 table_both[1, ] <- evaluation(result_both[, "mean_precali_TRUE"],
                               result_both[, "se_precali_TRUE"],  mu_true)

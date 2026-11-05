@@ -268,9 +268,8 @@ pseudo-weights.</p>
 <div class="section level4">
 <h4 id="calibration-method">Calibration Method<a class="anchor" aria-label="anchor" href="#calibration-method"></a>
 </h4>
-<p>The raking ratio calibration method is a one-reference
-pseudo-weighting method within the generalized estimating equation
-framework.</p>
+<p>The calibration method is a one-reference pseudo-weighting method
+within the generalized estimating equation framework.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">fit_cali</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
@@ -418,7 +417,7 @@ value.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; sc: 2404 rows, no exclusions.</span></span>
 <span><span class="co">#&gt; sp: 3494 rows, no exclusions.</span></span>
-<span><span class="co">#&gt; Fitting Calibration participation model with 16 parameters (including intercept).</span></span>
+<span><span class="co">#&gt; Fitting calibration participation model with 16 parameters (including intercept).</span></span>
 <span><span class="co">#&gt; Converged after 5 iterations (max |eq| = 1.304e-08).</span></span></code></pre></div>
 <p>The updated <code>sc</code> data frame is returned with a
 <code>pseudo_wts</code> column added.</p>

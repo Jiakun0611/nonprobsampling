@@ -5,7 +5,7 @@
 #' from an existing survey design object created by
 #' survey::svydesign() or survey::svrepdesign().
 #'
-#' In the raking ratio calibration method, the probability sample
+#' In the calibration method, the probability sample
 #' contribution in the estimating equation is \eqn{d_j x_j}, so the
 #' design-based covariance matrix is obtained by treating
 #' \eqn{h_j = x_j} as the survey total variable.

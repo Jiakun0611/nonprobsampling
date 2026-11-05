@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s4_cali.R
 \name{raking_estimate}
 \alias{raking_estimate}
-\title{Estimate step for raking-ratio calibration}
+\title{Estimate step for calibration}
 \usage{
 raking_estimate(Y, Z, w, X, D, S_beta)
 }
@@ -21,13 +21,13 @@ auxiliary totals from the reference survey or surveys. For multiple
 reference surveys, this is block diagonal.}
 
 \item{S_beta}{Sensitivity matrix for the calibration estimating equations,
-typically \code{t(w * X) \%*\% X} for raking-ratio calibration.}
+typically \code{t(w * X) \%*\% X} for calibration.}
 }
 \value{
 A list with components `mean` and `variance`.
 }
 \description{
 Computes the domain-specific pseudo-weighted Hájek mean and its
-Taylor-linearized variance for the raking-ratio calibration estimator.
+Taylor-linearized variance for the calibration estimator.
 }
 \keyword{internal}

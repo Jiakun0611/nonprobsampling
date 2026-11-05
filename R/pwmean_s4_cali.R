@@ -1,7 +1,7 @@
-#' Estimate step for raking-ratio calibration
+#' Estimate step for calibration
 #'
 #' Computes the domain-specific pseudo-weighted Hájek mean and its
-#' Taylor-linearized variance for the raking-ratio calibration estimator.
+#' Taylor-linearized variance for the calibration estimator.
 #'
 #' @param Y Outcome vector for the nonprobability sample.
 #' @param Z Domain indicator vector. Use `rep(1, length(Y))` for the
@@ -12,7 +12,7 @@
 #'   auxiliary totals from the reference survey or surveys. For multiple
 #'   reference surveys, this is block diagonal.
 #' @param S_beta Sensitivity matrix for the calibration estimating equations,
-#'   typically \code{t(w * X) \%*\% X} for raking-ratio calibration.
+#'   typically \code{t(w * X) \%*\% X} for calibration.
 #'
 #' @return A list with components `mean` and `variance`.
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwmean_s4_multi.R
 \name{multi_estimate}
 \alias{multi_estimate}
-\title{Estimate step for multi-reference raking}
+\title{Estimate step for multi-reference calibration}
 \usage{
 multi_estimate(Y, Z, w, X, D, S_beta)
 }
@@ -12,7 +12,7 @@ multi_estimate(Y, Z, w, X, D, S_beta)
 \item{Z}{Domain indicator vector. Use `rep(1, length(Y))` for the
 overall mean.}
 
-\item{w}{Estimated pseudo-weights from the multi-reference raking
+\item{w}{Estimated pseudo-weights from the multi-reference calibration
 build step.}
 
 \item{X}{Design matrix for the nonprobability sample.}
@@ -20,7 +20,7 @@ build step.}
 \item{D}{Block-diagonal design-based variance-covariance matrix of the
 estimated auxiliary totals from the reference surveys.}
 
-\item{S_beta}{Sensitivity matrix for the multi-reference raking
+\item{S_beta}{Sensitivity matrix for the multi-reference calibration
 estimating equations, typically \code{t(w * X) \%*\% X}.}
 }
 \value{
@@ -28,6 +28,6 @@ A list with components `mean` and `variance`.
 }
 \description{
 Computes the domain-specific pseudo-weighted Hájek mean and its
-Taylor-linearized variance for the multi-reference raking estimator.
+Taylor-linearized variance for the multi-reference calibration estimator.
 }
 \keyword{internal}

@@ -1,7 +1,7 @@
-#' Construct block-diagonal D matrix for multi-reference raking
+#' Construct block-diagonal D matrix for multi-reference calibration
 #'
 #' Internal helper to assemble the block-diagonal covariance matrix
-#' \eqn{D} for the multi-reference raking estimator. Each reference survey
+#' \eqn{D} for the multi-reference calibration estimator. Each reference survey
 #' contributes one design-based covariance block computed from
 #' `compute_D_raking()`.
 #'

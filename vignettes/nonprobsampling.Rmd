@@ -108,7 +108,7 @@ The `method` argument specifies the pseudo-weighting method to use, and
 `p_formula` defines the participation model by selecting the shared auxiliary variables used to estimate the pseudo-weights.
 
 ### Calibration Method
-The raking ratio calibration method is a one-reference pseudo-weighting method within the generalized estimating equation framework.
+The calibration method is a one-reference pseudo-weighting method within the generalized estimating equation framework.
 ```{r one-ref-calibration-classic}
 
 fit_cali <- est_pw(

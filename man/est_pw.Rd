@@ -66,6 +66,8 @@ warning is issued if \code{FALSE} is supplied.}
   one-reference method: \code{"alp"}, \code{"clw"}, or
   \code{"calibration"} (or \code{"cali"}). For the
   multi-reference method: \code{"multi"}.
+  The value \code{"calibration"} selects raking ratio calibration, and
+  \code{"multi"} selects multi-reference calibration.
 
   The argument is case-insensitive, so inputs such as
   \code{"ALP"}, \code{"Clw"}, or \code{"CALI"} are also accepted.}

@@ -112,7 +112,7 @@ multi_matrix_construction <- function(vars_XC, sc, sp_list, xcol, wts_cols) {
 
   # -----------------------------
   # dimension consistency check
-  # In multi-raking, columns of Xc should match the total number of columns
+  # In multi-reference calibration, columns of Xc should match the total number of columns
   # across all Xp blocks (first block contains intercept).
   # -----------------------------
   p_xc <- ncol(Xc)

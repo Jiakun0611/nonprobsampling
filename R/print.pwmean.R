@@ -37,6 +37,8 @@ print_pwmean_impl <- function(x, group_label, estimate_label) {
     "Multi-reference calibration"
   } else if (m_raw %in% c("alp", "clw")) {
     toupper(m_raw)
+  } else if (m_raw %in% c("cali", "calibration")) {
+    "calibration"
   } else {
     m_raw
   }

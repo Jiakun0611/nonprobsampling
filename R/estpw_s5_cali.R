@@ -1,4 +1,4 @@
-#' Build pseudo-weights using the calibration (raking) method
+#' Build pseudo-weights using the calibration method
 #'
 #' @param vars Character vector of predictor variable names.
 #' @param sc Data frame. The nonprobability sample.
@@ -67,7 +67,7 @@ raking_build <- function(vars, sc, sp, sp_des, wts.col,
   }
 
   if (verbose) {
-    message(sprintf("Fitting Calibration participation model with %d parameters (including intercept).", ncol(Xc)))
+    message(sprintf("Fitting calibration participation model with %d parameters (including intercept).", ncol(Xc)))
   }
 
   beta_start <- raking_start(Xc = Xc, f_p = f_p)
