@@ -15,7 +15,7 @@
 #' method and the auxiliary information available.
 #'
 #' @details
-#' The package implements the generalized estimating equation framework of
+#' The package implements the generalized estimating equations framework of
 #' Landsman et al. (2026). Pseudo-weights are obtained by solving estimating
 #' equations that equate auxiliary variable totals estimated from the
 #' nonprobability sample with the corresponding totals estimated from one or

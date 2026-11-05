@@ -66,7 +66,7 @@
 <p>The <code>nonprobsampling</code> package provides methods for
 correcting participation bias in nonprobability samples using one or
 multiple external probability reference surveys. The package is based on
-the generalized estimating equation framework proposed by Landsman et
+the generalized estimating equations framework proposed by Landsman et
 al. (2026), in which pseudo-weights are constructed by aligning
 auxiliary information from the nonprobability sample with corresponding
 information from probability reference surveys.</p>
@@ -269,7 +269,7 @@ pseudo-weights.</p>
 <h4 id="calibration-method">Calibration Method<a class="anchor" aria-label="anchor" href="#calibration-method"></a>
 </h4>
 <p>The calibration method is a one-reference pseudo-weighting method
-within the generalized estimating equation framework.</p>
+within the generalized estimating equations framework.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">fit_cali</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
@@ -447,7 +447,7 @@ vector.</p>
 <h4 id="alp-method">ALP Method<a class="anchor" aria-label="anchor" href="#alp-method"></a>
 </h4>
 <p>The ALP method is another one-reference pseudo-weighting method
-within the generalized estimating equation framework.</p>
+within the generalized estimating equations framework.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_alp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design_rep_wts</span><span class="op">)</span>,</span>
@@ -477,7 +477,7 @@ within the generalized estimating equation framework.</p>
 <h4 id="clw-method">CLW Method<a class="anchor" aria-label="anchor" href="#clw-method"></a>
 </h4>
 <p>The Chen-Li-Wu (CLW) method is another one-reference pseudo-weighting
-method within the generalized estimating equation framework.</p>
+method within the generalized estimating equations framework.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_clw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The `nonprobsampling` package provides methods for correcting participation bias in nonprobability samples using one or multiple external probability reference surveys. The package is based on the generalized estimating equation framework proposed by Landsman et al. (2026), in which pseudo-weights are constructed by aligning auxiliary information from the nonprobability sample with corresponding information from probability reference surveys.
+The `nonprobsampling` package provides methods for correcting participation bias in nonprobability samples using one or multiple external probability reference surveys. The package is based on the generalized estimating equations framework proposed by Landsman et al. (2026), in which pseudo-weights are constructed by aligning auxiliary information from the nonprobability sample with corresponding information from probability reference surveys.
 
 The extent of bias reduction depends on the assumptions underlying the chosen method and the auxiliary information available.
 
@@ -108,7 +108,7 @@ The `method` argument specifies the pseudo-weighting method to use, and
 `p_formula` defines the participation model by selecting the shared auxiliary variables used to estimate the pseudo-weights.
 
 ### Calibration Method
-The calibration method is a one-reference pseudo-weighting method within the generalized estimating equation framework.
+The calibration method is a one-reference pseudo-weighting method within the generalized estimating equations framework.
 ```{r one-ref-calibration-classic}
 
 fit_cali <- est_pw(
@@ -175,7 +175,7 @@ head(fit_cali$pseudo_weights)
 
 ### ALP Method
 
-The ALP method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+The ALP method is another one-reference pseudo-weighting method within the generalized estimating equations framework.
 
 ```{r one-ref-alp}
 fit_alp <- est_pw(
@@ -189,7 +189,7 @@ print(fit_alp)
 
 ### CLW Method
 
-The Chen-Li-Wu (CLW) method is another one-reference pseudo-weighting method within the generalized estimating equation framework.
+The Chen-Li-Wu (CLW) method is another one-reference pseudo-weighting method within the generalized estimating equations framework.
 ```{r one-ref-clw}
 fit_clw <- est_pw(
   data      = list(sc, ref1_design),
