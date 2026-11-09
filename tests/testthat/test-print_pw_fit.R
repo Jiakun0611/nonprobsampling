@@ -35,7 +35,7 @@ test_that("print.pw_fit shows header, call, method, model, convergence, weights"
   expect_output(print(fit_cali), "Call:",                  fixed = TRUE)
   expect_output(print(fit_cali), "Method:",                fixed = TRUE)
   expect_output(print(fit_cali), "Participation model:",   fixed = TRUE)
-  expect_output(print(fit_cali), "Convergence:",           fixed = TRUE)
+  expect_output(print(fit_cali), "Termination reason:",    fixed = TRUE)
   expect_output(print(fit_cali), "Pseudo-weights",         fixed = TRUE)
   expect_output(print(fit_cali), "Sum:",                   fixed = TRUE)
   expect_output(print(fit_cali), "summary()",              fixed = TRUE)
@@ -84,8 +84,59 @@ test_that("print.pw_fit notes '(incl. intercept)' for one-reference but not mult
 
 # Convergence ----
 
-test_that("print.pw_fit reports a converged solver as 'converged'", {
-  expect_output(print(fit_cali), "converged", fixed = TRUE)
+test_that("print.pw_fit reports whether the equation tolerance was met", {
+  expect_output(print(fit_cali), "Equation tolerance: Met", fixed = TRUE)
+})
+
+test_that("fit diagnostics use the same solver residual as the acceptance check", {
+  testthat::skip_if_not("local_mocked_bindings" %in% getNamespaceExports("testthat"),
+                        "This test requires testthat::local_mocked_bindings()")
+  code <- 2L
+  residual <- 1e-6
+  testthat::local_mocked_bindings(
+    nleqslv = function(...) {
+      list(x = fit_cali$coefficients, fvec = -residual, termcd = code,
+           iter = 5L, message = "Mocked solver result")
+    },
+    .package = "nleqslv"
+  )
+  fit_verbose <- function() {
+    est_pw(list(sc, des1), method = "calibration", p_formula = ~agecat + race,
+           control = ctrl, verbose = TRUE)
+  }
+  cases <- list(
+    list(code = 2L, residual = 1e-6, status = "Met", warnings = 0L),
+    list(code = 2L, residual = 2e-6, status = "Not met", warnings = 1L),
+    list(code = 3L, residual = 1e-6, status = "Met", warnings = 1L)
+  )
+  for (case in cases) {
+    code <- case$code
+    residual <- case$residual
+    messages <- character()
+    warnings <- character()
+    fit <- withCallingHandlers(
+      fit_verbose(),
+      message = function(m) {
+        messages <<- c(messages, conditionMessage(m))
+        invokeRestart("muffleMessage")
+      },
+      warning = function(w) {
+        warnings <<- c(warnings, conditionMessage(w))
+        invokeRestart("muffleWarning")
+      }
+    )
+    expect_length(warnings, case$warnings)
+    expect_identical(fit$solver_diagnostics$fmax, residual)
+    expect_identical(fit$solver_diagnostics$ftol, 1e-6)
+    expect_equal(fit$pseudo_weights, fit_cali$pseudo_weights)
+    status <- paste("Equation tolerance:", case$status)
+    expect_true(any(grepl(status, messages, fixed = TRUE)))
+    expect_output(print(fit), status, fixed = TRUE)
+    expect_output(summary(fit), status, fixed = TRUE)
+  }
+  code <- 3L
+  residual <- 2e-6
+  expect_error(suppressMessages(fit_verbose()), "no better point was found")
 })
 
 
