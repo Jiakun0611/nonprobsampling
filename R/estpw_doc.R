@@ -252,8 +252,10 @@
 #'   \item{\code{solver_diagnostics}}{
 #'     A list of solver diagnostics: \code{solver} (solver name),
 #'     \code{termcd} (termination code), \code{message} (solver message),
-#'     \code{iter} (number of iterations), and \code{fmax} (maximum absolute
-#'     value of the final estimating equations at convergence).
+#'     \code{iter} (number of iterations), \code{fmax} (maximum absolute
+#'     equation residual returned by the solver at termination), and
+#'     \code{ftol} (the equation tolerance supplied to the solver).
+#'     The equation tolerance is met when \code{fmax <= ftol}.
 #'   }
 #'   \item{\code{method}}{
 #'     The pseudo-weighting method used by the function.

@@ -83,7 +83,9 @@ identify the calling method.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list with components `coefficients`, `iterations`, `solver`,
-  `solver_result`, `solver_method`, `fvec`, `termcd`, and `message`.</p>
+  `solver_result`, `solver_method`, `fvec`, `fmax`, `ftol`, `termcd`, and
+  `message`. The residual `fmax` is the maximum absolute value in `fvec`,
+  and `ftol` is the function-value tolerance supplied to the solver.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

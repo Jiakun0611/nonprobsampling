@@ -375,7 +375,9 @@ check_nleqslv_result <- function(root, label, ftol) {
 #'   (e.g., design matrices and weights).
 #'
 #' @return A list with components `coefficients`, `iterations`, `solver`,
-#'   `solver_result`, `solver_method`, `fvec`, `termcd`, and `message`.
+#'   `solver_result`, `solver_method`, `fvec`, `fmax`, `ftol`, `termcd`, and
+#'   `message`. The residual `fmax` is the maximum absolute value in `fvec`,
+#'   and `ftol` is the function-value tolerance supplied to the solver.
 #'
 #' @keywords internal
 solve_participation_model <- function(
@@ -444,6 +446,8 @@ solve_participation_model <- function(
     solver_result = root,
     solver_method = args$method,
     fvec = root$fvec,
+    fmax = max(abs(root$fvec)),
+    ftol = args$control$ftol,
     termcd = root$termcd,
     message = root$message
   )

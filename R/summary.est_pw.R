@@ -53,12 +53,15 @@ summary.pw_fit <- function(object, ...) {
     }
 
     cat("  Termination code:", diag$termcd, "\n")
+    cat(paste0("  ", solver_status_lines(diag)), sep = "\n")
     cat("  Iterations:", diag$iter, "\n")
     cat(
       "  Max |estimating equation|:",
       formatC(diag$fmax, format = "e", digits = 3),
       "\n"
     )
+
+    cat("  Equation tolerance (ftol):", formatC(diag$ftol, format = "e", digits = 3), "\n")
 
     if (!is.null(diag$message)) {
       cat("  Message:", diag$message, "\n")

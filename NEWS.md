@@ -1,5 +1,10 @@
 # nonprobsampling (development version)
 
+* Unified solver diagnostics in `print()`, `summary()`, and verbose logs.
+  These outputs distinguish the stopping reason from whether the final
+  equation residual meets `ftol`. Fitted objects now record the solver's
+  residual and the tolerance used to assess it.
+
 * Added guidance on harmonizing factor levels, contrast coding, and reference
   categories across samples before creating survey design objects. The help
   page and vignette clarify that contrast coding is not checked by the package.

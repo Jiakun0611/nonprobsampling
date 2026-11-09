@@ -134,15 +134,7 @@ clw_build <- function(vars, sc, sp, sp_des, wts.col,
   }
 
   if (verbose) {
-    if (sol$termcd == 1L || sol$termcd == 2L) {
-      message(sprintf("Converged after %d iterations (max |eq| = %.3e).",
-                      sol$iterations, max_abs_eq))
-    } else {
-      message(sprintf(
-        "WARNING: solver did not converge (termcd = %d). Check solver_diagnostics for details.",
-        sol$termcd
-      ))
-    }
+    report_solver_status(sol)
   }
 
   S_beta_full <- t(wts_sp * pi_sp * (1 - pi_sp) * Xp) %*% Xp
@@ -158,7 +150,8 @@ clw_build <- function(vars, sc, sp, sp_des, wts.col,
       message = sol$message,
       method  = sol$solver_method,
       iter    = sol$iterations,
-      fmax    = max_abs_eq
+      fmax    = sol$fmax,
+      ftol    = sol$ftol
     ),
 
     log_messages = log_messages,

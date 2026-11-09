@@ -289,7 +289,9 @@ within the generalized estimating equations framework.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method:               One-reference calibration</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
-<span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.30e-08)</span></span>
+<span><span class="co">#&gt; Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt; Equation tolerance: Met</span></span>
+<span><span class="co">#&gt; Solver: nleqslv (termcd = 1, 5 iter, max|EE| = 1.30e-08)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weights (n = 2404):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -313,8 +315,11 @@ within the generalized estimating equations framework.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Met</span></span>
 <span><span class="co">#&gt;   Iterations: 5 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 1.304e-08 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-06 </span></span>
 <span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
@@ -349,8 +354,11 @@ the model summary.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Met</span></span>
 <span><span class="co">#&gt;   Iterations: 7 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 1.863e-08 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-06 </span></span>
 <span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
@@ -388,8 +396,11 @@ the model summary.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Met</span></span>
 <span><span class="co">#&gt;   Iterations: 12 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 6.519e-09 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-06 </span></span>
 <span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
@@ -407,6 +418,11 @@ the estimation method, number of participation model parameters
 (including the intercept), and solver convergence diagnostics such as
 iteration count and the final maximum absolute estimating equation
 value.</p>
+<p>The solver diagnostics report why iteration stopped and whether the
+final maximum absolute equation residual (<code>fmax</code>) met the
+equation tolerance (<code>ftol</code>). For example, iteration can stop
+when the parameter step is small even if the equation residual remains
+above <code>ftol</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_cali</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/est_pw.html">est_pw</a></span><span class="op">(</span></span>
 <span>  data      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sc</span>, <span class="va">ref1_design</span><span class="op">)</span>,</span>
@@ -418,7 +434,9 @@ value.</p>
 <span><span class="co">#&gt; sc: 2404 rows, no exclusions.</span></span>
 <span><span class="co">#&gt; sp: 3494 rows, no exclusions.</span></span>
 <span><span class="co">#&gt; Fitting calibration participation model with 16 parameters (including intercept).</span></span>
-<span><span class="co">#&gt; Converged after 5 iterations (max |eq| = 1.304e-08).</span></span></code></pre></div>
+<span><span class="co">#&gt; Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt; Equation tolerance: Met</span></span>
+<span><span class="co">#&gt; Iterations: 5 (termcd = 1, max |eq| = 1.304e-08, ftol = 1.000e-06)</span></span></code></pre></div>
 <p>The updated <code>sc</code> data frame is returned with a
 <code>pseudo_wts</code> column added.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -464,7 +482,9 @@ within the generalized estimating equations framework.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method:               One-reference ALP</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
-<span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.59e-12)</span></span>
+<span><span class="co">#&gt; Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt; Equation tolerance: Met</span></span>
+<span><span class="co">#&gt; Solver: nleqslv (termcd = 1, 5 iter, max|EE| = 1.59e-12)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weights (n = 2404):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -494,7 +514,9 @@ method within the generalized estimating equations framework.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Method:               One-reference CLW</span></span>
 <span><span class="co">#&gt; Participation model:  16 parameters (incl. intercept)</span></span>
-<span><span class="co">#&gt; Convergence:          converged  (nleqslv, 5 iter, max|EE| = 1.53e-10)</span></span>
+<span><span class="co">#&gt; Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt; Equation tolerance: Met</span></span>
+<span><span class="co">#&gt; Solver: nleqslv (termcd = 1, 5 iter, max|EE| = 1.53e-10)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Pseudo-weights (n = 2404):</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -581,8 +603,11 @@ reliable or important.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 2 </span></span>
+<span><span class="co">#&gt;   Termination reason: Parameter-step tolerance reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Not met</span></span>
 <span><span class="co">#&gt;   Iterations: 7 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 1.132e-06 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-06 </span></span>
 <span><span class="co">#&gt;   Message: x-values within tolerance 'xtol' </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
@@ -643,8 +668,11 @@ reliable or important.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Met</span></span>
 <span><span class="co">#&gt;   Iterations: 7 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 3.725e-09 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-08 </span></span>
 <span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>
@@ -1030,8 +1058,11 @@ summary.</p>
 <span><span class="co">#&gt;   Solver: nleqslv </span></span>
 <span><span class="co">#&gt;   Method: Newton </span></span>
 <span><span class="co">#&gt;   Termination code: 1 </span></span>
+<span><span class="co">#&gt;   Termination reason: Equation convergence criterion reached</span></span>
+<span><span class="co">#&gt;   Equation tolerance: Met</span></span>
 <span><span class="co">#&gt;   Iterations: 5 </span></span>
 <span><span class="co">#&gt;   Max |estimating equation|: 1.490e-08 </span></span>
+<span><span class="co">#&gt;   Equation tolerance (ftol): 1.000e-06 </span></span>
 <span><span class="co">#&gt;   Message: Function criterion near zero </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Participation model coefficients:</span></span>

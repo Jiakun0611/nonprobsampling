@@ -24,7 +24,9 @@ identify the calling method.}
 }
 \value{
 A list with components `coefficients`, `iterations`, `solver`,
-  `solver_result`, `solver_method`, `fvec`, `termcd`, and `message`.
+  `solver_result`, `solver_method`, `fvec`, `fmax`, `ftol`, `termcd`, and
+  `message`. The residual `fmax` is the maximum absolute value in `fvec`,
+  and `ftol` is the function-value tolerance supplied to the solver.
 }
 \description{
 A unified wrapper that calls `nleqslv::nleqslv()` to solve the

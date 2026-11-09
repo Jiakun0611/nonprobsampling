@@ -152,6 +152,11 @@ summary(fit_cali_interaction)
 
 Setting `verbose = TRUE` prints a brief processing log, including the number of observations used after missing-data filtering, the estimation method, number of participation model parameters (including the intercept), and solver convergence diagnostics such as iteration count and the final maximum absolute estimating equation value.
 
+The solver diagnostics report why iteration stopped and whether the final
+maximum absolute equation residual (`fmax`) met the equation tolerance
+(`ftol`). For example, iteration can stop when the parameter step is small
+even if the equation residual remains above `ftol`.
+
 ```{r one-ref-calibration-verbose}
 fit_cali <- est_pw(
   data      = list(sc, ref1_design),

@@ -49,18 +49,11 @@ print.pw_fit <- function(x, ...) {
   # --- Convergence ---
   diag <- x$solver_diagnostics
   if (!is.null(diag)) {
-    tc <- suppressWarnings(as.integer(diag$termcd))
-    status <- if (!is.na(tc) && tc == 1L) {
-      "converged"
-    } else if (!is.na(tc) && tc %in% c(2L, 3L)) {
-      "converged (tolerance warning)"
-    } else {
-      "not converged"
-    }
+    cat(solver_status_lines(diag), sep = "\n")
     cat(sprintf(
-      "%-21s %s  (%s, %s iter, max|EE| = %s)\n",
-      "Convergence:", status,
+      "Solver: %s (termcd = %s, %s iter, max|EE| = %s)\n",
       diag$solver %||% "?",
+      diag$termcd %||% "?",
       format(as.integer(diag$iter %||% NA)),
       formatC(diag$fmax %||% NA_real_, format = "e", digits = 2)
     ))
