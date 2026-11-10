@@ -21,7 +21,9 @@ the original list order is used.}
 }
 \value{
 A list with components \code{sp_new}, \code{total_vector},
-  \code{log_messages}, and \code{order_used}.
+  \code{log_messages}, and \code{order_used}. Totals are named using the
+  original model matrix column names, with \code{(Intercept)} for the sum
+  of weights.
 }
 \description{
 Performs a cumulative precalibration across multiple probability samples by

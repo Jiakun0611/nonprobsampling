@@ -18,7 +18,9 @@
 #' @param sp_order \code{"size"} to process largest sample first; otherwise
 #'   the original list order is used.
 #' @return A list with components \code{sp_new}, \code{total_vector},
-#'   \code{log_messages}, and \code{order_used}.
+#'   \code{log_messages}, and \code{order_used}. Totals are named using the
+#'   original model matrix column names, with \code{(Intercept)} for the sum
+#'   of weights.
 #'
 #' @importFrom survey svydesign svytotal calibrate
 #' @importFrom stats model.matrix as.formula weights coef
@@ -56,20 +58,6 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
     X
   }
 
-  .svy_design_from_X <- function(X, w) {
-    dat <- as.data.frame(X)
-    dat$.w <- w
-    survey::svydesign(ids = ~1, weights = ~.w, data = dat)
-  }
-
-  .population_vector <- function(ds, cols) {
-    total_w <- sum(stats::weights(ds))
-    if (length(cols) == 0) return(c("(Intercept)" = total_w))
-    fml  <- as.formula(paste0("~", paste(cols, collapse = " + ")))
-    marg <- stats::coef(survey::svytotal(fml, ds))
-    c("(Intercept)" = total_w, marg)
-  }
-
   .pretty_cols <- function(cols, max_show = 30) {
     cols <- sort(unique(cols))
     if (length(cols) == 0) return("survey weights total only")
@@ -86,9 +74,9 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
   ref_new   <- sp_new_ord[[1]]
   ref_wname <- .get_wname(w_ord[[1]])
 
-  X_ref  <- .expand_raw(ref_raw, ref_wname)
-  ds_ref <- .svy_design_from_X(X_ref, ref_new[[ref_wname]])
-  total_vec <- .population_vector(ds_ref, colnames(X_ref))
+  X_ref <- .expand_raw(ref_raw, ref_wname)
+  ref_weights <- ref_new[[ref_wname]]
+  total_vec <- c("(Intercept)" = sum(ref_weights), colSums(X_ref * ref_weights))
 
   ref_label <- paste0("sp[[", ord[1], "]]")
 
@@ -111,16 +99,23 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
 
       X_k <- .expand_raw(df_raw, wname)
 
-      shared_cols <- intersect(colnames(X_k), setdiff(names(total_vec), "(Intercept)"))
-      shared_cols <- sort(shared_cols)
+      current_cols <- setdiff(names(total_vec), "(Intercept)")
+      shared_cols <- sort(intersect(colnames(X_k), current_cols))
 
-      ds_k <- .svy_design_from_X(X_k, df_new[[wname]])
+      # Use original names for matching totals and temporary names in the formula.
+      cal_data <- as.data.frame(X_k[, shared_cols, drop = FALSE])
+      cal_names <- sprintf(".pc_x%d", seq_along(shared_cols))
+      names(cal_data) <- cal_names
+      ds_k <- survey::svydesign(
+        ids = ~1,
+        weights = df_new[[wname]],
+        data = cal_data
+      )
 
-      pops <- c("(Intercept)" = unname(total_vec["(Intercept)"]))
-      if (length(shared_cols) > 0) pops <- c(pops, total_vec[shared_cols])
-
-      fml <- if (length(shared_cols) > 0) {
-        as.formula(paste0("~", paste(shared_cols, collapse = " + ")))
+      pops <- total_vec[c("(Intercept)", shared_cols)]
+      names(pops) <- c("(Intercept)", cal_names)
+      fml <- if (length(cal_names) > 0L) {
+        stats::reformulate(cal_names)
       } else {
         ~1
       }
@@ -131,17 +126,13 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
         population = pops
       )
 
-      sp_new_ord[[k]][[wname]] <- as.numeric(stats::weights(ds_k_cal))
+      cal_weights <- as.numeric(stats::weights(ds_k_cal))
+      sp_new_ord[[k]][[wname]] <- cal_weights
 
-      # append totals for NEW columns (using calibrated weights)
-      current_cols <- setdiff(names(total_vec), "(Intercept)")
-      new_cols <- setdiff(colnames(X_k), current_cols)
-      new_cols <- sort(new_cols)
-
+      # Add totals for new columns using the calibrated weights.
+      new_cols <- sort(setdiff(colnames(X_k), current_cols))
       if (length(new_cols) > 0) {
-        ds_k2 <- .svy_design_from_X(X_k, sp_new_ord[[k]][[wname]])
-        add_vec <- .population_vector(ds_k2, new_cols)
-        add_vec <- add_vec[names(add_vec) != "(Intercept)"]
+        add_vec <- colSums(X_k[, new_cols, drop = FALSE] * cal_weights)
         total_vec <- c(total_vec, add_vec)
       }
 

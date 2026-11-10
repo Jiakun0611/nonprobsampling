@@ -26,6 +26,9 @@
   variables, allowing calibrated targets to pass through intermediate surveys
   even when no variable occurs in every survey.
 
+* Fixed cumulative precalibration for factor levels containing spaces or
+  hyphens and for auxiliary variables named `.w`.
+
 * Fixed missing-value handling for character domains in `pwmean()`: empty
   and whitespace-only strings are now detected before applying `na.action`
   in the pseudo-weighted and unweighted estimation paths. Omitted row
