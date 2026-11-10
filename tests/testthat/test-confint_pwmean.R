@@ -21,6 +21,18 @@ test_that("confint uses adjusted standard errors and supports level and parm", {
   expect_identical(dim(stats::confint(out, parm = integer())), c(0L, 2L))
 })
 
+test_that("confint computes finite limits at a level just below one", {
+  out <- structure(list(estimates = data.frame(
+    domain = c("Group A", "Group B"),
+    adjusted_mean = c(1, 2), adjusted_se = c(0.1, 0)
+  )), class = "pwmean")
+
+  ci <- stats::confint(out, level = 1 - .Machine$double.eps / 2)
+  critical <- -stats::qnorm(.Machine$double.eps / 4)
+  expect_equal(unname(ci[1, ]), 1 + c(-1, 1) * critical * 0.1)
+  expect_identical(unname(ci[2, ]), c(2, 2))
+})
+
 test_that("confint validates level and estimate selection", {
   out <- structure(list(estimates = data.frame(
     domain = "Overall", adjusted_mean = 1, adjusted_se = 0.1

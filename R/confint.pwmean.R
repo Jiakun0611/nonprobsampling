@@ -60,9 +60,11 @@ confint.pwmean <- function(object, parm, level = 0.95, ...) {
   }
 
   se <- object[["estimates"]][["adjusted_se"]]
-  probabilities <- c((1 - level) / 2, (1 + level) / 2)
-  margin <- qnorm(probabilities[[2L]]) * se
+  tail_probability <- (1 - level) / 2
+  # The cumulative probability can round to 1 at levels close to 1.
+  margin <- stats::qnorm(tail_probability, lower.tail = FALSE) * se
   intervals <- cbind(estimates - margin, estimates + margin)
+  probabilities <- c(tail_probability, (1 + level) / 2)
   dimnames(intervals) <- list(
     estimate_names,
     paste0(format(100 * probabilities, trim = TRUE, digits = 3), "%")
