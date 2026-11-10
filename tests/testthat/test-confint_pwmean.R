@@ -48,6 +48,33 @@ test_that("confint inherits factor labels and does not truncate proportions", {
                    ci[2, , drop = FALSE])
 })
 
+test_that("confint selects each estimate by name when category and domain labels collide", {
+  domains <- c("B | domain = C", "C", "C.1")
+  outcome <- rep("A", 18)
+  outcome[c(6, 11, 12, 17, 18)] <- "A | domain = B"
+  sc <- data.frame(
+    x = seq_len(18),
+    outcome = factor(outcome),
+    domain = factor(rep(domains, each = 6), levels = domains)
+  )
+  ref <- survey::svydesign(ids = ~1, weights = ~wt,
+                          data = data.frame(x = sc$x, wt = 10))
+  fit <- est_pw(list(sc, ref), p_formula = ~x)
+  out <- pwmean(fit, y = "outcome", zcol = "domain")
+
+  values <- stats::coef(out)
+  label <- "outcome = A | domain = B | domain = C"
+  expect_identical(unname(values), out$estimates$adjusted_mean)
+  expect_identical(anyDuplicated(names(values)), 0L)
+  expect_identical(names(values)[c(1, 5, 6)], c(label, paste0(label, c(".2", ".1"))))
+
+  ci <- stats::confint(out)
+  expect_identical(rownames(ci), names(values))
+  positions <- c(5L, 1L, 6L)
+  expect_identical(stats::confint(out, parm = names(values)[positions]),
+                   ci[positions, , drop = FALSE])
+})
+
 test_that("confint matches stored intervals for all estimation methods", {
   data(sc)
   data(sp1)
