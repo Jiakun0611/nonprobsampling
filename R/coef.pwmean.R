@@ -15,6 +15,8 @@
 #' For categorical outcomes, values estimate category prevalence.
 #' Names combine the category and domain labels separated by \code{" | "},
 #' including \code{"Overall"} when no domain variable was supplied.
+#' When names repeat, later occurrences get numeric suffixes such as
+#' \code{.1}, skipping suffixes that would duplicate an existing name.
 #' Objects of class \code{"pwmean_factor"} inherit this method.
 #'
 #' Unweighted estimates remain available in \code{object$estimates}.
@@ -32,7 +34,7 @@ coef.pwmean <- function(object, ...) {
   estimates <- object[["estimates"]]
   labels <- estimates[["domain"]]
   if ("category" %in% names(estimates)) {
-    labels <- paste(estimates[["category"]], labels, sep = " | ")
+    labels <- make.unique(paste(estimates[["category"]], labels, sep = " | "))
   }
-  setNames(estimates[["adjusted_mean"]], labels)
+  stats::setNames(estimates[["adjusted_mean"]], labels)
 }
