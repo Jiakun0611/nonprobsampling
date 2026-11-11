@@ -358,6 +358,12 @@ check_nleqslv_result <- function(root, label, ftol) {
   )
 }
 
+# Keep the solver call replaceable in tests through this package's namespace.
+run_nleqslv <- function(...) {
+  nleqslv::nleqslv(...)
+}
+
+
 #' Solve the participation model estimating equations
 #'
 #' A unified wrapper that calls `nleqslv::nleqslv()` to solve the
@@ -421,7 +427,7 @@ solve_participation_model <- function(
   args <- prepare_nleqslv_args(control)
 
   root <- do.call(
-    nleqslv::nleqslv,
+    run_nleqslv,
     c(
       list(
         x = beta_start,

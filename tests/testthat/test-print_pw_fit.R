@@ -93,13 +93,16 @@ test_that("fit diagnostics use the same solver residual as the acceptance check"
                         "This test requires testthat::local_mocked_bindings()")
   code <- 2L
   residual <- 1e-6
+  real_nleqslv <- nleqslv::nleqslv
   testthat::local_mocked_bindings(
-    nleqslv = function(...) {
+    run_nleqslv = function(...) {
       list(x = fit_cali$coefficients, fvec = -residual, termcd = code,
            iter = 5L, message = "Mocked solver result")
     },
-    .package = "nleqslv"
+    .package = "nonprobsampling"
   )
+  expect_identical(nleqslv::nleqslv, real_nleqslv)
+
   fit_verbose <- function() {
     est_pw(list(sc, des1), method = "calibration", p_formula = ~agecat + race,
            control = ctrl, verbose = TRUE)
