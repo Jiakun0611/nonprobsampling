@@ -22,7 +22,6 @@
 #'   original model matrix column names, with \code{(Intercept)} for the sum
 #'   of weights.
 #'
-#' @importFrom survey svydesign svytotal calibrate
 #' @importFrom stats model.matrix as.formula weights coef
 #' @keywords internal
 
@@ -53,7 +52,7 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
       return(matrix(, nrow = nrow(df), ncol = 0,
                     dimnames = list(NULL, character(0))))
     }
-    X <- stats::model.matrix(~ ., data = df[, vars, drop = FALSE])
+    X <- model.matrix(~ ., data = df[, vars, drop = FALSE])
     if ("(Intercept)" %in% colnames(X)) X <- X[, -1, drop = FALSE]
     X
   }
@@ -115,7 +114,7 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
       pops <- total_vec[c("(Intercept)", shared_cols)]
       names(pops) <- c("(Intercept)", cal_names)
       fml <- if (length(cal_names) > 0L) {
-        stats::reformulate(cal_names)
+        reformulate(cal_names)
       } else {
         ~1
       }
@@ -126,7 +125,7 @@ precal_cumulative_order <- function(sp_raw, sp_new, weight, sp_order) {
         population = pops
       )
 
-      cal_weights <- as.numeric(stats::weights(ds_k_cal))
+      cal_weights <- as.numeric(weights(ds_k_cal))
       sp_new_ord[[k]][[wname]] <- cal_weights
 
       # Add totals for new columns using the calibrated weights.

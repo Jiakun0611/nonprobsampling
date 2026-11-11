@@ -160,7 +160,7 @@ summary_pwmean_impl <- function(
 
   na_act <- na.action(object)
   if (!is.null(na_act))
-    cat("\n(", stats::naprint(na_act), ")\n", sep = "")
+    cat("\n(", naprint(na_act), ")\n", sep = "")
 
   invisible(object)
 }

@@ -11,7 +11,7 @@
 #'   \item Verifies that factor levels of each variable are identical
 #'     between `sc` and the corresponding `sp` (mismatched levels would
 #'     silently produce different model matrix columns).
-#'   \item Builds model matrices via `stats::model.matrix()` and drops
+#'   \item Builds model matrices via `model.matrix()` and drops
 #'     the implicit intercept column.
 #'   \item Checks that `sc` and `sp` produce the same number of model
 #'     matrix columns, and aligns their column names.
@@ -91,8 +91,8 @@ process_p_formula <- function(
     .check_factor_levels(sc, sp, vars_in_formula, ref_label = "sp")
 
     # Build model matrices (drop implicit intercept)
-    Xc <- stats::model.matrix(p_formula, data = sc)
-    Xp <- stats::model.matrix(p_formula, data = sp)
+    Xc <- model.matrix(p_formula, data = sc)
+    Xp <- model.matrix(p_formula, data = sp)
     if ("(Intercept)" %in% colnames(Xc)) Xc <- Xc[, -1, drop = FALSE]
     if ("(Intercept)" %in% colnames(Xp)) Xp <- Xp[, -1, drop = FALSE]
 
@@ -158,8 +158,8 @@ process_p_formula <- function(
 
     .check_factor_levels(sc, sp[[j]], vars_in_formula, ref_label = paste0("sp[[", j, "]]"))
 
-    Xc <- stats::model.matrix(fml, data = sc)
-    Xp <- stats::model.matrix(fml, data = sp[[j]])
+    Xc <- model.matrix(fml, data = sc)
+    Xp <- model.matrix(fml, data = sp[[j]])
     if ("(Intercept)" %in% colnames(Xc)) Xc <- Xc[, -1, drop = FALSE]
     if ("(Intercept)" %in% colnames(Xp)) Xp <- Xp[, -1, drop = FALSE]
 

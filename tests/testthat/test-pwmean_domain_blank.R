@@ -61,10 +61,10 @@ test_that("unweighted domain estimates omit blanks before computing moments", {
   out <- naive_mean(df, "domain", "y")
   expect_equal(out$labels, c("domain = A", "domain = B"))
   expect_equal(out$estimates[[1]], list(
-    mean = mean(c(1, 25, 100)), variance = stats::var(c(1, 25, 100)) / 3
+    mean = mean(c(1, 25, 100)), variance = var(c(1, 25, 100)) / 3
   ))
   expect_equal(out$estimates[[2]], list(
-    mean = mean(c(4, 36, 81)), variance = stats::var(c(4, 36, 81)) / 3
+    mean = mean(c(4, 36, 81)), variance = var(c(4, 36, 81)) / 3
   ))
   expect_identical(df, original)
 })
@@ -95,10 +95,10 @@ test_that("blank-domain public estimates match explicitly cleaned data", {
         expect_true(all(is.finite(as.matrix(out$estimates[, c(
           "unweighted_mean", "unweighted_se", "adjusted_mean", "adjusted_se"
         )]))))
-        expect_identical(stats::na.action(out), stats::na.action(expected))
-        expect_s3_class(stats::na.action(out), mode)
+        expect_identical(na.action(out), na.action(expected))
+        expect_s3_class(na.action(out), mode)
         dropped <- if (outcome == "y") c(3L, 4L, 7L, 8L) else c(3L, 4L, 7L)
-        expect_equal(as.integer(stats::na.action(out)), dropped)
+        expect_equal(as.integer(na.action(out)), dropped)
       }
       expect_error(
         pwmean(fit, outcome, "domain", na.action = stats::na.fail),

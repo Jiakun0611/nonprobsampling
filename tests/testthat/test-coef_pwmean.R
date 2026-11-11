@@ -4,7 +4,7 @@ test_that("coef.pwmean returns weighted means in domain row order", {
     unweighted_mean = c(1, 2), adjusted_mean = c(3, 4)
   )), class = "pwmean")
 
-  expect_identical(stats::coef(out), c("Group B" = 3, "Group A" = 4))
+  expect_identical(coef(out), c("Group B" = 3, "Group A" = 4))
 })
 
 test_that("coef.pwmean_factor identifies each category and domain", {
@@ -14,7 +14,7 @@ test_that("coef.pwmean_factor identifies each category and domain", {
     adjusted_mean = c(0.3, 0.7, 0.4, 0.6)
   )), class = c("pwmean_factor", "pwmean"))
 
-  expect_identical(stats::coef(out), c(
+  expect_identical(coef(out), c(
     "y = yes | Group B" = 0.3, "y = no | Group B" = 0.7,
     "y = yes | Group A" = 0.4, "y = no | Group A" = 0.6
   ))
@@ -46,7 +46,7 @@ test_that("coef extracts means and proportions for all estimation methods", {
     for (outcome in c("psa_level", "diabetes")) {
       for (domain in list(NULL, "race", "diabetes")) {
         out <- pwmean(fit, y = outcome, zcol = domain)
-        values <- stats::coef(out)
+        values <- coef(out)
         expect_type(values, "double")
         expect_identical(unname(values), out$estimates$adjusted_mean)
         if (outcome == "psa_level") {
@@ -57,15 +57,15 @@ test_that("coef extracts means and proportions for all estimation methods", {
                                   out$estimates$domain, sep = " | ")
         }
         expect_identical(names(values), expected_names)
-        expect_identical(stats::coefficients(out), values)
+        expect_identical(coefficients(out), values)
       }
     }
 
     fit$internal$raw_sc$psa_level[1:5] <- NA_real_
     for (na_method in list(stats::na.omit, stats::na.exclude)) {
       out <- pwmean(fit, y = "psa_level", na.action = na_method)
-      expect_identical(stats::coef(out),
-                       stats::setNames(out$estimates$adjusted_mean, "Overall"))
+      expect_identical(coef(out),
+                       setNames(out$estimates$adjusted_mean, "Overall"))
     }
   }
 })

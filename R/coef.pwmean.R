@@ -36,5 +36,5 @@ coef.pwmean <- function(object, ...) {
   if ("category" %in% names(estimates)) {
     labels <- make.unique(paste(estimates[["category"]], labels, sep = " | "))
   }
-  stats::setNames(estimates[["adjusted_mean"]], labels)
+  setNames(estimates[["adjusted_mean"]], labels)
 }

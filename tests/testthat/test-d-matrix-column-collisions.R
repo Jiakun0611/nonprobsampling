@@ -16,7 +16,7 @@ test_that("D uses the intended total variables despite existing helper names", {
     clean <- make_d_collision_design(replicate = replicate)
     collision <- make_d_collision_design(TRUE, replicate = replicate)
     original <- collision
-    Xp <- stats::model.matrix(~x, clean$variables)
+    Xp <- model.matrix(~x, clean$variables)
     probabilities <- seq(0.1, 0.4, length.out = nrow(Xp))
 
     for (method in c("calibration", "alp", "clw")) {
@@ -28,7 +28,7 @@ test_that("D uses the intended total variables despite existing helper names", {
       oracle$variables <- data.frame(
         intercept = multiplier, value = multiplier * clean$variables$x
       )
-      expected <- stats::vcov(survey::svytotal(~intercept + value - 1, oracle))
+      expected <- vcov(survey::svytotal(~intercept + value - 1, oracle))
       dimnames(expected) <- rep(list(c("h_X.Intercept.", "h_x")), 2)
 
       compute <- switch(method,
@@ -63,7 +63,7 @@ test_that("unrelated colliding columns leave fitted variance estimates unchanged
 test_that("multi-reference D blocks ignore unrelated colliding columns", {
   clean <- make_d_collision_design()
   collision <- make_d_collision_design(TRUE)
-  Xp <- stats::model.matrix(~x, clean$variables)
+  Xp <- model.matrix(~x, clean$variables)
   expected <- make_block_D_multi(list(clean, clean), list(Xp, Xp))
   actual <- make_block_D_multi(list(collision, collision), list(Xp, Xp))
   expect_equal(actual, expected)

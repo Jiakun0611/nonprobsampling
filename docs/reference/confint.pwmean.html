@@ -58,7 +58,7 @@ means or category prevalence returned by <code><a href="pwmean.html">pwmean</a><
 
 <dt id="arg-parm">parm<a class="anchor" aria-label="anchor" href="#arg-parm"></a></dt>
 <dd><p>A character vector of estimate names, as returned by
-<code>names(stats::coef(object))</code>, or a numeric vector of positive
+<code>names(coef(object))</code>, or a numeric vector of positive
 integer positions. If omitted, all estimates are included.</p></dd>
 
 
@@ -84,7 +84,7 @@ Defaults to <code>0.95</code>.</p></dd>
 <code>object$estimates</code>, with standard normal critical values. At the
 default confidence level, the intervals match the stored
 <code>adjusted_lower</code> and <code>adjusted_upper</code> columns.</p>
-<p>Row names match <code>names(stats::coef(object))</code>. Objects of class
+<p>Row names match <code>names(coef(object))</code>. Objects of class
 <code>"pwmean_factor"</code> inherit this method. Intervals for category
 prevalence are not truncated to the range from 0 to 1, consistent with
 the intervals stored by <code><a href="pwmean.html">pwmean()</a></code>.</p>

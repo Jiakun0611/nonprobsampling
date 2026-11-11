@@ -58,7 +58,7 @@ compute_D_raking <- function(sp_des, Xp) {
   fml <- reformulate(colnames(H_df), intercept = FALSE)
 
   tot <- survey::svytotal(fml, sp_des_h)
-  D <- stats::vcov(tot)
+  D <- vcov(tot)
 
   # Keep matrix labels independent of temporary names in the survey design.
   dimnames(D) <- list(h_names, h_names)

@@ -14,7 +14,7 @@
 #   est   A: mean = 3.0, variance = 1.00  -> se = 1.0
 #   est   B: mean = 5.0, variance = 4.00  -> se = 2.0
 
-z975 <- stats::qnorm(0.975)
+z975 <- qnorm(0.975)
 
 make_build <- function(method = "alp") {
   list(method = method)

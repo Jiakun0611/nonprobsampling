@@ -21,14 +21,14 @@ test_that("coef.pw_fit extracts participation model coefficients for all methods
       control = pw_solver_control(ftol = 1e-6)
     ))
 
-    expect_type(stats::coef(fit), "double")
-    expect_false(is.null(names(stats::coef(fit))))
-    expect_identical(stats::coef(fit), fit$coefficients)
-    expect_identical(stats::coefficients(fit), fit$coefficients)
+    expect_type(coef(fit), "double")
+    expect_false(is.null(names(coef(fit))))
+    expect_identical(coef(fit), fit$coefficients)
+    expect_identical(coefficients(fit), fit$coefficients)
   }
 })
 
 test_that("coef.pw_fit returns NULL when coefficients are absent", {
   fit <- structure(list(), class = "pw_fit")
-  expect_null(stats::coef(fit))
+  expect_null(coef(fit))
 })

@@ -117,8 +117,8 @@ fit_precal_names <- function(auxiliary = "g", second_level = NULL) {
   designs <- lapply(refs, function(ref) {
     survey::svydesign(ids = ~1, weights = ~w, data = ref)
   })
-  formulas <- list(~x, stats::reformulate(c("x", auxiliary)),
-                   stats::reformulate(c(auxiliary, "z")))
+  formulas <- list(~x, reformulate(c("x", auxiliary)),
+                   reformulate(c(auxiliary, "z")))
   est_pw(c(list(sc), designs), p_formula = formulas, sp_order = "given")
 }
 

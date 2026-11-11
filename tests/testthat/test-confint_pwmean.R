@@ -4,21 +4,21 @@ test_that("confint uses adjusted standard errors and supports level and parm", {
     adjusted_mean = c(3, 4), adjusted_se = c(0.5, 0)
   )), class = "pwmean")
 
-  ci <- stats::confint(out)
+  ci <- confint(out)
   expect_identical(dim(ci), c(2L, 2L))
-  expect_identical(rownames(ci), names(stats::coef(out)))
+  expect_identical(rownames(ci), names(coef(out)))
   expect_identical(colnames(ci), c("2.5%", "97.5%"))
-  expect_equal(unname(ci[1, ]), 3 + c(-1, 1) * stats::qnorm(0.975) * 0.5)
+  expect_equal(unname(ci[1, ]), 3 + c(-1, 1) * qnorm(0.975) * 0.5)
   expect_equal(unname(ci[2, ]), c(4, 4))
 
-  ci90 <- stats::confint(out, level = 0.90)
+  ci90 <- confint(out, level = 0.90)
   expect_identical(colnames(ci90), c("5%", "95%"))
-  expect_equal(unname(ci90[1, ]), 3 + c(-1, 1) * stats::qnorm(0.95) * 0.5)
-  expect_identical(stats::confint(out, parm = "Group A"), ci[2, , drop = FALSE])
-  expect_identical(stats::confint(out, parm = c(2, 1)), ci[c(2, 1), , drop = FALSE])
-  expect_identical(stats::confint(out, parm = c("Group A", "Group B")),
+  expect_equal(unname(ci90[1, ]), 3 + c(-1, 1) * qnorm(0.95) * 0.5)
+  expect_identical(confint(out, parm = "Group A"), ci[2, , drop = FALSE])
+  expect_identical(confint(out, parm = c(2, 1)), ci[c(2, 1), , drop = FALSE])
+  expect_identical(confint(out, parm = c("Group A", "Group B")),
                    ci[c(2, 1), , drop = FALSE])
-  expect_identical(dim(stats::confint(out, parm = integer())), c(0L, 2L))
+  expect_identical(dim(confint(out, parm = integer())), c(0L, 2L))
 })
 
 test_that("confint computes finite limits at a level just below one", {
@@ -27,8 +27,8 @@ test_that("confint computes finite limits at a level just below one", {
     adjusted_mean = c(1, 2), adjusted_se = c(0.1, 0)
   )), class = "pwmean")
 
-  ci <- stats::confint(out, level = 1 - .Machine$double.eps / 2)
-  critical <- -stats::qnorm(.Machine$double.eps / 4)
+  ci <- confint(out, level = 1 - .Machine$double.eps / 2)
+  critical <- -qnorm(.Machine$double.eps / 4)
   expect_equal(unname(ci[1, ]), 1 + c(-1, 1) * critical * 0.1)
   expect_identical(unname(ci[2, ]), c(2, 2))
 })
@@ -39,10 +39,10 @@ test_that("confint validates level and estimate selection", {
   )), class = "pwmean")
 
   for (level in list(0, 1, -0.1, 1.1, NA_real_, Inf, numeric(), c(0.9, 0.95), "0.95")) {
-    expect_error(stats::confint(out, level = level), "`level`", fixed = TRUE)
+    expect_error(confint(out, level = level), "`level`", fixed = TRUE)
   }
   for (parm in list("unknown", NA_character_, 0, -1, 1.5, 2, NA_real_, Inf, TRUE)) {
-    expect_error(stats::confint(out, parm = parm), "`parm`", fixed = TRUE)
+    expect_error(confint(out, parm = parm), "`parm`", fixed = TRUE)
   }
 })
 
@@ -52,11 +52,11 @@ test_that("confint inherits factor labels and does not truncate proportions", {
     adjusted_mean = c(0.05, 0.95), adjusted_se = c(0.1, 0.1)
   )), class = c("pwmean_factor", "pwmean"))
 
-  ci <- stats::confint(out)
+  ci <- confint(out)
   expect_identical(rownames(ci), c("y = yes | Overall", "y = no | Overall"))
   expect_lt(ci[1, 1], 0)
   expect_gt(ci[2, 2], 1)
-  expect_identical(stats::confint(out, parm = "y = no | Overall"),
+  expect_identical(confint(out, parm = "y = no | Overall"),
                    ci[2, , drop = FALSE])
 })
 
@@ -74,16 +74,16 @@ test_that("confint selects each estimate by name when category and domain labels
   fit <- est_pw(list(sc, ref), p_formula = ~x)
   out <- pwmean(fit, y = "outcome", zcol = "domain")
 
-  values <- stats::coef(out)
+  values <- coef(out)
   label <- "outcome = A | domain = B | domain = C"
   expect_identical(unname(values), out$estimates$adjusted_mean)
   expect_identical(anyDuplicated(names(values)), 0L)
   expect_identical(names(values)[c(1, 5, 6)], c(label, paste0(label, c(".2", ".1"))))
 
-  ci <- stats::confint(out)
+  ci <- confint(out)
   expect_identical(rownames(ci), names(values))
   positions <- c(5L, 1L, 6L)
-  expect_identical(stats::confint(out, parm = names(values)[positions]),
+  expect_identical(confint(out, parm = names(values)[positions]),
                    ci[positions, , drop = FALSE])
 })
 
@@ -110,8 +110,8 @@ test_that("confint matches stored intervals for all estimation methods", {
     for (outcome in c("psa_level", "diabetes")) {
       for (domain in list(NULL, "race")) {
         out <- pwmean(fit, y = outcome, zcol = domain)
-        ci <- stats::confint(out)
-        expect_identical(rownames(ci), names(stats::coef(out)))
+        ci <- confint(out)
+        expect_identical(rownames(ci), names(coef(out)))
         expect_equal(unname(ci), unname(as.matrix(
           out$estimates[, c("adjusted_lower", "adjusted_upper")]
         )))

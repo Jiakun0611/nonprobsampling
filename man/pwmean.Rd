@@ -42,9 +42,9 @@ the estimate columns contain estimates of category prevalence.
     A data frame containing the unweighted and pseudo-weighted estimates.
     The \code{adjusted_} prefix in column names denotes pseudo-weighted results.
     Extract the pseudo-weighted means or category prevalence as a named
-    numeric vector with \code{stats::coef()}.
+    numeric vector with \code{coef()}.
     Obtain normal-approximation confidence intervals at a chosen level
-    with \code{stats::confint()}.
+    with \code{confint()}.
 
     For numeric outcomes, the first column is \code{domain}. If
     \code{zcol = NULL}, \code{domain} is \code{"Overall"}. If \code{zcol}
@@ -152,10 +152,10 @@ print(out)
 
 summary(out)
 
-stats::coef(out)
+coef(out)
 
-stats::confint(out)
-stats::confint(out, level = 0.90)
+confint(out)
+confint(out, level = 0.90)
 }
 
 }

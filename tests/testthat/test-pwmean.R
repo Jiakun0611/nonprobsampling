@@ -49,7 +49,7 @@ fit_multi <- suppressMessages(est_pw(
   control   = pw_solver_control(ftol = 1e-6)
 ))
 
-z975 <- stats::qnorm(0.975)
+z975 <- qnorm(0.975)
 
 DOM_COLS <- c(
   "domain",

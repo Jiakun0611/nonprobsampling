@@ -247,7 +247,7 @@
 #'   }
 #'   \item{\code{coefficients}}{
 #'     Named numeric vector of estimated participation model coefficients.
-#'     Extract with \code{stats::coef()}.
+#'     Extract with \code{coef()}.
 #'   }
 #'   \item{\code{solver_diagnostics}}{
 #'     A list of solver diagnostics: \code{solver} (solver name),

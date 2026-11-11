@@ -6,7 +6,7 @@
 #' @param object An object of class \code{"pwmean"} or
 #'   \code{"pwmean_factor"} returned by \code{\link{pwmean}}.
 #' @param parm A character vector of estimate names, as returned by
-#'   \code{names(stats::coef(object))}, or a numeric vector of positive
+#'   \code{names(coef(object))}, or a numeric vector of positive
 #'   integer positions. If omitted, all estimates are included.
 #' @param level A single numeric confidence level strictly between 0 and 1.
 #'   Defaults to \code{0.95}.
@@ -18,7 +18,7 @@
 #' default confidence level, the intervals match the stored
 #' \code{adjusted_lower} and \code{adjusted_upper} columns.
 #'
-#' Row names match \code{names(stats::coef(object))}. Objects of class
+#' Row names match \code{names(coef(object))}. Objects of class
 #' \code{"pwmean_factor"} inherit this method. Intervals for category
 #' prevalence are not truncated to the range from 0 to 1, consistent with
 #' the intervals stored by \code{pwmean()}.
@@ -39,7 +39,7 @@ confint.pwmean <- function(object, parm, level = 0.95, ...) {
          call. = FALSE)
   }
 
-  estimates <- stats::coef(object)
+  estimates <- coef(object)
   estimate_names <- names(estimates)
   if (missing(parm)) {
     positions <- seq_along(estimates)
@@ -62,7 +62,7 @@ confint.pwmean <- function(object, parm, level = 0.95, ...) {
   se <- object[["estimates"]][["adjusted_se"]]
   tail_probability <- (1 - level) / 2
   # The cumulative probability can round to 1 at levels close to 1.
-  margin <- stats::qnorm(tail_probability, lower.tail = FALSE) * se
+  margin <- qnorm(tail_probability, lower.tail = FALSE) * se
   intervals <- cbind(estimates - margin, estimates + margin)
   probabilities <- c(tail_probability, (1 + level) / 2)
   dimnames(intervals) <- list(
