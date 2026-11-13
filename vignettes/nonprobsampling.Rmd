@@ -211,6 +211,12 @@ When two or more probability reference surveys are available, use `method = "mul
 
 By default, `precali = TRUE` applies cumulative precalibration before pseudo-weight estimation. Under this procedure, the reference surveys are sequentially calibrated to previously processed surveys using their overlapping variables in the `p_formula`. This helps preserve information on the relationships between overlapping and survey-specific auxiliary variables within each reference survey.
 
+Calibrating a reference survey to totals estimated from earlier surveys can
+induce correlation between the estimated totals. The analytic variance
+estimator omits this cross-survey covariance, including when replicate weights
+are used to estimate the variance contribution of an individual reference
+survey. See Landsman et al. (2026), Section 6.3.2.
+
 The argument `sp_order` controls the order in which reference surveys are processed during cumulative precalibration and pseudo-weight estimation. With `sp_order = "size"` (default), surveys are ordered from largest to smallest sample size, so larger surveys are used as reference and overlapping variables are preferentially taken from them. With `sp_order = "given"`, surveys are processed in the user-supplied order, which may be preferable when a particular reference survey is considered more reliable or important.
 
 ### Order Surveys by Sample Size (Default)

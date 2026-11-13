@@ -256,6 +256,13 @@ specified in \code{p_formula}, rather than on all overlapping variables in
 the reference surveys. This choice avoids excluding observations because
 of missing values in variables that are not used for pseudo-weight
 estimation.
+
+With \code{precali = TRUE}, calibrating a reference survey to totals
+estimated from earlier surveys can induce correlation between the estimated
+totals. The analytic variance estimator omits this cross-survey covariance.
+This also applies when replicate weights are used to estimate the variance
+contribution of an individual reference survey. See Landsman et al. (2026),
+Section 6.3.2.
 }
 
 \section{Missing data handling}{
