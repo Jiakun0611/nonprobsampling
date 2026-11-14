@@ -29,6 +29,9 @@
 * Fixed cumulative precalibration for factor levels containing spaces or
   hyphens and for auxiliary variables named `.w`.
 
+* `est_pw()` now rejects mismatched categories when an auxiliary variable
+  is stored as character in both samples, even if the category counts match.
+
 * Fixed missing-value handling for character domains in `pwmean()`: empty
   and whitespace-only strings are now detected before applying `na.action`
   in the pseudo-weighted and unweighted estimation paths. Omitted row

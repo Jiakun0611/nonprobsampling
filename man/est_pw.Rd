@@ -184,9 +184,10 @@ Categorical variables must have compatible category definitions, identical
 levels in the same order, and the same contrast coding across the
 nonprobability sample and all reference surveys containing the variable.
 When treatment contrasts are used, the reference category must be the same
-across samples. Matching factor levels alone does not guarantee matching
-contrast coding. The package checks factor levels but does not check contrast
-coding; inconsistent coding can produce incorrect estimates without an error.
+across samples. The package checks factor levels and compares the observed
+categories when a variable is stored as character in both samples.
+Users must verify contrast coding separately, as inconsistent coding can
+produce incorrect estimates without an error.
 Harmonize factor coding before creating reference survey design objects.
 Changing the original data frame afterwards does not update the data stored
 in an existing survey design object.

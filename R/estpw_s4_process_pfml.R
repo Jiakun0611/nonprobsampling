@@ -8,9 +8,8 @@
 #' For both the one-reference and multi-reference cases the function:
 #' \enumerate{
 #'   \item Checks that all formula variables exist in `sc` and each `sp`.
-#'   \item Verifies that factor levels of each variable are identical
-#'     between `sc` and the corresponding `sp` (mismatched levels would
-#'     silently produce different model matrix columns).
+#'   \item Checks that categorical levels match between `sc` and the
+#'     corresponding `sp`, including when both columns are character vectors.
 #'   \item Builds model matrices via `model.matrix()` and drops
 #'     the implicit intercept column.
 #'   \item Checks that `sc` and `sp` produce the same number of model
@@ -88,7 +87,7 @@ process_p_formula <- function(
       ), call. = FALSE)
     }
 
-    .check_factor_levels(sc, sp, vars_in_formula, ref_label = "sp")
+    .check_categorical_levels(sc, sp, vars_in_formula, ref_label = "sp")
 
     # Build model matrices (drop implicit intercept)
     Xc <- model.matrix(p_formula, data = sc)
@@ -156,7 +155,8 @@ process_p_formula <- function(
       ), call. = FALSE)
     }
 
-    .check_factor_levels(sc, sp[[j]], vars_in_formula, ref_label = paste0("sp[[", j, "]]"))
+    .check_categorical_levels(sc, sp[[j]], vars_in_formula,
+                              ref_label = paste0("sp[[", j, "]]"))
 
     Xc <- model.matrix(fml, data = sc)
     Xp <- model.matrix(fml, data = sp[[j]])
