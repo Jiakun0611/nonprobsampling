@@ -1,56 +1,40 @@
-# nonprobsampling (development version)
+# nonprobsampling 0.2.0
 
-* Unified solver diagnostics in `print()`, `summary()`, and verbose logs.
-  These outputs distinguish the stopping reason from whether the final
-  equation residual meets `ftol`. Fitted objects now record the solver's
-  residual and the tolerance used to assess it.
+## New features
 
-* Added guidance on harmonizing factor levels, contrast coding, and reference
-  categories across samples before creating survey design objects. The help
-  page and vignette clarify that contrast coding is not checked by the package.
+* Added `coef()` methods to extract participation model coefficients from
+  `pw_fit` objects and pseudo-weighted means or category prevalence from
+  `pwmean` objects.
 
-* Added standardization guidance to the `est_pw()` documentation: use the same
-  centering and scaling constants across all datasets before estimation, rather
-  than standardizing each dataset separately or using `scale(x)` directly in
-  `p_formula`. Solver diagnostics now suggest standardizing continuous auxiliary
-  variables with substantially different scales when `nleqslv` does not converge
-  sufficiently.
+* Added `confint()` for `pwmean` objects, with a choice of confidence level
+  and estimates to include.
 
-* Fixed variance calculations when reference survey data contain columns
-  with internal helper names such as `h_x`. Calibration, ALP, CLW, and
-  multi-reference calibration now avoid these name collisions, preventing
-  unrelated columns from changing standard errors and confidence intervals.
+## Fixes and behavior changes
 
-* Fixed cumulative precalibration with multiple reference surveys to retain
-  variables shared by only some surveys. Each survey now uses its own formula
-  variables, allowing calibrated targets to pass through intermediate surveys
-  even when no variable occurs in every survey.
+* Solver diagnostics in `print()`, `summary()`, and verbose output now
+  report why the solver stopped and whether the final equation residuals
+  satisfy `ftol`.
 
-* Fixed cumulative precalibration for factor levels containing spaces or
-  hyphens and for auxiliary variables named `.w`.
+* Fixed standard errors and confidence intervals when reference survey columns
+  collide with internal names such as `h_x`.
 
-* `est_pw()` now rejects mismatched categories when an auxiliary variable
-  is stored as character in both samples, even if the category counts match.
+* Fixed cumulative precalibration when auxiliary variables are shared by only
+  some reference surveys. It also handles factor levels containing spaces or
+  hyphens and auxiliary variables named `.w`.
 
-* Fixed missing-value handling for character domains in `pwmean()`: empty
-  and whitespace-only strings are now detected before applying `na.action`
-  in the pseudo-weighted and unweighted estimation paths. Omitted row
-  indices include these values, and `na.fail` rejects them.
+* `est_pw()` now rejects mismatched categories for auxiliary variables stored
+  as character in both samples, even when the category counts match.
 
-* Corrected the `sp1_bootstrap` help example to use
-  `combined.weights = TRUE`, because the bootstrap replicate weights
-  already include the main survey weight.
+* `pwmean()` now treats empty or whitespace-only strings in character
+  domains as missing before applying `na.action`.
 
-* Added a `confint()` method for `pwmean` objects, inherited by
-  `pwmean_factor`, providing normal-approximation confidence intervals
-  with configurable confidence levels and estimate group selection.
+## Documentation
 
-* Added a `coef()` method for `pwmean` objects to extract pseudo-weighted
-  means. `pwmean_factor` objects inherit the method and return category
-  prevalence, named by category and domain.
+* Added guidance on standardizing continuous auxiliary variables and
+  harmonizing categorical coding across samples.
 
-* Added a `coef()` method for `pw_fit` objects to extract participation
-  model coefficients.
+* Corrected the `sp1_bootstrap` help example to use `combined.weights = TRUE`
+  because the replicate weights already include the main survey weight.
 
 # nonprobsampling 0.1.0
 
