@@ -374,3 +374,30 @@ test_that("est_pw: p_formula with variable absent from sc raises a Step 1 error"
     fixed = TRUE
   )
 })
+
+test_that("est_pw rejects different character categories with the same count", {
+  sample <- data.frame(x = rep(0:1, 3), group = rep(c("A", "B"), each = 3))
+  reference <- transform(sample, group = rep(c("A", "C"), each = 3), w = 10)
+  design <- survey::svydesign(ids = ~1, weights = ~w, data = reference)
+
+  expect_error(
+    est_pw(list(sample, design), p_formula = ~group),
+    "Character levels of 'group' differ between sc and sp.\n  sc : A, B\n  sp : A, C",
+    fixed = TRUE
+  )
+  expect_error(
+    est_pw(list(sample, design, design), p_formula = list(~x, ~group)),
+    "Character levels of 'group' differ between sc and sp[[2]]",
+    fixed = TRUE
+  )
+})
+
+test_that("est_pw aligns matching character categories across different row orders", {
+  sample <- data.frame(group = rep(c("A", "B"), each = 3))
+  reference <- data.frame(group = rep(c("B", "A"), each = 3), w = rep(c(20, 10), each = 3))
+  design <- survey::svydesign(ids = ~1, weights = ~w, data = reference)
+  fit <- est_pw(list(sample, design), p_formula = ~group)
+
+  expect_equal(sum(fit$pseudo_weights[sample$group == "A"]), 30)
+  expect_equal(sum(fit$pseudo_weights[sample$group == "B"]), 60)
+})
